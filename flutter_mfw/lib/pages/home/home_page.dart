@@ -3,7 +3,7 @@ import 'package:flutter_mfw/model/tabar_model.dart';
 import 'package:flutter_mfw/model/hote_model.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
 
-
+import 'package:flutter_mfw/model/waterfall_model.dart';
 import 'package:flutter_mfw/dao/home_dao.dart';
 import 'package:flutter_mfw/pages/home/widget/home_navbar_widget.dart';
 import 'package:flutter_mfw/pages/home/widget/home_top_nav.widget.dart';
@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
 
   var _tabbarList = <TabItemModel>[];
   var _hoteList = <HoteItemModel>[];
+  var _waterList = <WaterFallItemModel>[];
 
   var _pageController;
 
@@ -37,14 +38,26 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
     // TODO: implement initState
     super.initState();
     _pageController = PageController(
-      initialPage: 1,
+      initialPage: 2,
 
     );
 
     _getTabrData();
     _getHoteData();
+    _getWaterFallData();
   }
 
+
+  //瀑布流数据
+  void _getWaterFallData(){
+    WaterFallDao.fetch().then((result){
+      setState(() {
+
+        _waterList = result.list;
+      });
+
+    });
+  }
   //热门话题
   void _getHoteData(){
     HoteListDao.fetch().then((result){
@@ -123,7 +136,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
            });
           },
           children: _tabbarList.map((item){
-            return HomeWaterfallPage(id: _currentId,hoteList: _hoteList);
+            return HomeWaterfallPage(id: _currentId,hoteList: _hoteList,waterfallList: _waterList);
 
           }).toList()
         ),

@@ -7,7 +7,7 @@ typedef ValueChanged<T> = void Function(T value);
 class HomeTabbarWidget extends StatefulWidget {
 
   var tabbarList = <TabItemModel>[];
-  var currentId = "";
+  var currentId;
   final ValueChanged<TabItemModel> onTap;
 
   HomeTabbarWidget({Key key,this.tabbarList,this.currentId,this.onTap}) : super(key:key);

@@ -39,3 +39,23 @@ class HoteListDao{
   }
 }
 
+class WaterFallDao{
+  static Future<WaterFallListModel> fetch() async {
+    final response = await Dio().get(HOME_URL);
+    if(response.statusCode == 200){
+
+      var result =  WaterFallListModel.fromJson(response.data["data"]);
+      var list = <WaterFallItemModel>[];
+      for(var item in result.list){
+        if(item.data.user != null){
+          list.add(item);
+        }
+      }
+      result.list = list;
+
+      return result;
+    }else{
+      throw Exception("首页请求失败");
+    }
+  }
+}

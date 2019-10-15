@@ -1,6 +1,8 @@
+import 'dart:core';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_mfw/model/waterfall_model.dart';
 import 'dart:typed_data';
 final Uint8List kTransparentImage = new Uint8List.fromList(<int>[
   0x89,
@@ -69,7 +71,7 @@ final Uint8List kTransparentImage = new Uint8List.fromList(<int>[
   0xAE,
 ]);
 class WaterfallItemWidget extends StatefulWidget {
-  var item = Map();
+  WaterFallItemModel item;
 
   WaterfallItemWidget({Key key,this.item}) : super(key:key);
   @override
@@ -79,11 +81,21 @@ class WaterfallItemWidget extends StatefulWidget {
 class _WaterfallItemWidgetState extends State<WaterfallItemWidget> {
   @override
   Widget build(BuildContext context) {
+    var imageURL = "";
+    if(widget.item.data.image is String){
+
+      imageURL = widget.item.data.image;
+    }
+    if(widget.item.data.image is Map){
+      Map images = widget.item.data.image;
+
+      imageURL =images["img_url"];
+    }
     return Card(
       clipBehavior:Clip.antiAlias ,
       child: Column(
         children: <Widget>[
-          _itemImageWidget(widget.item["imageUrl"]),
+          _itemImageWidget("${imageURL}"),
           _itemTextWidget()
         ],
       ),
@@ -97,7 +109,9 @@ class _WaterfallItemWidgetState extends State<WaterfallItemWidget> {
         Padding(
           padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
           child: Text(
-            "昆明市中心的金马笔记挂兵工厂老字号一线的米小米昆明市中心的金马笔记挂兵工厂老字号一线的米小米",
+
+            "${widget.item.data.content}",
+            textDirection:TextDirection.ltr,
             style: TextStyle(fontSize: 13,color: Colors.black,fontWeight: FontWeight.w600),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -119,7 +133,7 @@ class _WaterfallItemWidgetState extends State<WaterfallItemWidget> {
                         placeholder: kTransparentImage,
                         width: 20,
                         height: 20,
-                        image: "https://b1-q.mafengwo.net/s13/M00/FB/FA/wKgEaVyuEUiARjtEAAC8XesBXZI87.jpeg?imageMogr2%2Fthumbnail%2F%21120x120r%2Fgravity%2FCenter%2Fcrop%2F%21120x120%2Fquality%2F90"),
+                        image: "${widget.item.data.user?.logo}"),
                   ),
 
                   Padding(
@@ -127,7 +141,7 @@ class _WaterfallItemWidgetState extends State<WaterfallItemWidget> {
                       padding: EdgeInsets.only(left: 5),
                       child: LimitedBox(
                         maxWidth: 70,
-                        child: Text("我做程序员的那些年",
+                        child: Text("${widget.item.data.user?.name}",
                           style: TextStyle(fontSize: 12,color:  Color.fromRGBO(122, 133, 147, 1.0)),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -139,7 +153,7 @@ class _WaterfallItemWidgetState extends State<WaterfallItemWidget> {
               Row(
                   children: <Widget>[
                     Icon(Icons.favorite_border,color: Color.fromRGBO(122, 133, 147, 1.0),size: 14),
-                    Text("400",
+                    Text("${widget.item.data.numLike}",
                         style: TextStyle(
                             fontSize: 12,
                             color: Color.fromRGBO(122, 133, 147, 1.0)
@@ -184,7 +198,7 @@ class _WaterfallItemWidgetState extends State<WaterfallItemWidget> {
                   LimitedBox(
                       maxWidth: 140,
                       child: Text(
-                        "昆明.大观公园",
+                        "${widget.item.data.location}",
                         style: TextStyle(color: Colors.white,fontSize: 10),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

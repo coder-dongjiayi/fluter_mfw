@@ -41,17 +41,16 @@ class WaterFallItemModel {
 }
 
 class Data {
-  List<HoteItemModel> list;
-  int id;
+  Object id;
   String jumpUrl;
-  String image;
+  Object image;
   String tag;
   String title;
   String time;
   String timeDesc;
   User user;
   String desc;
-  String descPrefix;
+  int descPrefix;
   BusinessItem businessItem;
   String content;
   String tagText;
@@ -64,13 +63,10 @@ class Data {
   String type;
   int showLike;
 
-  Data({this.list, this.id, this.jumpUrl, this.image, this.tag, this.title, this.time, this.timeDesc, this.user, this.desc, this.descPrefix, this.businessItem, this.content, this.tagText, this.typeText, this.rightTopImage, this.location, this.isAd, this.numLike, this.isLiked, this.type, this.showLike});
+  Data({ this.id, this.jumpUrl, this.image, this.tag, this.title, this.time, this.timeDesc, this.user, this.desc, this.descPrefix, this.businessItem, this.content, this.tagText, this.typeText, this.rightTopImage, this.location, this.isAd, this.numLike, this.isLiked, this.type, this.showLike});
 
   Data.fromJson(Map<String, dynamic> json) {
-    if (json['list'] != null) {
-      list = new List<HoteItemModel>();
-      json['list'].forEach((v) { list.add(new HoteItemModel.fromJson(v)); });
-    }
+
     id = json['id'];
     jumpUrl = json['jump_url'];
     image = json['image'];
@@ -96,9 +92,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.list != null) {
-      data['list'] = this.list.map((v) => v.toJson()).toList();
-    }
+
     data['id'] = this.id;
     data['jump_url'] = this.jumpUrl;
     data['image'] = this.image;
@@ -126,44 +120,6 @@ class Data {
     data['is_liked'] = this.isLiked;
     data['type'] = this.type;
     data['show_like'] = this.showLike;
-    return data;
-  }
-}
-
-class HoteItemModel {
-  String title;
-  Tag tag;
-  String jumpUrl;
-  int isHotTopic;
-  String subTitle;
-  String image;
-  BusinessItem businessItem;
-
-  HoteItemModel({this.title, this.tag, this.jumpUrl, this.isHotTopic, this.subTitle, this.image, this.businessItem});
-
-  HoteItemModel.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    tag = json['tag'] != null ? new Tag.fromJson(json['tag']) : null;
-    jumpUrl = json['jump_url'];
-    isHotTopic = json['is_hot_topic'];
-    subTitle = json['sub_title'];
-    image = json['image'];
-    businessItem = json['business_item'] != null ? new BusinessItem.fromJson(json['business_item']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    if (this.tag != null) {
-      data['tag'] = this.tag.toJson();
-    }
-    data['jump_url'] = this.jumpUrl;
-    data['is_hot_topic'] = this.isHotTopic;
-    data['sub_title'] = this.subTitle;
-    data['image'] = this.image;
-    if (this.businessItem != null) {
-      data['business_item'] = this.businessItem.toJson();
-    }
     return data;
   }
 }
@@ -258,12 +214,20 @@ class User {
   String statusUrl;
   int status;
 
-  User({this.id, this.name, this.logo, this.jumpUrl, this.level, this.statusUrl, this.status});
+  User({this.id, this.name = "name", this.logo= "logo", this.jumpUrl, this.level, this.statusUrl, this.status});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
     logo = json['logo'];
+    name = json['name'];
+
+    if(logo == null){
+      logo = "";
+    }
+    if(name == null){
+      name = "";
+    }
+
     jumpUrl = json['jump_url'];
 
     level = json['level'];
@@ -274,8 +238,14 @@ class User {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['name'] = this.name;
-    data['logo'] = this.logo;
+    if(this.name != null){
+      data['name'] = this.name;
+    }
+    if(this.logo != null){
+      data['logo'] = this.logo;
+    }
+
+
     data['jump_url'] = this.jumpUrl;
 
     data['level'] = this.level;
