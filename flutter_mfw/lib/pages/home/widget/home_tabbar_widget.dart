@@ -7,10 +7,10 @@ typedef ValueChanged<T> = void Function(T value);
 class HomeTabbarWidget extends StatefulWidget {
 
   var tabbarList = <TabItemModel>[];
-
+  var currentId = "";
   final ValueChanged<TabItemModel> onTap;
 
-  HomeTabbarWidget({Key key,this.tabbarList,this.onTap}) : super(key:key);
+  HomeTabbarWidget({Key key,this.tabbarList,this.currentId,this.onTap}) : super(key:key);
 
   @override
   _HomeTabbarWidgetState createState() => _HomeTabbarWidgetState();
@@ -18,7 +18,7 @@ class HomeTabbarWidget extends StatefulWidget {
 
 class _HomeTabbarWidgetState extends State<HomeTabbarWidget> {
 
-  var _currentTitle = "推荐";
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +48,11 @@ class _HomeTabbarWidgetState extends State<HomeTabbarWidget> {
           return InkWell(
             onTap: (){
               setState(() {
-                _currentTitle = item.name;
+                widget.currentId = item.id;
               });
               widget.onTap(item);
             },
-            child:  _itemWidet(item.name),
+            child:  _itemWidet(item.name,item.id),
           );
 
         }).toList()
@@ -60,8 +60,8 @@ class _HomeTabbarWidgetState extends State<HomeTabbarWidget> {
     );
   }
 
-  Widget _itemWidet(String title){
-    var selected =  title == _currentTitle;
+  Widget _itemWidet(String title,String id){
+    var selected =  id == widget.currentId;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 0, 0, 0),

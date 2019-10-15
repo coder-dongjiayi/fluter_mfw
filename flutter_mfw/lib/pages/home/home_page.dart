@@ -24,6 +24,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   var _tabbarList = <TabItemModel>[];
   var _hoteList = <HoteItemModel>[];
 
+  var _pageController;
+
   var _currentId = "55";
 
   @override
@@ -34,6 +36,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   void initState() {
     // TODO: implement initState
     super.initState();
+    _pageController = PageController(
+      initialPage: 1,
+
+    );
+
     _getTabrData();
     _getHoteData();
   }
@@ -85,16 +92,21 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
             SliverToBoxAdapter(
               child: HomeTopNavWidget(),
             ),
+
+
+
             SliverPersistentHeader(
               pinned: true,
               delegate: StickyTabbarDelegate(
                 child: HomeTabbarWidget(
+
                     onTap: (item){
                         setState(() {
                           _currentId =  item.id;
 
                         });
                     },
+                    currentId: _currentId,
                     tabbarList: _tabbarList
                 )
               ),
@@ -104,6 +116,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
           ];
         },
         body: PageView(
+          controller: _pageController,
+          onPageChanged: (index){
+           setState(() {
+             _currentId = _tabbarList[index].id;
+           });
+          },
           children: _tabbarList.map((item){
             return HomeWaterfallPage(id: _currentId,hoteList: _hoteList);
 
