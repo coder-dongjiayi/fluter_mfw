@@ -50,7 +50,7 @@ class Data {
   String timeDesc;
   User user;
   String desc;
-  int descPrefix;
+  Object descPrefix;
   BusinessItem businessItem;
   String content;
   String tagText;

@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
 
   var _tabbarList = <TabItemModel>[];
   var _hoteList = <HoteItemModel>[];
-  var _waterList = <WaterFallItemModel>[];
+
 
   var _pageController;
 
@@ -38,28 +38,32 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
     // TODO: implement initState
     super.initState();
     _pageController = PageController(
-      initialPage: 2,
+      initialPage:1,
 
     );
 
     _getTabrData();
     _getHoteData();
-    _getWaterFallData();
+
+  }
+
+  void _animateToPage(index){
+
+
+    _pageController.jumpToPage(index);
+
+
+
+//     _pageController.animateToPage(index,
+//                          duration: const Duration(milliseconds: 300), curve: Curves.ease);
+
   }
 
 
-  //瀑布流数据
-  void _getWaterFallData(){
-    WaterFallDao.fetch().then((result){
-      setState(() {
 
-        _waterList = result.list;
-      });
-
-    });
-  }
   //热门话题
   void _getHoteData(){
+
     HoteListDao.fetch().then((result){
 
       setState(() {
@@ -114,10 +118,18 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                 child: HomeTabbarWidget(
 
                     onTap: (item){
-                        setState(() {
-                          _currentId =  item.id;
 
-                        });
+                          var index = 0;
+                          for(var i in _tabbarList){
+                            index ++;
+                            if(i.id == item.id){
+                              _animateToPage(index);
+                              break;
+                            }
+                          }
+                          setState(() {
+                            _currentId = item.id;
+                          });
                     },
                     currentId: _currentId,
                     tabbarList: _tabbarList
@@ -128,17 +140,18 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
 
           ];
         },
-        body: PageView(
-          controller: _pageController,
-          onPageChanged: (index){
-           setState(() {
-             _currentId = _tabbarList[index].id;
-           });
-          },
-          children: _tabbarList.map((item){
-            return HomeWaterfallPage(id: _currentId,hoteList: _hoteList,waterfallList: _waterList);
 
-          }).toList()
+        body: _tabbarList.length == 0 ? Text("") : PageView(
+            controller: _pageController,
+            onPageChanged: (index){
+                    setState(() {
+                      _currentId = _tabbarList[index].id;
+                    });
+            },
+            children: _tabbarList.map((item){
+              return HomeWaterfallPage(id: _currentId,hoteList: _hoteList);
+
+            }).toList()
         ),
       ),
 
