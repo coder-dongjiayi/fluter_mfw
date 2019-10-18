@@ -87,6 +87,25 @@ flutter:
       - assets/images/2.0x/icon_right.png
       - assets/images/3.0x/icon_right.png
 
+      - assets/images/setting.png
+      - assets/images/2.0x/setting.png
+      - assets/images/3.0x/setting.png
+
+      - assets/images/saoma.png
+      - assets/images/2.0x/saoma.png
+      - assets/images/3.0x/saoma.png
+
+      - assets/images/start.png
+      - assets/images/2.0x/start.png
+      - assets/images/3.0x/start.png
+
+      - assets/images/order.png
+      - assets/images/2.0x/order.png
+      - assets/images/3.0x/order.png
+
+      - assets/images/lishi.png
+      - assets/images/2.0x/lishi.png
+      - assets/images/3.0x/lishi.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
