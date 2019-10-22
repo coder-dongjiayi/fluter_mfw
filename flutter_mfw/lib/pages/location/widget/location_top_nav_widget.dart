@@ -14,12 +14,7 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
       height: ScreenAdapter.setHeight(322),
       decoration: BoxDecoration(
         color: Color.fromRGBO(253, 253, 253, 1.0),
-        boxShadow:[
-          BoxShadow(
-            color: Color.fromRGBO(247, 248, 250, 1.0),
-            offset: Offset(0, 5)
-          )
-        ]
+
       ),
       child: Stack(
         children: <Widget>[
@@ -61,9 +56,9 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
   Widget _postionBottomWidget(){
     return Container(
       width: double.infinity,
-      height: ScreenAdapter.setHeight(80),
+      height: ScreenAdapter.setHeight(85),
       child: ListView(
-        padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
+        padding: EdgeInsets.fromLTRB(15, 0, 10, 5),
         scrollDirection:Axis.horizontal,
         children: <Widget>[
           _listItemWidget(),
@@ -87,9 +82,17 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
         width: ScreenAdapter.setWidth(116),
 
         decoration: BoxDecoration(
+        color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                     color:Color.fromRGBO(224, 224, 224, 1.0),
+                     offset: Offset(0, 2), //阴影xy轴偏移量
+                     blurRadius: 2.0, //阴影模糊程度
 
+              )
+          ],
           borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: Color.fromRGBO(224, 224, 224, 1.0),width: 0.5)
+          border: Border.all(color: Color.fromRGBO(224, 224, 224, 1.0),width: 0.2)
         ),
         child: Stack(
           children: <Widget>[
