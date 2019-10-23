@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
 class LocationNavbarWidget extends StatefulWidget {
+  var opacity;
+
+  LocationNavbarWidget({Key key,this.opacity}) : super(key:key);
+
   @override
   _LocationNavbarWidgetState createState() => _LocationNavbarWidgetState();
 }
@@ -11,7 +15,7 @@ class _LocationNavbarWidgetState extends State<LocationNavbarWidget> {
     ScreenAdapter.init(context);
     
     return Container(
-        color: Color.fromRGBO(255, 255, 255, 0.5),
+        color: Color.fromRGBO(255, 255, 255, widget.opacity),
         padding: EdgeInsets.only(top: ScreenAdapter.getStatusBarHeight(),left: 10,bottom: 10),
         child: _navbarWidget()
     );
@@ -37,7 +41,7 @@ class _LocationNavbarWidgetState extends State<LocationNavbarWidget> {
        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
 
        decoration: BoxDecoration(
-           color: Colors.white,
+           color: widget.opacity >= 0.5 ? Color.fromRGBO(246, 247, 249, 1.0) : Colors.white,
            borderRadius: BorderRadius.circular(20)
        ),
       
@@ -48,14 +52,14 @@ class _LocationNavbarWidgetState extends State<LocationNavbarWidget> {
   Widget _locationWidget(){
     return Row(
       children: <Widget>[
-        Text("北京",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700,color: Colors.white)),
+        Text("北京",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700,color:widget.opacity >= 0.5 ? Colors.black :  Colors.white)),
         Container(
           margin: EdgeInsets.only(left: 5),
           width: ScreenAdapter.setWidth(30),
           height: ScreenAdapter.setHeight(30),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(ScreenAdapter.setWidth(15)),
-            color: Colors.white
+            color:  Colors.white
           ),
           child: Center(
             child: Icon(Icons.keyboard_arrow_down,color:Colors.blue,size: ScreenAdapter.setWidth(30)),

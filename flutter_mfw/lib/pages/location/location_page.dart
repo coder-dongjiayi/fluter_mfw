@@ -12,9 +12,13 @@ class LocationPage extends StatefulWidget {
   _LocationPageState createState() => _LocationPageState();
 }
 
-class _LocationPageState extends State<LocationPage> {
+class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClientMixin{
 
 
+
+  var _scrollController;
+
+  var _opacity = 0.0;
 
   WeatherModel _weatherModel;
 
@@ -24,9 +28,25 @@ class _LocationPageState extends State<LocationPage> {
   var _cityGuideModel;
 
   @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    _scrollController = ScrollController();
+    _scrollController.addListener((){
+
+      var offy =  _scrollController.position.pixels;
+      _opacity = offy / 80.0;
+
+      setState(() {
+        _opacity = _opacity > 1.0 ? 1.0 : _opacity;
+      });
+
+    });
 
     LocationDao.fetch().then((reslut){
 
@@ -51,7 +71,7 @@ class _LocationPageState extends State<LocationPage> {
     return  Stack(
       children: <Widget>[
         _tabbarController(),
-        LocationNavbarWidget(),
+        LocationNavbarWidget(opacity: _opacity),
       ],
     );
   }
@@ -62,6 +82,7 @@ class _LocationPageState extends State<LocationPage> {
 
       length: 2,
       child: NestedScrollView(
+        controller: _scrollController,
           headerSliverBuilder: (context,inner){
             return [
 
