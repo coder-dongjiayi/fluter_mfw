@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+import 'package:flutter_mfw/model/location_model.dart';
 class LocationNearlyWidget extends StatefulWidget {
+
+  DataNavModel nearlyNavModel;
+
+
+  LocationNearlyWidget({Key key,this.nearlyNavModel}) : super(key:key);
+
+
   @override
   _LocationNearlyWidgetState createState() => _LocationNearlyWidgetState();
 }
@@ -9,6 +17,9 @@ class _LocationNearlyWidgetState extends State<LocationNearlyWidget> {
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
+    if(widget.nearlyNavModel == null){
+      return Text("");
+    }
     return Container(
       width: double.infinity,
   
@@ -100,9 +111,9 @@ class _LocationNearlyWidgetState extends State<LocationNearlyWidget> {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 15),
-          child: Text("5678人也在附近",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
+          child: Text("${widget.nearlyNavModel.wengInfo.title}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
         ),
-        Text("3分钟前发过笔记",style: TextStyle(color:Color.fromRGBO(156, 156, 156, 1.0),fontSize: 12 ))
+        Text("${widget.nearlyNavModel.wengInfo.subtitle}",style: TextStyle(color:Color.fromRGBO(156, 156, 156, 1.0),fontSize: 12 ))
       ],
     );
 
@@ -126,6 +137,7 @@ class _LocationNearlyWidgetState extends State<LocationNearlyWidget> {
   //附近景点
   Widget _nearlyListWidget(){
 
+    var index = 0;
     return Container(
       margin: EdgeInsets.only(top: 5),
       height: ScreenAdapter.setHeight(225),
@@ -134,20 +146,19 @@ class _LocationNearlyWidgetState extends State<LocationNearlyWidget> {
       child: ListView(
         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
         scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          _nearlyItemWidget(),
-          _nearlyItemWidget(),
-          _nearlyItemWidget(),
-          _nearlyItemWidget(),
-         // _checkMoreItemWidget()
-        ],
+        children: widget.nearlyNavModel.listNavModel.map((item){
+          index++;
+
+          return  _nearlyItemWidget(index,item.title,item.subtitle,item.desc,item.thumbnail);
+
+        }).toList()
       ),
 
     );
   }
 
   //每一个景点选项
-  Widget _nearlyItemWidget(){
+  Widget _nearlyItemWidget(index,title,subTitle,desc,thumbnail){
     return Padding(
       padding: EdgeInsets.only(right: 10),
       child: Column(
@@ -157,19 +168,19 @@ class _LocationNearlyWidgetState extends State<LocationNearlyWidget> {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(5),
-              child: Image.network("https://n4-q.mafengwo.net/s1/M00/6F/50/wKgIC1xWmuKAIRc8ABvON1lfBS461.jpeg?imageMogr2%2Fthumbnail%2F%21300x300r%2Fgravity%2FCenter%2Fcrop%2F%21300x300%2Fquality%2F90",
+              child: Image.network("${thumbnail}",
                 width: ScreenAdapter.setWidth(186),
                 height: ScreenAdapter.setHeight(135),
                 fit:BoxFit.cover,),
             ),
             Container(
-              padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+              padding: EdgeInsets.fromLTRB(2, 2, 4, 2),
              decoration: BoxDecoration(
 
-               color: Colors.red,
+               color: index == 1 ? Color.fromRGBO(254, 217, 63, 1.0) : Color.fromRGBO(0, 0, 0, 0.5),
                borderRadius: BorderRadius.only(topLeft:Radius.circular(5),bottomRight:Radius.circular(8))
              ),
-              child: Text("距你3.8km",style: TextStyle(fontSize: 10)),
+              child: Text("${desc}",style: TextStyle(fontSize: 10,color: index == 1 ? Colors.black : Colors.white)),
             )
           ],
         ),
@@ -177,7 +188,7 @@ class _LocationNearlyWidgetState extends State<LocationNearlyWidget> {
             padding: EdgeInsets.only(top: 2),
             child: LimitedBox(
               maxWidth:  ScreenAdapter.setWidth(186),
-              child: Text("故宫",textAlign:TextAlign.start,
+              child: Text("${title}",textAlign:TextAlign.start,
                 style: TextStyle(fontWeight: FontWeight.w600,fontSize: 12),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -185,7 +196,7 @@ class _LocationNearlyWidgetState extends State<LocationNearlyWidget> {
               ),
             )
         ),
-        Text("景点",style: TextStyle(fontSize: 10,color: Color.fromRGBO(151, 151, 151, 1.0)),)
+        Text("${subTitle}",style: TextStyle(fontSize: 10,color: Color.fromRGBO(151, 151, 151, 1.0)),)
       ],
     ));
   }
@@ -209,7 +220,7 @@ class _LocationNearlyWidgetState extends State<LocationNearlyWidget> {
       children: <Widget>[
         Padding(
             padding: EdgeInsets.fromLTRB(10, 5, 0, 0),
-            child: Text("我的附近",style: TextStyle(fontSize: 17,fontWeight: FontWeight.w600)),
+            child: Text("${widget.nearlyNavModel.title}",style: TextStyle(fontSize: 17,fontWeight: FontWeight.w600)),
         ),
 
         Container(
@@ -224,7 +235,7 @@ class _LocationNearlyWidgetState extends State<LocationNearlyWidget> {
           child:  Row(
             children: <Widget>[
              Padding(padding:EdgeInsets.only(left: 10),child: Icon(Icons.local_library,size: 15)),
-              Text("地图",style: TextStyle(fontSize: 10))
+              Text("${widget.nearlyNavModel.navTitle}",style: TextStyle(fontSize: 10))
             ],
           ),
         )

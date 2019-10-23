@@ -1,14 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+import 'package:flutter_mfw/model/location_model.dart';
+
 class LocationTopNavWidget extends StatefulWidget {
+
+
+  WeatherModel weatherModel;
+
+  var  commonList = <ListNavModel>[];
+
+  var  categorylList = <ListNavModel>[];
+
+
+  LocationTopNavWidget({Key key,this.weatherModel,this.commonList,this.categorylList}) : super(key:key);
+
   @override
   _LocationTopNavWidgetState createState() => _LocationTopNavWidgetState();
 }
 
 class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
+
+    if(widget.weatherModel == null){
+      return Text("");
+    }
+
+
+
     return Container(
       width: double.infinity,
       height: ScreenAdapter.setHeight(602),
@@ -20,8 +45,8 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
       child: Column(
         children: <Widget>[
           _backgroundWidget(),
-        _postionTopWidget(),
-        _postionBottomWidget()
+          _postionTopWidget(),
+          _postionBottomWidget()
         ],
       ),
     );
@@ -34,12 +59,14 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
             width: double.infinity,
             height: ScreenAdapter.setHeight(200),
 
-            child: PageView(
-                children: <Widget>[
-                _pageIteamsWidget(),
-                _pageIteamsWidget()
-            ],
-           ),
+            child: ListView(
+                scrollDirection:Axis.horizontal,
+
+                children: widget.commonList.map((item){
+
+                  return _navItemWidget(item.icon, item.title);
+                }).toList(),
+            )
          ),
         Positioned(
            left: 0,
@@ -59,21 +86,14 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
       child: ListView(
         padding: EdgeInsets.fromLTRB(15, 0, 10, 5),
         scrollDirection:Axis.horizontal,
-        children: <Widget>[
-          _listItemWidget(),
-          _listItemWidget(),
-          _listItemWidget(),
-          _listItemWidget(),
-          _listItemWidget(),
-          _listItemWidget(),
-          _listItemWidget(),
-          _listItemWidget()
-        ],
+        children: widget.categorylList.map((item){
+          return _listItemWidget(item.title,item.badge.image);
+        }).toList()
       ),
     );
   }
 
-  Widget _listItemWidget(){
+  Widget _listItemWidget(title,icon){
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
       child: Container(
@@ -97,13 +117,13 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
           children: <Widget>[
             Center(
 
-              child: Text("当地游",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 12)),
+              child: Text("${title}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 12)),
             ),
             Positioned(
                 right: 0,
                 bottom: 0,
                 child: Image.network(
-                    "https://n1-q.mafengwo.net/s13/M00/40/78/wKgEaVzaM0SAMzLHAAANS-_1C4Q587.png",
+                    "${icon}",
                 width:ScreenAdapter.setWidth(30),
                 height: ScreenAdapter.setHeight(30))
             )
@@ -186,6 +206,8 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
 
 
   Widget _backgroundWidget(){
+   var startColor = widget.weatherModel.header.mask.startColor.replaceAll("#", "0xFF");
+   var endColor =  widget.weatherModel.header.mask.endColor.replaceAll("#", "0xFF");
 
     return Container(
       alignment: Alignment.bottomLeft,
@@ -202,12 +224,12 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              Color(0xFF3197F0),
-              Color(0xFF79CBFF)
+              Color(int.parse(startColor)),
+              Color(int.parse(endColor))
             ]
         ),
         image:DecorationImage(
-            image: NetworkImage("https://n1-q.mafengwo.net/s12/M00/29/5B/wKgED1uWUxaAf8fKAAA6GG5wip0726.png")
+            image: NetworkImage("${widget.weatherModel.header.thumbnail}")
         ),
       ),
     );
@@ -235,14 +257,14 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
     );
   }
 
-  ///正在履行人数
+  ///正在旅行人数
   Widget _travelWidget(){
 
     return Row(
       children: <Widget>[
         Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 10, 10),
-            child: Text("8989人正在旅行",style: TextStyle(color: Colors.white,fontSize: 16, fontWeight: FontWeight.w600))),
+            child: Text("${widget.weatherModel.header.traveling.num}人正在旅行",style: TextStyle(color: Colors.white,fontSize: 16, fontWeight: FontWeight.w600))),
         Container(
           margin: EdgeInsets.only(bottom: 10),
           width: ScreenAdapter.setWidth(40),
@@ -250,7 +272,7 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
-                image: NetworkImage("https://b3-q.mafengwo.net/s10/M00/AB/8E/wKgBZ1mMZ4KAU8kCAABNBOlPNpQ09.jpeg?imageMogr2%2Fthumbnail%2F%2160x60r%2Fgravity%2FCenter%2Fcrop%2F%2160x60%2Fquality%2F90")
+                image: NetworkImage("${widget.weatherModel.header.traveling.userList.first.logo}")
             ),
           ),
         ),
