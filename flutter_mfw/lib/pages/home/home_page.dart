@@ -110,8 +110,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
               child: HomeTopNavWidget(),
             ),
 
-
-
+            
             SliverPersistentHeader(
               pinned: true,
               delegate: StickyTabbarDelegate(
