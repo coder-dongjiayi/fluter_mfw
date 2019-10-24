@@ -20,7 +20,7 @@ class _LocationWhatWidgetState extends State<LocationWhatWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if(widget.cityGuideModel == null){
+    if(widget.cityGuideModel?.tagList == null || widget.cityGuideModel?.tabList == null){
       return Text("");
     }
     ScreenAdapter.init(context);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/model/hote_model.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
-import 'package:flutter_mfw/dao/home_dao.dart';
+
 class HomeHoteTopicWidget extends StatefulWidget {
   var hoteList = <HoteItemModel>[];
 

@@ -133,19 +133,6 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
     );
   }
 
-  Widget _pageIteamsWidget(){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-
-      children: <Widget>[
-        _navItemWidget("https://n1-q.mafengwo.net/s12/M00/F0/D0/wKgED1uSTR2ANlV5AAAIyhBC28I002.png", "攻略"),
-        _navItemWidget("https://n1-q.mafengwo.net/s12/M00/F0/D0/wKgED1uSTR2ANlV5AAAIyhBC28I002.png", "攻略"),
-        _navItemWidget("https://n1-q.mafengwo.net/s12/M00/F0/D0/wKgED1uSTR2ANlV5AAAIyhBC28I002.png", "攻略"),
-        _navItemWidget("https://n1-q.mafengwo.net/s12/M00/F0/D0/wKgED1uSTR2ANlV5AAAIyhBC28I002.png", "攻略"),
-        _navItemWidget("https://n1-q.mafengwo.net/s12/M00/F0/D0/wKgED1uSTR2ANlV5AAAIyhBC28I002.png", "攻略")
-      ],
-    );
-  }
 
   Widget _navItemWidget(String image,String title){
     return Container(

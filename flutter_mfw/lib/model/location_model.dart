@@ -333,12 +333,13 @@ class ListNavModel {
   String jumpUrl;
   String iconTpt;
   Badge badge;
+  Img   img;
   String subtitle;
   Object isInner;
   String thumbnail;
   String desc;
 
-  ListNavModel({ this.title, this.icon, this.jumpUrl, this.iconTpt, this.badge, this.subtitle, this.isInner, this.thumbnail, this.desc});
+  ListNavModel({this.img ,this.title, this.icon, this.jumpUrl, this.iconTpt, this.badge, this.subtitle, this.isInner, this.thumbnail, this.desc});
 
   ListNavModel.fromJson(Map<String, dynamic> json) {
 
@@ -347,6 +348,7 @@ class ListNavModel {
     jumpUrl = json['jump_url'];
     iconTpt = json['icon_tpt'];
     badge = json['badge'] != null ? new Badge.fromJson(json['badge']) : null;
+    img = json['img'] != null ? new Img.fromJson(json['img']) : null;
     subtitle = json['subtitle'];
     isInner = json['is_inner'];
     thumbnail = json['thumbnail'];
@@ -367,6 +369,23 @@ class ListNavModel {
     data['is_inner'] = this.isInner;
     data['thumbnail'] = this.thumbnail;
     data['desc'] = this.desc;
+    return data;
+  }
+}
+
+class Img{
+  String image;
+  Img({this.image});
+
+  Img.fromJson(Map<String, dynamic> json) {
+
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+
+    data['image'] = this.image;
     return data;
   }
 }

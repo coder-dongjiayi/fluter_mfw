@@ -17,7 +17,7 @@ class _LocationNearlyWidgetState extends State<LocationNearlyWidget> {
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-    if(widget.nearlyNavModel == null){
+    if(widget.nearlyNavModel == null || widget.nearlyNavModel.title == null){
       return Text("");
     }
     return Container(

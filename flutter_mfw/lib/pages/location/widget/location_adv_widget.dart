@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_mfw/screen_adapter.dart';
 class LocationAdvWidget extends StatefulWidget {
+
+  var advImageUrl;
+
+  LocationAdvWidget({Key key,this.advImageUrl}) : super(key:key);
+
+
   @override
   _LocationAdvWidgetState createState() => _LocationAdvWidgetState();
 }
@@ -10,6 +16,9 @@ class _LocationAdvWidgetState extends State<LocationAdvWidget> {
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
+    if(widget.advImageUrl == null){
+      return Text("");
+    }
     return Container(
       width: double.infinity,
       height: ScreenAdapter.setHeight(220),
@@ -30,7 +39,7 @@ class _LocationAdvWidgetState extends State<LocationAdvWidget> {
             padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
             child: ClipRRect(
               borderRadius:BorderRadius.circular(6.0),
-              child:Image.network("https://n3-q.mafengwo.net/s13/M00/65/1E/wKgEaV2heE2AQxaXAABPsykfmdM970.jpg") ,
+              child:Image.network("${widget.advImageUrl}") ,
             ),
           ),
           Positioned(
