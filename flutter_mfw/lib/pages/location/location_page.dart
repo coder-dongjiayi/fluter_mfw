@@ -1,12 +1,17 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
+import 'package:flutter_mfw/screen_adapter.dart';
 
 import 'package:flutter_mfw/pages/location/page/location_recommend_page.dart';
 import 'package:flutter_mfw/pages/location/page/location_reserve_page.dart';
 
 import 'package:flutter_mfw/dao/location_dao.dart';
 import 'package:flutter_mfw/model/location_model.dart';
-import 'package:flutter_mfw/pages/location/widget/location_stycky_category_widget.dart';
+import 'package:flutter_mfw/model/location_tababr_model.dart';
+
+import 'package:flutter_mfw/pages/location/widget/location_sticky_category_widget.dart';
 import 'package:flutter_mfw/pages/location/widget/location_what_widget.dart';
 import 'package:flutter_mfw/pages/location/widget/location_navbar_widget.dart';
 import 'package:flutter_mfw/pages/location/widget/location_top_nav_widget.dart';
@@ -23,7 +28,7 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
 
   var _pageController;
 
-  var _selectedIndex;
+  var _selectedIndex = 0;
 
   var _scrollController;
 
@@ -33,7 +38,14 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
 
   var _commListModel = <ListNavModel>[];
   var _categoryListModel = <ListNavModel>[];
+
+  var _tabbarTagList = <LocationTababrModelDataTagList>[];
   var _advImageUrl;
+
+   //控制是否显示 悬浮头像
+
+  var _isShowSticky = false;
+
   DataNavModel _nearlyNavModel;
   DataNavModel _cityGuideModel;
 
@@ -52,6 +64,22 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
     _scrollController.addListener((){
 
       var offy =  _scrollController.position.pixels;
+
+
+
+      if(offy >= 1009.0){
+        if(_isShowSticky == false){
+          setState(() {
+            _isShowSticky = true;
+          });
+        }
+      }else{
+        if(_isShowSticky == true){
+          setState(() {
+            _isShowSticky = false;
+          });
+        }
+      }
       _opacity = offy / 80.0;
 
       setState(() {
@@ -60,30 +88,51 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
 
     });
 
+    _requestLocationData();
+    _reqiuestLocationStickyData();
+
+  }
+  //请求推荐 预定数据
+
+  void _reqiuestLocationStickyData(){
+    LocationTabbarDao.fetch().then((result){
+
+      setState(() {
+        _tabbarTagList = result.data.tagList;
+      });
+
+    }).catchError((error){
+      print("error = ");
+      print(error);
+    });
+  }
+
+  //请求顶部信息
+  void _requestLocationData(){
     LocationDao.fetch().then((reslut){
 
-    setState(() {
+      setState(() {
 
-      _weatherModel = reslut.data.ex;
-      for(var item in reslut.data.listModel){
-        if(item.style == "common_icons"){
-          _commListModel = item.dataNavModel.listNavModel;
+        _weatherModel = reslut.data.ex;
+        for(var item in reslut.data.listModel){
+          if(item.style == "common_icons"){
+            _commListModel = item.dataNavModel.listNavModel;
+          }
+          if(item.style == "category_entrance"){
+            _categoryListModel = item.dataNavModel.listNavModel;
+          }
+          if(item.style == "poi_card_v2"){
+            _nearlyNavModel = item.dataNavModel;
+          }
+          if(item.style == "pois_together"){
+            _cityGuideModel = item.dataNavModel;
+          }
+          if(item.style == "banner"){
+            _advImageUrl = item.dataNavModel.listNavModel.first.img.image;
+          }
         }
-        if(item.style == "category_entrance"){
-          _categoryListModel = item.dataNavModel.listNavModel;
-        }
-        if(item.style == "poi_card_v2"){
-          _nearlyNavModel = item.dataNavModel;
-        }
-        if(item.style == "pois_together"){
-          _cityGuideModel = item.dataNavModel;
-        }
-        if(item.style == "banner"){
-          _advImageUrl = item.dataNavModel.listNavModel.first.img.image;
-        }
-      }
 
-    });
+      });
 
 
     }).catchError((error){
@@ -93,14 +142,33 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
 
   @override
   Widget build(BuildContext context) {
+    ScreenAdapter.init(context);
     return  Stack(
       children: <Widget>[
         _tabbarController(),
         LocationNavbarWidget(opacity: _opacity),
+        _isShowSticky == true ? Padding(child: _stickyHeader(),padding: EdgeInsets.only(top: ScreenAdapter.setHeight(176))) : Text("")
       ],
     );
   }
 
+  // 悬浮header
+  Widget _stickyHeader(){
+    return _tabbarTagList.length == 0 ? Text("") : Column(
+      children: <Widget>[
+        LocationStyckyWidget(
+          selectedIndex: _selectedIndex,
+          onTap: (index){
+            _pageController.jumpToPage(index);
+          },
+        ),
+        LocationStickyCategoryWidget(
+          selectIndex:  _selectedIndex,
+          tabbarTagList: _tabbarTagList,
+        )
+      ],
+    );
+  }
   Widget _tabbarController(){
 
     return DefaultTabController(
@@ -136,18 +204,9 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
               ),
 
               SliverToBoxAdapter(
-                child: LocationStyckyWidget(
-                  selectedIndex: _selectedIndex,
-                  onTap: (index){
-                    _pageController.jumpToPage(index);
-                  },
-                )
+                child: _stickyHeader()
               ),
-              SliverToBoxAdapter(
-                  child: LocationStyckyCategoryWidget(
 
-                  )
-              )
             ];
           },
           body: PageView(

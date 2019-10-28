@@ -24,7 +24,7 @@ class _LocationStyckyWidgetState extends State<LocationStyckyWidget> {
     return Container(
       width: double.infinity,
       height: ScreenAdapter.setHeight(110),
-   
+      color: Color.fromRGBO(250, 250, 250, 1.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
