@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
 import 'package:flutter_mfw/model/location_tababr_model.dart';
+typedef ValueChanged<T> = void Function(T value);
+
 class LocationStickyCategoryWidget extends StatefulWidget {
 
   var selectIndex = 0;
-
+  final ValueChanged<int> onTap;
   var tabbarTagList = <LocationTababrModelDataTagList>[];
 
-  LocationStickyCategoryWidget({Key key,this.selectIndex,this.tabbarTagList}) : super(key:key);
+  LocationStickyCategoryWidget({Key key,this.selectIndex,this.tabbarTagList,this.onTap}) : super(key:key);
 
 
   @override
@@ -29,11 +31,14 @@ class _LocationStickyCategoryWidgetState extends State<LocationStickyCategoryWid
     var index= 0;
 
     return Container(
-      margin: EdgeInsets.only(top: 0,bottom: 10),
-      height: ScreenAdapter.setHeight(66),
+      margin: EdgeInsets.only(top: 0,bottom: 0),
+
+      height: ScreenAdapter.setHeight(86),
+      color: Color.fromRGBO(250, 250, 250, 1.0),
+
       child: ListView(
 
-          padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+          padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
           scrollDirection:Axis.horizontal,
           children: widget.tabbarTagList.map((item){
             var itemWidget =   _scrollItemCategroy(index,item.tagName);
@@ -49,6 +54,7 @@ class _LocationStickyCategoryWidgetState extends State<LocationStickyCategoryWid
       onTap: (){
         setState(() {
           _selectedIndex = index;
+          widget.onTap(index);
         });
       },
       child: Container(

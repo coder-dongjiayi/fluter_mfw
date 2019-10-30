@@ -107,6 +107,10 @@ flutter:
       - assets/images/2.0x/lishi.png
       - assets/images/3.0x/lishi.png
 
+      - assets/images/topic.png
+      - assets/images/2.0x/topic.png
+      - assets/images/3.0x/topic.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
