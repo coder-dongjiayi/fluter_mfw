@@ -40,11 +40,16 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
   var _categoryListModel = <ListNavModel>[];
 
   var _tabbarTagList = <LocationTababrModelDataTagList>[];
+
+  var _wanfaList = <LocationTababrModelDataDatalistDataBusinesslist>[];
   var _advImageUrl;
 
    //控制是否显示 悬浮头像
 
   var _isShowSticky = false;
+
+  //是否显示综合 下面的那个水平滚动列表
+  var _isShowSynthesize = true;
 
   DataNavModel _nearlyNavModel;
   DataNavModel _cityGuideModel;
@@ -99,6 +104,13 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
 
       setState(() {
         _tabbarTagList = result.data.tagList;
+        for(var item in result.data.dataList){
+          if(item.style == "horizontal_wanfa_list"){
+
+            _wanfaList = item.data.businessList;
+            break;
+          }
+        }
       });
 
     }).catchError((error){
@@ -165,6 +177,11 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
         LocationStickyCategoryWidget(
           selectIndex:  _selectedIndex,
           tabbarTagList: _tabbarTagList,
+          onTap: (index){
+            setState(() {
+              _isShowSynthesize = index == 0 ? true : false;
+            });
+          },
         )
       ],
     );
@@ -217,7 +234,10 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
                 });
               },
               children: <Widget>[
-                LocationRecommendPage(),
+                LocationRecommendPage(
+                  isShowSynthesize: _isShowSynthesize,
+                  wanfaList: _wanfaList,
+                ),
                 LocationReservePage()
               ],
           )
