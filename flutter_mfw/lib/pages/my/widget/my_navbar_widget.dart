@@ -10,7 +10,7 @@ class _MyNavbarWidgetState extends State<MyNavbarWidget> {
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
     return Container(
-     // alignment: Alignment.bottomCenter,
+
       padding: EdgeInsets.only(bottom: 10),
       width: double.infinity,
       height: ScreenAdapter.getStatusBarHeight()+ScreenAdapter.setHeight(88),
