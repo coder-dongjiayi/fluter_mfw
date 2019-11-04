@@ -24,12 +24,12 @@ class _MyItemsWidgetState extends State<MyItemsWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
           children: <Widget>[
-            _itemWidget("我的收藏","assets/images/start.png"),
+            _itemWidget("我的收藏","https://n4-q.mafengwo.net/s12/M00/31/C8/wKgED1uXhA-AbQyvAAAiBit6y74637.png"),
             Padding(
               padding: EdgeInsets.fromLTRB(35, 0, 35, 0),
-              child:  _itemWidget("我的订单","assets/images/order.png"),
+              child:  _itemWidget("我的订单","https://p4-q.mafengwo.net/s12/M00/E6/E1/wKgED1uXUoaAV7-tAAAdXfKX00o716.png"),
             ),
-            _itemWidget("我的历史","assets/images/lishi.png"),
+            _itemWidget("我的历史","https://b4-q.mafengwo.net/s12/M00/E7/CD/wKgED1uXUz-AAjHIAAAocBa4sgs237.png"),
           ],
         ),
       )
@@ -39,7 +39,7 @@ class _MyItemsWidgetState extends State<MyItemsWidget> {
   Widget _itemWidget(title,imagePath){
     return Column(
       children: <Widget>[
-        Image.asset(imagePath,width: 30,height: 30),
+        Image.network(imagePath,width: 30,height: 30),
        Padding(
          padding: EdgeInsets.only(top: 5),
          child:  Text("${title}"),
