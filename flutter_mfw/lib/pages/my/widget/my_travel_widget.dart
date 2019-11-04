@@ -52,7 +52,7 @@ class _MyTravelWidgetState extends State<MyTravelWidget> {
           Positioned(
               left: 10,
               top: 10,
-              child: Text("我的旅行",style: TextStyle(fontWeight: FontWeight.w600))
+              child: Text("我的旅行",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16))
           ),
 
         ],

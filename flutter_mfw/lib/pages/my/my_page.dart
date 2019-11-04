@@ -5,6 +5,7 @@ import 'package:flutter_mfw/pages/my/widget/my_logout_widget.dart';
 
 import 'package:flutter_mfw/pages/my/widget/my_get_honey_widget.dart';
 import 'package:flutter_mfw/pages/my/widget/my_travel_widget.dart';
+import 'package:flutter_mfw/pages/my/widget/my_service_card_widget.dart';
 class MyPage extends StatefulWidget {
   @override
   _MyPageState createState() => _MyPageState();
@@ -30,7 +31,8 @@ class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
               children: <Widget>[
                 MyLogoutWidget(),
                 MyGetHoneyWidget(),
-                MyTravelWidget()
+                MyTravelWidget(),
+                MyServiceCardWidget()
               ],
             ),
           ),
