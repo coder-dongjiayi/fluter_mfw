@@ -16,7 +16,7 @@ class _LocationSynthesizeWidgetState extends State<LocationSynthesizeWidget> {
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
     return Container(
-      height: ScreenAdapter.setHeight(300),
+      height: ScreenAdapter.setHeight(310),
       width: double.infinity,
 
 
@@ -92,7 +92,7 @@ class _LocationSynthesizeWidgetState extends State<LocationSynthesizeWidget> {
   }
   Widget _subTitleItem(subTitle){
     return Padding(
-      padding: EdgeInsets.only(left: 12,top: 5),
+      padding: EdgeInsets.only(left: 12,top: 5,right: 5),
       child: Text("${subTitle}",style: TextStyle(fontSize: 10,color: Color.fromRGBO(130, 130, 130, 1.0))),
     );
   }
