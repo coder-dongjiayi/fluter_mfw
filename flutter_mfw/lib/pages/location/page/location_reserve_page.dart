@@ -10,7 +10,14 @@ class _LocationReservePageState extends State<LocationReservePage> {
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-    return  LocationWhereLiveWidget();
+
+    return  CustomScrollView(
+      slivers: <Widget>[
+        SliverToBoxAdapter(
+          child: LocationWhereLiveWidget(),
+        )
+      ],
+    );
   }
 
 

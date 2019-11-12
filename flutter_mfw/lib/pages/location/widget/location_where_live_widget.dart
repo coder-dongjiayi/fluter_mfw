@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+import 'package:flutter_mfw/dao/location_dao.dart';
+import 'package:flutter_mfw/model/location_where_model.dart';
 class LocationWhereLiveWidget extends StatefulWidget {
   @override
   _LocationWhereLiveWidgetState createState() => _LocationWhereLiveWidgetState();
@@ -9,6 +11,11 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
 
   var _selectedIndex = 0;
   var _selectedTagIndex = 1;
+
+  DataObject _whereDataObject;
+
+  DataObject _salesDataObject;
+
   var _list = [
     {"title":"天安门周边",
       "subtitle":"29%的选择"
@@ -29,16 +36,48 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
     "交通用车"
   ];
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getData();
+  }
+
+   void _getData(){
+    LocationWhereDao.fetch().then((reslut){
+
+      setState(() {
+        for(var item in reslut.data.dataList){
+          print("000000000000");
+          print(item.style);
+          if(item.style == "hotels"){
+
+            _whereDataObject = item.dataObject;
+          }
+          if(item.style == "sales"){
+            _salesDataObject = item.dataObject;
+          }
+        }
+      });
+
+
+    }).catchError((error){
+      print("error=========");
+      print(error);
+    });
+   }
+
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
     return Column(
       children: <Widget>[
 
-        _titleWhere("住哪里"),
+        _titleWhere("111"),
         _livePrence(),
         _hotelListView(),
-        _titleWhere("旅行商城"),
+        _titleWhere("222"),
         _travelTagListView()
       ],
     );
@@ -94,7 +133,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
     return Column(
       children: <Widget>[
            Container(
-                height: ScreenAdapter.setHeight(450),
+                height: ScreenAdapter.setHeight(480),
                 width: double.infinity,
                 child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -196,7 +235,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
   Widget _livePrence(){
     var index = 0;
     return Container(
-      height: ScreenAdapter.setHeight(132),
+      height: ScreenAdapter.setHeight(150),
       width:  double.infinity,
 
       child: ListView(
@@ -240,7 +279,11 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
     );
   }
   
-  Widget _titleWhere(title){
+  Widget _titleWhere(String title){
+
+    if(title.length == 0){
+      return Text("");
+    }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
