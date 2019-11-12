@@ -16,25 +16,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
 
   DataObject _salesDataObject;
 
-  var _list = [
-    {"title":"天安门周边",
-      "subtitle":"29%的选择"
-    },
-    {"title":"北京站周边",
-      "subtitle":"18%的选择"
-    },
-    {"title":"后海、南锣鼓巷周边",
-      "subtitle":"16%的选择"
-    },
-
-  ];
-
-  var _listTag = [
-    "热门",
-    "当地玩乐",
-    "门票",
-    "交通用车"
-  ];
+  var _childrenList = <ChildrenList>[];
 
 
   @override
@@ -49,11 +31,12 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
 
       setState(() {
         for(var item in reslut.data.dataList){
-          print("000000000000");
+
           print(item.style);
           if(item.style == "hotels"){
 
             _whereDataObject = item.dataObject;
+            _childrenList = item.dataObject.tagList[0].list;
           }
           if(item.style == "sales"){
             _salesDataObject = item.dataObject;
@@ -63,21 +46,23 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
 
 
     }).catchError((error){
-      print("error=========");
-      print(error);
+
     });
    }
 
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
+    if(_whereDataObject == null || _salesDataObject == null){
+      return Text("");
+    }
     return Column(
       children: <Widget>[
 
-        _titleWhere("111"),
+        _titleWhere(_whereDataObject.title),
         _livePrence(),
-        _hotelListView(),
-        _titleWhere("222"),
+        _hotelListView(_childrenList),
+        _titleWhere(_salesDataObject.title),
         _travelTagListView()
       ],
     );
@@ -94,10 +79,10 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
       child: ListView(
         padding: EdgeInsets.only(left: 20),
         scrollDirection: Axis.horizontal,
-        children: _listTag.map((item){
+        children: _salesDataObject.tagList.map((item){
 
 
-          var widget =  _travelTageItem(item,index);
+          var widget =  _travelTageItem(item.title,index);
           index ++;
 
           return widget;
@@ -128,7 +113,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
     );
   }
 
-  Widget _hotelListView(){
+  Widget _hotelListView(List<ChildrenList> list){
 
     return Column(
       children: <Widget>[
@@ -138,13 +123,9 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
                 child: ListView(
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.fromLTRB(20, 20, 10, 0),
-                children: <Widget>[
-                       _hotelItem(),
-                       _hotelItem(),
-                       _hotelItem(),
-                      _hotelItem(),
-                      _hotelItem()
-                ],
+                children: _childrenList.map((item){
+                  return _hotelItem(item);
+                }).toList()
               ),
 
             ),
@@ -158,7 +139,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
     );
   }
 
-  Widget _hotelItem(){
+  Widget _hotelItem(ChildrenList item){
     return Container(
       width: ScreenAdapter.setWidth(310),
 
@@ -181,7 +162,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
 
           ClipRRect(
             borderRadius:BorderRadius.only(topLeft: Radius.circular(5),topRight: Radius.circular(5)),
-            child: Image.network("https://p4-q.mafengwo.net/s12/M00/8A/3B/wKgED1wmvbmAIuErABz7fugWZd814.jpeg?imageMogr2%2Fthumbnail%2F%21300x300r%2Fgravity%2FCenter%2Fcrop%2F%21300x300%2Fquality%2F90",
+            child: Image.network("${item.thumbnail}",
               height: ScreenAdapter.setHeight(220),
               width: ScreenAdapter.setWidth(310),
               fit: BoxFit.cover,
@@ -190,7 +171,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
          Padding(
            padding: EdgeInsets.only(left: 10,top: 5),
            child:  Text(
-             "北京王府半岛酒店",
+             "${item.title}",
              maxLines: 1,
              overflow:TextOverflow.ellipsis,
              style: TextStyle(
@@ -201,7 +182,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
          ),
           Padding(
             padding: EdgeInsets.only(left: 10,top: 0),
-            child: Text("今日有102人关注",style: TextStyle(
+            child: Text("${item.subtitle}",style: TextStyle(
                 color: Color.fromRGBO(36, 38, 41, 1.0),
               fontSize: 12
             ),)
@@ -210,7 +191,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
             padding: EdgeInsets.only(top: 15,left: 10),
             child: Row(
               children: <Widget>[
-                Text("￥2047",style: TextStyle(
+                Text("${item.price.type+item.price.number.toString()}",style: TextStyle(
                   color: Color.fromRGBO(252, 75, 64, 1.0),
                   fontWeight: FontWeight.w700,
                   fontSize: 17
@@ -241,9 +222,9 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
       child: ListView(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
-        children: _list.map((item){
+        children: _whereDataObject.tagList.map((item){
 
-          var widget = _livePrenceItem(item["title"],item["subtitle"],index);
+          var widget = item.title.length ==0 ? Text(""): _livePrenceItem(item.title,item.subtitle,index);
           index ++;
           return  widget;
         }).toList()
@@ -252,11 +233,13 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
   }
   
   Widget _livePrenceItem(title,subTitle,index){
-    
+
+
     return GestureDetector(
       onTap: (){
         setState(() {
           _selectedIndex = index;
+          _childrenList = _whereDataObject.tagList[index].list;
         });
       },
       child: Container(

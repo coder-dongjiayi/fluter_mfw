@@ -85,7 +85,7 @@ class DataList {
 
   DataList.fromJson(Map<String, dynamic> json) {
     style = json['style'];
-    dataObject = json['data'] != null ? new DataObject.fromJson(json['dataObject']) : null;
+    dataObject = json['data'] != null ? new DataObject.fromJson(json['data']) : null;
 
   }
 
