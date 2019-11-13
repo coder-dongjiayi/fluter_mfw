@@ -94,7 +94,7 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
     });
 
     _requestLocationData();
-    _reqiuestLocationStickyData();
+
 
   }
   //请求推荐 预定数据
@@ -114,8 +114,7 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
       });
 
     }).catchError((error){
-      print("error = ");
-      print(error);
+
     });
   }
 
@@ -143,7 +142,7 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
             _advImageUrl = item.dataNavModel.listNavModel.first.img.image;
           }
         }
-
+        _reqiuestLocationStickyData();
       });
 
 
