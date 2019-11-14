@@ -36,7 +36,8 @@ class _HomeHoteTopicWidgetState extends State<HomeHoteTopicWidget> {
 
   Widget _hoteItemsWidget(){
     return ListView(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+
+      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
       scrollDirection: Axis.horizontal,
       children:widget.hoteList.map((item){
 
@@ -53,6 +54,7 @@ class _HomeHoteTopicWidgetState extends State<HomeHoteTopicWidget> {
       bottom: 2,
       height: 10,
       child: Container(
+     
         decoration: BoxDecoration(
             color: Color.fromRGBO(233, 235, 236, 1.0),
             borderRadius: BorderRadius.circular(10)

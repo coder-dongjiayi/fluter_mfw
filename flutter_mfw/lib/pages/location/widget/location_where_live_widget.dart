@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
-import 'package:flutter_mfw/dao/location_dao.dart';
 import 'package:flutter_mfw/model/location_where_model.dart';
+
+
+typedef GestureTapItemCallback<int> = void Function(int index);
+
 class LocationWhereLiveWidget extends StatefulWidget {
+
+  DataObject whereDataObject;
+
+  DataObject salesDataObject;
+
+  final GestureTapItemCallback onTap;
+
+  LocationWhereLiveWidget({Key key,this.whereDataObject,this.salesDataObject,this.onTap}) : super(key:key);
+
   @override
   _LocationWhereLiveWidgetState createState() => _LocationWhereLiveWidgetState();
 }
@@ -12,57 +24,25 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
   var _selectedIndex = 0;
   var _selectedTagIndex = 1;
 
-  DataObject _whereDataObject;
-
-  DataObject _salesDataObject;
 
   var _childrenList = <ChildrenList>[];
 
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _getData();
-  }
-
-   void _getData(){
-    LocationWhereDao.fetch().then((reslut){
-
-      setState(() {
-        for(var item in reslut.data.dataList){
-
-          print(item.style);
-          if(item.style == "hotels"){
-
-            _whereDataObject = item.dataObject;
-            _childrenList = item.dataObject.tagList[0].list;
-          }
-          if(item.style == "sales"){
-            _salesDataObject = item.dataObject;
-          }
-        }
-      });
-
-
-    }).catchError((error){
-
-    });
-   }
 
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-    if(_whereDataObject == null || _salesDataObject == null){
+    if(widget.whereDataObject == null || widget.salesDataObject == null){
       return Text("");
     }
+    _childrenList = widget.whereDataObject.tagList[_selectedIndex].list;
     return Column(
       children: <Widget>[
 
-        _titleWhere(_whereDataObject.title),
+        _titleWhere(widget.whereDataObject.title),
         _livePrence(),
         _hotelListView(_childrenList),
-        _titleWhere(_salesDataObject.title),
+        _titleWhere(widget.salesDataObject.title),
         _travelTagListView()
       ],
     );
@@ -79,7 +59,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
       child: ListView(
         padding: EdgeInsets.only(left: 20),
         scrollDirection: Axis.horizontal,
-        children: _salesDataObject.tagList.map((item){
+        children: widget.salesDataObject.tagList.map((item){
 
 
           var widget =  _travelTageItem(item.title,index);
@@ -97,6 +77,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
       onTap: (){
         setState(() {
           _selectedTagIndex  = index;
+          widget.onTap(index);
         });
       },
       child: Container(
@@ -222,7 +203,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
       child: ListView(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
-        children: _whereDataObject.tagList.map((item){
+        children: widget.whereDataObject.tagList.map((item){
 
           var widget = item.title.length ==0 ? Text(""): _livePrenceItem(item.title,item.subtitle,index);
           index ++;
@@ -239,7 +220,7 @@ class _LocationWhereLiveWidgetState extends State<LocationWhereLiveWidget> {
       onTap: (){
         setState(() {
           _selectedIndex = index;
-          _childrenList = _whereDataObject.tagList[index].list;
+          _childrenList = widget.whereDataObject.tagList[index].list;
         });
       },
       child: Container(

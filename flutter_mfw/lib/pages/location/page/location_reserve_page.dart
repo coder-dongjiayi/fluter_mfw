@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+import 'package:flutter_mfw/dao/location_dao.dart';
+import 'package:flutter_mfw/model/location_where_model.dart';
 import 'package:flutter_mfw/pages/location/widget/location_where_live_widget.dart';
 class LocationReservePage extends StatefulWidget {
   @override
@@ -7,6 +9,42 @@ class LocationReservePage extends StatefulWidget {
 }
 
 class _LocationReservePageState extends State<LocationReservePage> {
+
+  var _list = <ChildrenList>[];
+
+  DataObject _whereDataObject;
+
+  DataObject _salesDataObject;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getData();
+  }
+  void _getData(){
+    LocationWhereDao.fetch().then((reslut){
+
+      setState(() {
+        for(var item in reslut.data.dataList){
+
+          if(item.style == "hotels"){
+
+            _whereDataObject = item.dataObject;
+
+          }
+          if(item.style == "sales"){
+            _salesDataObject = item.dataObject;
+            _list = _salesDataObject.tagList[1].list;
+          }
+        }
+      });
+
+
+    }).catchError((error){
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
@@ -14,7 +52,15 @@ class _LocationReservePageState extends State<LocationReservePage> {
     return  CustomScrollView(
       slivers: <Widget>[
         SliverToBoxAdapter(
-          child: LocationWhereLiveWidget(),
+          child: LocationWhereLiveWidget(
+            onTap: (index){
+              setState(() {
+                _list = _salesDataObject.tagList[index].list;
+              });
+            },
+            whereDataObject: _whereDataObject,
+            salesDataObject: _salesDataObject,
+          ),
         ),
         SliverToBoxAdapter(
           child: Container(
@@ -26,9 +72,12 @@ class _LocationReservePageState extends State<LocationReservePage> {
 
             delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index){
-                   return _travelItem();
+
+                  var item = _list[index];
+
+                   return _travelItem(item);
                  },
-              childCount: 200
+              childCount: _list.length
            )
         )
 
@@ -37,14 +86,28 @@ class _LocationReservePageState extends State<LocationReservePage> {
 
   }
 
-  Widget _travelItem(){
+  Widget _travelItem(ChildrenList childern){
     return Container(
       width: double.infinity,
       margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
       height: ScreenAdapter.setHeight(240),
       child: Row(
         children: <Widget>[
-          _leftImageWidget()
+
+          _leftImageWidget(childern.desc,childern.type,childern.thumbnail),
+          Expanded(
+            flex: 1,
+            child:  _rightContentWidget(
+
+                childern.title,
+                childern.subtitle,
+                childern.bottom,
+                childern.price.number.toString(),
+                childern.price.type,
+                childern.price.suffix
+            ),
+          )
+
         ],
       ),
       decoration: BoxDecoration(
@@ -63,7 +126,66 @@ class _LocationReservePageState extends State<LocationReservePage> {
 
   }
 
-  Widget _leftImageWidget(){
+  Widget _rightContentWidget(title,subTitle,bottom,number,type,suffix){
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _title(title),
+        _store(subTitle),
+        _sales(bottom, number,type,suffix)
+      ],
+    );
+
+  }
+
+  Widget _store(subTitle){
+    return Padding(
+      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+      child: Text("${subTitle}",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12)),
+    );
+  }
+
+  Widget _sales(bottom,number,type,suffix){
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+      child: Row(
+
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text("${bottom}",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12)),
+         Text.rich(
+             TextSpan(
+               children: [
+
+                 TextSpan(text: "${type}",style: TextStyle(color: Color.fromRGBO(251, 45, 40, 1.0),fontSize: 10,fontWeight: FontWeight.w600)),
+                 TextSpan(text: "${number}",style: TextStyle(color: Color.fromRGBO(251, 45, 40, 1.0),fontSize: 15,fontWeight: FontWeight.w600)),
+                 TextSpan(text: " ${suffix}",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w300))
+               ]
+             )
+         )
+        ],
+      ),
+    );
+  }
+  Widget _title(title){
+    return Padding(
+      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: Text(
+          "${title}",
+
+          maxLines: 2,
+          style: TextStyle(fontWeight: FontWeight.w600),
+
+          overflow: TextOverflow.ellipsis
+      ),
+    );
+  }
+
+
+  Widget _leftImageWidget(desc,type,imageUrl){
     return Container(
       width: ScreenAdapter.setWidth(190),
       child: Column(
@@ -73,7 +195,7 @@ class _LocationReservePageState extends State<LocationReservePage> {
           Container(
            padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
 
-            child: Text("北京出发",style: TextStyle(color: Colors.white,fontSize: 11),),
+            child: Text("${desc}",style: TextStyle(color: Colors.white,fontSize: 11),),
 
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(5),bottomRight: Radius.circular(10)),
@@ -83,7 +205,7 @@ class _LocationReservePageState extends State<LocationReservePage> {
           Container(
             alignment: Alignment.center,
             padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
-            child: Text("一日游",style: TextStyle(color: Colors.white,fontSize: 12),),
+            child: Text("${type}",style: TextStyle(color: Colors.white,fontSize: 12),),
 
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5)),
@@ -98,7 +220,7 @@ class _LocationReservePageState extends State<LocationReservePage> {
         image: DecorationImage(
           fit: BoxFit.cover,
             image: NetworkImage(
-            "https://p4-q.mafengwo.net/s12/M00/57/C2/wKgED1wNzQuAep3YAADLvUjDmqk35.jpeg?imageMogr2%2Fthumbnail%2F%21240x180r%2Fgravity%2FCenter%2Fcrop%2F%21240x180%2Fquality%2F85%2Fformat%2Fjpg"))
+            "${imageUrl}"))
       ),
     );
   }
