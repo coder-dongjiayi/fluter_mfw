@@ -39,7 +39,7 @@ class _MyServiceCardWidgetState extends State<MyServiceCardWidget> {
       return Text("正在加载");
     }
     return Container(
-      height:  ScreenAdapter.setHeight(625),
+      height:  ScreenAdapter.setHeight(650),
       margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
       decoration: BoxDecoration(
         color: Colors.white,
