@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+
+import 'package:flutter_mfw/dao/home_dao.dart';
+import 'package:flutter_mfw/model/home_main_icon_model.dart';
 class HomeTopNavWidget extends StatefulWidget {
   @override
   _HomeTopNavWidgetState createState() => _HomeTopNavWidgetState();
@@ -7,23 +10,26 @@ class HomeTopNavWidget extends StatefulWidget {
 
 class _HomeTopNavWidgetState extends State<HomeTopNavWidget> {
 
-  final _list = [
-    {"image":"assets/images/icon_gonglve.png",
-    "title":"攻略"
-    },
-    {"image":"assets/images/icon_hote.png",
-      "title":"订酒店"
-    },
-    {"image":"assets/images/icon_jipiao.png",
-      "title":"机票火车票"
-    },
-    {"image":"assets/images/icon_travel.png",
-      "title":"去旅行"
-    },
-    {"image":"assets/images/icon_youji.png",
-      "title":"游记"
-    }
-  ];
+  
+  var _list = <ListWithColor>[];
+ 
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getData();
+  }
+  _getData(){
+    MainIconDao.fetch().then((result){
+      setState(() {
+        _list = result.data.mainIcons.listWithColor;
+      });
+      
+    }).catchError((error){
+      
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +38,7 @@ class _HomeTopNavWidgetState extends State<HomeTopNavWidget> {
       children: <Widget>[
            Container(
 
-              height: ScreenAdapter.setHeight(220),
+              height: ScreenAdapter.setHeight(280),
               width: double.infinity,
               child: Padding(
                      padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
@@ -63,7 +69,7 @@ class _HomeTopNavWidgetState extends State<HomeTopNavWidget> {
 
       children: _list.map((item){
 
-        return  _navItemWidget(item["image"],item["title"]);
+        return  _navItemWidget(item.icon,item.title);
       }).toList()
     );
   }
@@ -71,7 +77,7 @@ class _HomeTopNavWidgetState extends State<HomeTopNavWidget> {
   Widget _navItemWidget(String image,String title){
     return Column(
       children: <Widget>[
-        Image.asset("${image}"),
+        Image.network(image,width: ScreenAdapter.setWidth(100),height: ScreenAdapter.setHeight(100)),
         Padding(
           padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
           child:  Text(
