@@ -8,13 +8,17 @@ class LocationReservePage extends StatefulWidget {
   _LocationReservePageState createState() => _LocationReservePageState();
 }
 
-class _LocationReservePageState extends State<LocationReservePage> {
+class _LocationReservePageState extends State<LocationReservePage> with AutomaticKeepAliveClientMixin {
 
   var _list = <ChildrenList>[];
 
   DataObject _whereDataObject;
 
   DataObject _salesDataObject;
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
