@@ -21,18 +21,20 @@ class _LocationStyckyWidgetState extends State<LocationStyckyWidget> {
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-    return Container(
-      width: double.infinity,
-      height: ScreenAdapter.setHeight(110),
-      color: Color.fromRGBO(250, 250, 250, 1.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          _item("推荐",0),
-          _item("预定",1)
-        ],
-      ),
-    );
+
+   return  Container(
+     width: double.infinity,
+     height: ScreenAdapter.setHeight(110),
+     color: Color.fromRGBO(250, 250, 250, 1.0),
+     child: Row(
+       mainAxisAlignment: MainAxisAlignment.spaceAround,
+       children: <Widget>[
+         _item("推荐",0),
+         _item("预定",1)
+       ],
+     ),
+   );
+
   }
   
   Widget _item(title,index){

@@ -152,7 +152,11 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
 
-    return  _pageView();
+    return SafeArea(
+      top: false,
+      child:  _pageView(),
+
+    );
 
   }
   // 推荐、预定
@@ -184,6 +188,7 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
 
 
 
+
   Widget _pageView(){
 
     return  NestedScrollView(
@@ -194,6 +199,7 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
               pinned: true,
               delegate: LocationNavBarDelegate(child: LocationNavbarWidget(opacity: 1.0,)),
             ),
+
             SliverToBoxAdapter(
               child: LocationTopNavWidget(
                   weatherModel: _weatherModel,

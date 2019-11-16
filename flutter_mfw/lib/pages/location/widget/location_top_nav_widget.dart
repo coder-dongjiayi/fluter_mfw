@@ -42,7 +42,7 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
           color: Color.fromRGBO(253, 253, 253, 1.0),
 
       ),
-      child: Column(
+     child: Column(
         children: <Widget>[
           _backgroundWidget(),
           _postionTopWidget(),
@@ -200,6 +200,7 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
       alignment: Alignment.bottomLeft,
       width: double.infinity,
       height: ScreenAdapter.setHeight(280),
+
       child: Row(
 
         children: <Widget>[
@@ -209,6 +210,7 @@ class _LocationTopNavWidgetState extends State<LocationTopNavWidget> {
         ],
       ),
       decoration: BoxDecoration(
+        color: Colors.white,
         gradient: LinearGradient(
             colors: [
               Color(int.parse(startColor)),
