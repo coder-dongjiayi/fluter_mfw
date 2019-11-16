@@ -119,64 +119,60 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
 
   Widget _pageNestedScrollViewWidget(){
 
-    return DefaultTabController(
-      length: 3,
-      child: NestedScrollView(
-        headerSliverBuilder: (context,inner){
-          return [
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: StickyNavBarDelegate(child: HomeNavbarWidget()),
-            ),
+    return NestedScrollView(
+      headerSliverBuilder: (context,inner){
+        return [
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: StickyNavBarDelegate(child: HomeNavbarWidget()),
+          ),
 
-            SliverToBoxAdapter(
-              child: HomeTopNavWidget(),
-            ),
+          SliverToBoxAdapter(
+            child: HomeTopNavWidget(),
+          ),
 
 
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: StickyTabbarDelegate(
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: StickyTabbarDelegate(
                 child: HomeTabbarWidget(
 
                     onTap: (item){
 
-                          var index = 0;
-                          for(var i in _tabbarList){
-                            index ++;
-                            if(i.id == item.id){
-                              _animateToPage(index);
-                              break;
-                            }
-                          }
-                          setState(() {
-                            _currentId = item.id;
-                          });
+                      var index = 0;
+                      for(var i in _tabbarList){
+                        index ++;
+                        if(i.id == item.id){
+                          _animateToPage(index);
+                          break;
+                        }
+                      }
+                      setState(() {
+                        _currentId = item.id;
+                      });
                     },
                     currentId: _currentId,
                     tabbarList: _tabbarList
                 )
-              ),
             ),
+          ),
 
 
-          ];
-        },
+        ];
+      },
 
-        body: _tabbarList.length == 0 ? Text("") : PageView(
-            controller: _pageController,
-            onPageChanged: (index){
-                    setState(() {
-                      _currentId = _tabbarList[index].id;
-                    });
-            },
-            children: _tabbarList.map((item){
-              return HomeWaterfallPage(id: _currentId,hoteList: _hoteList);
+      body: _tabbarList.length == 0 ? Text("") : PageView(
+          controller: _pageController,
+          onPageChanged: (index){
+            setState(() {
+              _currentId = _tabbarList[index].id;
+            });
+          },
+          children: _tabbarList.map((item){
+            return HomeWaterfallPage(id: _currentId,hoteList: _hoteList);
 
-            }).toList()
-        ),
+          }).toList()
       ),
-
     );
   }
 }

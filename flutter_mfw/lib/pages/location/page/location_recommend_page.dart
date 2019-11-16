@@ -45,6 +45,7 @@ class _LocationRecommendPageState extends State<LocationRecommendPage> with Auto
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
     return CustomScrollView(
+      //physics: ScrollPhysics(),
       slivers: <Widget>[
         SliverToBoxAdapter(
           child:  widget.isShowSynthesize == true ? LocationSynthesizeWidget(

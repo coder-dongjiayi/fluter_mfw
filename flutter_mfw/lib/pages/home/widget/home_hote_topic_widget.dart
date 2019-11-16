@@ -54,7 +54,7 @@ class _HomeHoteTopicWidgetState extends State<HomeHoteTopicWidget> {
       bottom: 2,
       height: 10,
       child: Container(
-     
+
         decoration: BoxDecoration(
             color: Color.fromRGBO(233, 235, 236, 1.0),
             borderRadius: BorderRadius.circular(10)

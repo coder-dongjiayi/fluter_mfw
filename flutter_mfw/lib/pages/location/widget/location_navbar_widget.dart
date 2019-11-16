@@ -37,7 +37,7 @@ class _LocationNavbarWidgetState extends State<LocationNavbarWidget> {
 
   Widget _searchWidget(){
     return Container(
-       height: ScreenAdapter.setHeight(72),
+       height: ScreenAdapter.setHeight(92),
        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
 
        decoration: BoxDecoration(

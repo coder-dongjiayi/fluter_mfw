@@ -23,8 +23,8 @@ class _LocationStickyCategoryWidgetState extends State<LocationStickyCategoryWid
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-    if(widget.tabbarTagList.length == 0) return Text("");
-    return widget.selectIndex == 0 ? _scrollCategory() : Text("");
+
+    return _scrollCategory();
   }
 
   Widget _scrollCategory(){

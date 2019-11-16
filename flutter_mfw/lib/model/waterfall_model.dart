@@ -6,7 +6,15 @@ class WaterFallListModel {
   WaterFallListModel.fromJson(Map<String, dynamic> json) {
     if (json['list'] != null) {
       list = new List<WaterFallItemModel>();
-      json['list'].forEach((v) { list.add(new WaterFallItemModel.fromJson(v)); });
+      json['list'].forEach((v) {
+        WaterFallItemModel model =  WaterFallItemModel.fromJson(v);
+
+        if(model.style == "flow_ditto"){
+          list.add(model);
+        }
+
+
+      });
     }
   }
 

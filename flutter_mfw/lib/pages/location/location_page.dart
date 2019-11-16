@@ -44,7 +44,7 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
   var _wanfaList = <LocationTababrModelDataDatalistDataBusinesslist>[];
   var _advImageUrl;
 
-   //控制是否显示 悬浮头像
+  //控制是否显示 悬浮头像
 
   var _isShowSticky = false;
 
@@ -69,22 +69,19 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
     _scrollController.addListener((){
 
       var offy =  _scrollController.position.pixels;
-
-
-
-      if(offy >= 1009.0){
-        if(_isShowSticky == false){
-          setState(() {
-            _isShowSticky = true;
-          });
-        }
-      }else{
-        if(_isShowSticky == true){
-          setState(() {
-            _isShowSticky = false;
-          });
-        }
-      }
+//      if(offy >= 1009.0){
+//        if(_isShowSticky == false){
+//          setState(() {
+//            _isShowSticky = true;
+//          });
+//        }
+//      }else{
+//        if(_isShowSticky == true){
+//          setState(() {
+//            _isShowSticky = false;
+//          });
+//        }
+//      }
       _opacity = offy / 80.0;
 
       setState(() {
@@ -154,93 +151,187 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-    return  Stack(
-      children: <Widget>[
-        _tabbarController(),
-        LocationNavbarWidget(opacity: _opacity),
-        _isShowSticky == true ? Padding(child: _stickyHeader(),padding: EdgeInsets.only(top: ScreenAdapter.setHeight(176))) : Text("")
-      ],
+
+    return  _pageView();
+
+  }
+  // 推荐、预定
+  Widget _stickyRecommendHeader(){
+    return  LocationStyckyWidget(
+      selectedIndex: _selectedIndex,
+      onTap: (index){
+        setState(() {
+          _selectedIndex = index;
+        });
+
+        _pageController.jumpToPage(index);
+      },
+    );
+  }
+  
+  //推荐下面的分类
+  Widget _stickyCategory(){
+    
+    return  LocationStickyCategoryWidget(
+      selectIndex:  _selectedIndex,
+      tabbarTagList: _tabbarTagList,
+      onTap: (index){
+       
+      },
     );
   }
 
-  // 悬浮header
-  Widget _stickyHeader(){
-    return _tabbarTagList.length == 0 ? Text("") : Column(
-      children: <Widget>[
-        LocationStyckyWidget(
-          selectedIndex: _selectedIndex,
-          onTap: (index){
-            _pageController.jumpToPage(index);
-          },
-        ),
-        LocationStickyCategoryWidget(
-          selectIndex:  _selectedIndex,
-          tabbarTagList: _tabbarTagList,
-          onTap: (index){
+
+
+
+  Widget _pageView(){
+
+    return  NestedScrollView(
+        controller: _scrollController,
+        headerSliverBuilder: (context,inner){
+          return [
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: LocationNavBarDelegate(child: LocationNavbarWidget(opacity: 1.0,)),
+            ),
+            SliverToBoxAdapter(
+              child: LocationTopNavWidget(
+                  weatherModel: _weatherModel,
+                  commonList:_commListModel,
+                  categorylList: _categoryListModel
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: LocationAdvWidget(
+                advImageUrl: _advImageUrl,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: LocationNearlyWidget(
+                nearlyNavModel: _nearlyNavModel,
+              ),
+            ),
+            SliverToBoxAdapter(
+
+              child:  LocationWhatWidget(
+                cityGuideModel: _cityGuideModel,
+              ),
+            ),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: RecommentStickyDelegate(child: _stickyRecommendHeader()),
+            ),
+
+            _selectedIndex == 0 ? SliverPersistentHeader(
+              pinned: true,
+              delegate: RecommentCategoryDelegate(child: _stickyCategory()),
+            ) : SliverToBoxAdapter(
+              child: Text(""),
+            )
+
+
+
+
+          ];
+        },
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index){
             setState(() {
-              _isShowSynthesize = index == 0 ? true : false;
+              _selectedIndex = index;
             });
           },
+          children: <Widget>[
+            LocationRecommendPage(
+              isShowSynthesize: _isShowSynthesize,
+              wanfaList: _wanfaList,
+            ),
+            LocationReservePage()
+          ],
         )
-      ],
     );
   }
-  Widget _tabbarController(){
+}
 
-    return DefaultTabController(
 
-      length: 2,
-      child: NestedScrollView(
-        controller: _scrollController,
-          headerSliverBuilder: (context,inner){
-            return [
 
-              SliverToBoxAdapter(
-                child: LocationTopNavWidget(
-                    weatherModel: _weatherModel,
-                    commonList:_commListModel,
-                    categorylList: _categoryListModel
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: LocationAdvWidget(
-                  advImageUrl: _advImageUrl,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: LocationNearlyWidget(
-                  nearlyNavModel: _nearlyNavModel,
-                ),
-              ),
-              SliverToBoxAdapter(
+class LocationNavBarDelegate extends SliverPersistentHeaderDelegate{
+  final LocationNavbarWidget child;
 
-                child:  LocationWhatWidget(
-                  cityGuideModel: _cityGuideModel,
-                ),
-              ),
 
-              SliverToBoxAdapter(
-                child: _stickyHeader()
-              ),
+  LocationNavBarDelegate({@required this.child});
 
-            ];
-          },
-          body: PageView(
-            controller: _pageController,
-              onPageChanged: (index){
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-              children: <Widget>[
-                LocationRecommendPage(
-                  isShowSynthesize: _isShowSynthesize,
-                  wanfaList: _wanfaList,
-                ),
-                LocationReservePage()
-              ],
-          )
-      ),
-    );
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    ScreenAdapter.init(context);
+    return this.child;
   }
+
+  @override
+  double get maxExtent => ScreenAdapter.setHeight(92)+ScreenAdapter.getStatusBarHeight();
+
+  @override
+  double get minExtent => ScreenAdapter.setHeight(92)+ScreenAdapter.getStatusBarHeight();
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+
+}
+
+
+class RecommentCategoryDelegate  extends SliverPersistentHeaderDelegate {
+  final LocationStickyCategoryWidget child;
+
+
+  RecommentCategoryDelegate({@required this.child});
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    ScreenAdapter.init(context);
+    return this.child;
+  }
+
+  @override
+  double get maxExtent => ScreenAdapter.setHeight(86.0);
+
+  @override
+  double get minExtent => ScreenAdapter.setHeight(86.0);
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+
+}
+
+
+class RecommentStickyDelegate extends SliverPersistentHeaderDelegate{
+
+   final Widget child;
+
+
+   RecommentStickyDelegate({@required this.child});
+
+   @override
+   Widget build(
+       BuildContext context, double shrinkOffset, bool overlapsContent) {
+     ScreenAdapter.init(context);
+     return this.child;
+   }
+
+   @override
+   double get maxExtent => ScreenAdapter.setHeight(110.0);
+
+   @override
+   double get minExtent => ScreenAdapter.setHeight(110.0);
+
+   @override
+   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+     return true;
+   }
+
 }
