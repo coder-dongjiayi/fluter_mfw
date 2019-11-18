@@ -35,7 +35,7 @@ class _TravelRecommendWidgetState extends State<TravelRecommendWidget> {
     
     return Container(
     
-      height: ScreenAdapter.setHeight(330),
+      height: ScreenAdapter.setHeight(340),
       child: ListView(
         padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
         scrollDirection: Axis.horizontal,
