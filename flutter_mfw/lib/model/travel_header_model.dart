@@ -905,7 +905,10 @@ class TabList {
       });
     }
     suggest = json['suggest'];
-    schedule = json['schedule'].cast<String>();
+    if(json['schedule'] != null){
+      schedule = json['schedule'].cast<String>();
+    }
+
   }
 
   Map<String, dynamic> toJson() {
