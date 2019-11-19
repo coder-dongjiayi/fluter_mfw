@@ -1,14 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+
+import 'package:flutter_mfw/dao/location_dao.dart';
+import 'package:flutter_mfw/model/location_where_model.dart';
 class TravelRecommendWidget extends StatefulWidget {
   @override
   _TravelRecommendWidgetState createState() => _TravelRecommendWidgetState();
 }
 
 class _TravelRecommendWidgetState extends State<TravelRecommendWidget> {
+
+
+  var _list = <ChildrenList>[];
+
+  var _selectedIndex = 1;
+
+  DataObject _salesDataObject;
+
+   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getData();
+  }
+  void _getData(){
+    LocationWhereDao.fetch().then((reslut){
+
+      setState(() {
+        for(var item in reslut.data.dataList){
+
+          if(item.style == "sales"){
+            _salesDataObject = item.dataObject;
+            _list = _salesDataObject.tagList[_selectedIndex].list;
+            break;
+          }
+        }
+      });
+
+
+    }).catchError((error){
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
+    if(_salesDataObject == null){
+
+      return Text("");
+    }
     return Container(
       color: Color.fromRGBO(240, 240, 240, 1.0),
       width: double.infinity,
@@ -39,31 +79,26 @@ class _TravelRecommendWidgetState extends State<TravelRecommendWidget> {
       child: ListView(
         padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
         scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          _titleCarItem(),
-          _titleCarItem(),
-          _titleCarItem(),
-          _titleCarItem(),
-          _titleCarItem(),
-          _titleCarItem(),
-           _titleCarItem()
-        ],
+        children: _list.map((item){
+
+          return _titleCarItem(item);
+        }).toList()
       ),
 
     );
   }
 
-  Widget _titleCarItem(){
+  Widget _titleCarItem(ChildrenList item){
     return Container(
       width: ScreenAdapter.setWidth(220),
       margin: EdgeInsets.only(right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _titleCarImageItem(),
+          _titleCarImageItem(item.type,item.thumbnail),
          Padding(
            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-           child:  Text("北京首都宾馆北你您的",style: TextStyle(fontSize: 15),maxLines: 2,overflow: TextOverflow.ellipsis,),
+           child:  Text("${item.title}",style: TextStyle(fontSize: 15),maxLines: 2,overflow: TextOverflow.ellipsis,),
          ),
           Padding(
             padding: EdgeInsets.only(top: 5),
@@ -71,15 +106,15 @@ class _TravelRecommendWidgetState extends State<TravelRecommendWidget> {
               text: TextSpan(
                   children: [
                     TextSpan(
-                        text: "￥",
+                        text: "${item.price.type}",
                         style:TextStyle(color: Color.fromRGBO(252, 85, 79, 1.0),fontSize: 10)
                     ),
                     TextSpan(
-                        text: "200",
+                        text: "${item.price.number}",
                         style:TextStyle(color: Color.fromRGBO(252, 85, 79, 1.0),fontSize: 18,fontWeight: FontWeight.w700)
                     ),
                     TextSpan(
-                        text: " 起",
+                        text: " ${item.price.suffix}",
                         style:TextStyle(color: Color.fromRGBO(173, 176, 179, 1.0),fontSize: 12)
                     ),
 
@@ -92,7 +127,7 @@ class _TravelRecommendWidgetState extends State<TravelRecommendWidget> {
     );
   }
   
-  Widget _titleCarImageItem(){
+  Widget _titleCarImageItem(type,imageUrl){
 
     return Stack(
       children: <Widget>[
@@ -101,7 +136,7 @@ class _TravelRecommendWidgetState extends State<TravelRecommendWidget> {
         
         ClipRRect(
           borderRadius: BorderRadius.circular(5),
-          child: Image.network("https://p1-q.mafengwo.net/s11/M00/88/C3/wKgBEFrd42-ACzWbAAHPcaq6M5U60.jpeg?imageMogr2%2Fthumbnail%2F%21240x180r%2Fgravity%2FCenter%2Fcrop%2F%21240x180%2Fquality%2F85%2Fformat%2Fjpg",
+          child: Image.network("${imageUrl}",
             width: ScreenAdapter.setWidth(220),
             height: ScreenAdapter.setHeight(145),
             fit: BoxFit.cover,
@@ -114,7 +149,7 @@ class _TravelRecommendWidgetState extends State<TravelRecommendWidget> {
               borderRadius: BorderRadius.only(topLeft: Radius.circular(5),bottomRight: Radius.circular(8)),
               color: Color.fromRGBO(0, 0, 0, 0.7)
           ),
-          child: Text("酒店",style: TextStyle(color: Colors.white,fontSize: 12)),
+          child: Text("${type}",style: TextStyle(color: Colors.white,fontSize: 12)),
         ),
         
       ],
@@ -124,35 +159,47 @@ class _TravelRecommendWidgetState extends State<TravelRecommendWidget> {
 
   //酒店、当地玩乐、门票、定制旅行
   Widget _titleTypeListView(){
+     var _index = 0;
     return Container(
       height: ScreenAdapter.setHeight(90),
       child: ListView(
         padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
         scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          _titleTypeItem(),
-          _titleTypeItem(),
-          _titleTypeItem(),
-          _titleTypeItem()
-        ],
+        children: _salesDataObject.tagList.map((item){
+
+          var widget =   _titleTypeItem(item.title,_index);
+          _index ++ ;
+          return  widget;
+        }).toList()
       ),
     );
   }
 
-  Widget _titleTypeItem(){
+  Widget _titleTypeItem(title,index){
 
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-       border: Border.all(
-         color: Color.fromRGBO(232 , 232 , 232, 1.0),
-         width: 1
-       )
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          _selectedIndex = index;
+          _list = _salesDataObject.tagList[_selectedIndex].list;
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.only(right: 10),
+        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+        height: ScreenAdapter.setHeight(20),
+        alignment:Alignment.center,
+        decoration: BoxDecoration(
+            color: index == _selectedIndex ? Color.fromRGBO(255, 242, 196, 0.8) : Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+                color: Color.fromRGBO(232 , 232 , 232, 1.0),
+                width: 1
+            )
 
+        ),
+        child: Text("${title}",style:TextStyle(fontWeight: FontWeight.w500,fontSize: 12) ,),
       ),
-      child: Text("酒店",style:TextStyle(fontWeight: FontWeight.w500,fontSize: 15) ,),
     );
   }
   Widget _title(){

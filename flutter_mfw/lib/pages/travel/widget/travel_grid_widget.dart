@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+import 'package:flutter_mfw/model/travel_header_model.dart';
 class TravelGridWidget extends StatefulWidget {
+
+  var channelData = ChannelData();
+  TravelGridWidget({Key key,this.channelData}) : super(key:key);
+
   @override
   _TravelGridWidgetState createState() => _TravelGridWidgetState();
 }
@@ -9,6 +14,18 @@ class _TravelGridWidgetState extends State<TravelGridWidget> {
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
+    if(widget.channelData.channels == null){
+      return Text("");
+    }
+
+    int row = (widget.channelData.channels.length / 5.0).ceil();
+
+    double gridHeight = ScreenAdapter.setHeight(row*140.0);
+
+    double spaceHeight = ScreenAdapter.setHeight((row - 1.0)*5);
+    double bottomHeight = ScreenAdapter.setHeight(90);
+
+
     return Container(
       width: double.infinity,
     
@@ -23,30 +40,24 @@ class _TravelGridWidgetState extends State<TravelGridWidget> {
 
         child: Column(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                _gridTopItem(),
-                _gridTopItem(),
-                _gridTopItem(),
-                _gridTopItem(),
-              ],
-            ),
+
            Container(
              padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-             height: ScreenAdapter.setHeight(320),
+             height: gridHeight + bottomHeight + spaceHeight + 20.0,
              child:  GridView.builder(
                physics: NeverScrollableScrollPhysics(),
                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                  crossAxisCount: 5,
                  crossAxisSpacing: 5,
                  mainAxisSpacing: 5,
-                 childAspectRatio: 1
+                 childAspectRatio: 0.9
 
              ), itemBuilder: (BuildContext context,int index){
+               Channels channels = widget.channelData.channels[index];
 
-               return  _gridCarItem();
+               return  _gridCarItem(channels,index);
              },
-                 itemCount: 10
+                 itemCount: widget.channelData.channels.length
              ),
            ),
             _bottomCategory()
@@ -60,16 +71,18 @@ class _TravelGridWidgetState extends State<TravelGridWidget> {
 
   Widget _bottomCategory(){
 
+    var _index = 0;
     return Row(
-      children: <Widget>[
-        _bottomCategoryItem(),
-        _bottomCategoryItem(),
-        _bottomCategoryItem()
-      ],
+      children: widget.channelData.columns.map((item){
+
+        var widget =  _bottomCategoryItem(item.imageUrl,_index);
+        _index ++;
+        return widget;
+      }).toList(),
     );
   }
 
-  Widget _bottomCategoryItem(){
+  Widget _bottomCategoryItem(imageURL,index){
     return Expanded(
       flex: 1,
       child: Stack(
@@ -91,52 +104,43 @@ class _TravelGridWidgetState extends State<TravelGridWidget> {
             bottom: 0,
             child: Container(
               height: 1,
-              color:Color.fromRGBO(240, 240, 240, 1.0),
+              color:index==2 ? Colors.white : Color.fromRGBO(240, 240, 240, 1.0),
             ),
           ),
           Container(
             margin: EdgeInsets.only(top: 1,right: 1),
             alignment: Alignment.center,
             height: ScreenAdapter.setHeight(70),
-            color: Colors.white,
-            child: Text("会员中心"),
+
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(index==0 ? 5 :0),bottomRight: Radius.circular(index==2 ? 5 :0)),
+              color: Colors.white,
+              image: DecorationImage(
+                image: NetworkImage("${imageURL}")
+              )
+            ),
           ),
         ],
       )
     );
   }
 
-  Widget _gridCarItem(){
+  Widget _gridCarItem(Channels channel,int index){
     return Container(
       padding: EdgeInsets.only(top: 5,bottom: 5),
 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Image.network("https://b4-q.mafengwo.net/s12/M00/EC/7A/wKgED1uXVo-ARUNuAAAZgIPMiR4786.png",
-          width: ScreenAdapter.setWidth(70),
-          height: ScreenAdapter.setHeight(70)),
-          Text("定制游",style: TextStyle(color: Color.fromRGBO(70, 70, 70, 1.0)),)
-        ],
-      ),
-    );
-  }
-  Widget _gridTopItem(){
-    return Expanded(
-      flex: 1,
-      child: Column(
-        children: <Widget>[
-          Image.network("https://n1-q.mafengwo.net/s12/M00/F0/D0/wKgED1uSTR2ANlV5AAAIyhBC28I002.png",
-          width: ScreenAdapter.setWidth(150),
-            height: ScreenAdapter.setHeight(150),
+          Image.network("${channel.icon}",
+          fit: BoxFit.cover,
+          width: ScreenAdapter.setWidth(index < 5 ? 90 : 70),
+          height: ScreenAdapter.setHeight(index < 5 ? 90 : 70)
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 0),
-            child: Text("酒店"),
-
-          )
+          Text("${channel.title}",style: TextStyle(color: Color.fromRGBO(70, 70, 70, 1.0),fontSize: 12),)
         ],
       ),
     );
   }
+
 }

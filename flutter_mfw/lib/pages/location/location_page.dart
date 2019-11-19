@@ -69,19 +69,7 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
     _scrollController.addListener((){
 
       var offy =  _scrollController.position.pixels;
-//      if(offy >= 1009.0){
-//        if(_isShowSticky == false){
-//          setState(() {
-//            _isShowSticky = true;
-//          });
-//        }
-//      }else{
-//        if(_isShowSticky == true){
-//          setState(() {
-//            _isShowSticky = false;
-//          });
-//        }
-//      }
+
       _opacity = offy / 80.0;
 
       setState(() {

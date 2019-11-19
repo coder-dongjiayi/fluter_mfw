@@ -6,8 +6,9 @@ import 'package:flutter_mfw/model/travel_header_model.dart';
 class TravelBannerWidget extends StatefulWidget {
 
   BannerData bannerData;
+  DynamicData dynamicData;
 
-  TravelBannerWidget({Key key,this.bannerData}) : super(key:key);
+  TravelBannerWidget({Key key,this.bannerData,this.dynamicData}) : super(key:key);
 
   @override
   _TravelBannerWidgetState createState() => _TravelBannerWidgetState();
@@ -16,7 +17,7 @@ class TravelBannerWidget extends StatefulWidget {
 class _TravelBannerWidgetState extends State<TravelBannerWidget> {
   @override
   Widget build(BuildContext context) {
-    if(widget.bannerData.imageList.length == 0){
+    if(widget.bannerData.imageList == null){
       return Text("");
     }
 
@@ -34,14 +35,14 @@ class _TravelBannerWidgetState extends State<TravelBannerWidget> {
     return Container(
      width: double.infinity,
       color:Color.fromRGBO(240, 240, 240, 1.0),
-      height: ScreenAdapter.setHeight(278+470.0),
+      height: ScreenAdapter.setHeight(278+_imageHeight),
       child: Stack(
         children: <Widget>[
           _bannerImage(_imageURL,_screenWidth,_imageHeight),
          Positioned(
            left: 0,
            right: 0,
-           bottom: 10,
+           bottom: 0,
            child:  _carContainer(),
          )
         ],
@@ -65,116 +66,42 @@ class _TravelBannerWidgetState extends State<TravelBannerWidget> {
 
   Widget _carRow(){
     return Row(
-      children: <Widget>[
-          _carItem(),
-        _carItem(),
-        _carItem(),
-        _carItem()
-      ],
+      children: widget.dynamicData.dynamicList.first.singleList.map((item){
+        
+        return _carItem(item.singleData.imgUrl);
+        
+      }).toList()
     );
   }
 
-  Widget _carItem(){
+  Widget _carItem(imageURL){
     return Expanded(
       flex: 1,
       child: Container(
 
         decoration: BoxDecoration(
-            color: Colors.red,
+          image: DecorationImage(
+
+            image: NetworkImage("${imageURL}")
+          ),
           borderRadius: BorderRadius.circular(5)
         ),
         margin: EdgeInsets.only(right: 5),
         height: ScreenAdapter.setHeight(268),
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              left: 0,
-              top: 5,
-              right: 0,
-              child: _carItemText(),
-            ),
-            Positioned(
-              bottom: 5,
-              left: 5,
-              right: 5,
-              child: _carBottom(),
-            )
-          ],
-        ),
+
 
       )
       
     );
   }
 
-  Widget _carItemText(){
-    return Text("境内会场",
-      style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      textAlign: TextAlign.center,
-    );
-  }
 
-  Widget _carBottom(){
-    
-    return Container(
-      alignment: Alignment.center,
-      height: ScreenAdapter.setHeight(30),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Color.fromRGBO(0, 0, 0, 0.3)
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-         Expanded(
-           flex: 1,
-           child:  Padding(padding: EdgeInsets.only(left: 5),
-           child: RichText(
-
-             text: TextSpan(
-                 children: [
-                   TextSpan(
-                       text: "最高省",
-                       style:TextStyle(color: Colors.white,fontSize: 10)
-                   ),
-                   TextSpan(
-                       text: "200",
-                       style:TextStyle(color: Colors.yellow,fontSize: 12,fontWeight: FontWeight.w500)
-                   ),
-                   TextSpan(
-                       text: "元",
-                       style:TextStyle(color: Colors.white,fontSize: 10)
-                   ),
-
-                 ]
-             ),
-           ),
-           )
-         ),
-          Container(
-            margin: EdgeInsets.only(right: 5),
-            alignment: Alignment.center,
-            width: ScreenAdapter.setWidth(20),
-            height: ScreenAdapter.setHeight(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10)
-              
-            ),
-            child: Icon(Icons.chevron_right,size: 10),
-          )
-        ],
-      ),
-    );
-  }
 
   Widget _bannerImage(imageURL,imageWidth,imageHeight){
 
     return Image.network("${imageURL}",
       width: double.infinity,
-      height: ScreenAdapter.setHeight(470),
+      height: ScreenAdapter.setHeight(imageHeight),
       fit: BoxFit.cover,
     );
   }

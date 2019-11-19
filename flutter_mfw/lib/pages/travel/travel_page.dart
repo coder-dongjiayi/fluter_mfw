@@ -18,6 +18,11 @@ class _TravelPageState extends State<TravelPage> {
   //轮播图信息
   var _bannerData = BannerData();
 
+  //轮播图下面的卡片信息
+  var _dynamicData = DynamicData();
+  //渠道
+  var _channelData = ChannelData();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -33,6 +38,13 @@ class _TravelPageState extends State<TravelPage> {
         for(var item in response.data.bannerList){
           if(item.style == "banner"){
             _bannerData = item.bannerData;
+
+          }
+          if(item.style == "dynamic_activity"){
+            _dynamicData = item.dynamicData;
+          }
+          if(item.style == "channel"){
+            _channelData = item.channelData;
           }
         }
       });
@@ -54,8 +66,11 @@ class _TravelPageState extends State<TravelPage> {
       children: <Widget>[
         TravelBannerWidget(
           bannerData: _bannerData,
+          dynamicData: _dynamicData,
         ),
-        TravelGridWidget(),
+        TravelGridWidget(
+          channelData: _channelData,
+        ),
         TravelRecommendWidget(),
         TravelEverydayWidget()
       ],
