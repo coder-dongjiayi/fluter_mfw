@@ -28,7 +28,14 @@ class _TravelPageState extends State<TravelPage> {
   void _getData(){
 
     TravelHeaderDao.fetch().then((response){
+      setState(() {
 
+        for(var item in response.data.bannerList){
+          if(item.style == "banner"){
+            _bannerData = item.bannerData;
+          }
+        }
+      });
 
       }
     ).catchError((error){
@@ -45,7 +52,9 @@ class _TravelPageState extends State<TravelPage> {
 
     return ListView(
       children: <Widget>[
-        TravelBannerWidget(),
+        TravelBannerWidget(
+          bannerData: _bannerData,
+        ),
         TravelGridWidget(),
         TravelRecommendWidget(),
         TravelEverydayWidget()

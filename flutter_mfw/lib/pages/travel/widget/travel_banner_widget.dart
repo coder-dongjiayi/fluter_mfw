@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+
+import 'package:flutter_mfw/model/travel_header_model.dart';
+
 class TravelBannerWidget extends StatefulWidget {
+
+  BannerData bannerData;
+
+  TravelBannerWidget({Key key,this.bannerData}) : super(key:key);
+
   @override
   _TravelBannerWidgetState createState() => _TravelBannerWidgetState();
 }
@@ -8,14 +16,28 @@ class TravelBannerWidget extends StatefulWidget {
 class _TravelBannerWidgetState extends State<TravelBannerWidget> {
   @override
   Widget build(BuildContext context) {
+    if(widget.bannerData.imageList.length == 0){
+      return Text("");
+    }
+
     ScreenAdapter.init(context);
+    var _imageURL = widget.bannerData.imageList.first.src;
+    double _imageHeight = widget.bannerData.config.imgHeight.toDouble();
+    double _imageWidth = widget.bannerData.config.imgWidth.toDouble();
+
+    double radio = _imageHeight / _imageWidth;
+
+    double _screenWidth = ScreenAdapter.getScreenWidth();
+
+    _imageHeight = radio * _screenWidth;
+
     return Container(
      width: double.infinity,
       color:Color.fromRGBO(240, 240, 240, 1.0),
       height: ScreenAdapter.setHeight(278+470.0),
       child: Stack(
         children: <Widget>[
-          _bannerImage(""),
+          _bannerImage(_imageURL,_screenWidth,_imageHeight),
          Positioned(
            left: 0,
            right: 0,
@@ -148,9 +170,9 @@ class _TravelBannerWidgetState extends State<TravelBannerWidget> {
     );
   }
 
-  Widget _bannerImage(imageURL){
+  Widget _bannerImage(imageURL,imageWidth,imageHeight){
 
-    return Image.network("https://www.devio.org/io/flutter_app/img/banner/100h10000000q7ght9352.jpg",
+    return Image.network("${imageURL}",
       width: double.infinity,
       height: ScreenAdapter.setHeight(470),
       fit: BoxFit.cover,
