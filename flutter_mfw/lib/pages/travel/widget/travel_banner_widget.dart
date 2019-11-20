@@ -17,7 +17,7 @@ class TravelBannerWidget extends StatefulWidget {
 class _TravelBannerWidgetState extends State<TravelBannerWidget> {
   @override
   Widget build(BuildContext context) {
-    if(widget.bannerData.imageList == null){
+    if(widget.bannerData == null){
       return Text("");
     }
 

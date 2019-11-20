@@ -14,7 +14,7 @@ class _TravelGridWidgetState extends State<TravelGridWidget> {
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-    if(widget.channelData.channels == null){
+    if(widget.channelData == null){
       return Text("");
     }
 

@@ -16,12 +16,15 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
 
   //轮播图信息
-  var _bannerData = BannerData();
+  BannerData _bannerData;
 
   //轮播图下面的卡片信息
-  var _dynamicData = DynamicData();
+  DynamicData _dynamicData;
   //渠道
-  var _channelData = ChannelData();
+  ChannelData _channelData;
+
+
+  HotData _hotSaleData;
 
   @override
   // TODO: implement wantKeepAlive
@@ -50,6 +53,9 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
           if(item.style == "channel"){
             _channelData = item.channelData;
           }
+          if(item.style == "hot_sale"){
+            _hotSaleData = item.hotData;
+          }
         }
       });
 
@@ -63,22 +69,24 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
   @override
   Widget build(BuildContext context) {
 
+   return MediaQuery.removePadding(
+      removeTop: true,
+       context: context, child: ListView(
 
-
-
-    return ListView(
-
-      children: <Widget>[
-        TravelBannerWidget(
-          bannerData: _bannerData,
-          dynamicData: _dynamicData,
-        ),
-        TravelGridWidget(
-          channelData: _channelData,
-        ),
-        TravelRecommendWidget(),
-        TravelEverydayWidget()
-      ],
-    );
+     children: <Widget>[
+       TravelBannerWidget(
+         bannerData: _bannerData,
+         dynamicData: _dynamicData,
+       ),
+       TravelGridWidget(
+         channelData: _channelData,
+       ),
+       TravelRecommendWidget(),
+       TravelEverydayWidget(
+         hotdata: _hotSaleData,
+       )
+     ],
+   )
+   );
   }
 }
