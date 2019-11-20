@@ -12,7 +12,7 @@ class TravelPage extends StatefulWidget {
   _TravelPageState createState() => _TravelPageState();
 }
 
-class _TravelPageState extends State<TravelPage> {
+class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMixin{
 
 
   //轮播图信息
@@ -22,6 +22,10 @@ class _TravelPageState extends State<TravelPage> {
   var _dynamicData = DynamicData();
   //渠道
   var _channelData = ChannelData();
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -63,6 +67,7 @@ class _TravelPageState extends State<TravelPage> {
 
 
     return ListView(
+
       children: <Widget>[
         TravelBannerWidget(
           bannerData: _bannerData,
