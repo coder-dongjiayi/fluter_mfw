@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+import 'package:flutter_mfw/model/travel_header_model.dart';
 class TravelCalendarWidget extends StatefulWidget {
+
+  ColumnData  columnData;
+
+  TravelCalendarWidget({Key key,this.columnData}) : super(key:key);
+
   @override
   _TravelCalendarWidgetState createState() => _TravelCalendarWidgetState();
 }
 
 class _TravelCalendarWidgetState extends State<TravelCalendarWidget> {
+
+  var _selectMonthIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    if(widget.columnData == null){
+      return Text("");
+    }
     ScreenAdapter.init(context);
     return Container(
      decoration: BoxDecoration(
@@ -32,20 +44,21 @@ class _TravelCalendarWidgetState extends State<TravelCalendarWidget> {
       child: ListView(
         padding: EdgeInsets.only(left: 10),
         scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          _monthCarItem(),
-          _monthCarItem(),
-          _monthCarItem(),
-          _monthCarItem(),
-          _monthCarItem()
-        ],
+        children: widget.columnData.columnList[_selectMonthIndex].tabList.map((item){
+
+          return  _monthCarItem(item);
+        }).toList()
       ),
     );
   }
-  Widget _monthCarItem(){
+  Widget _monthCarItem(TabList tabItem){
     return Container(
       decoration: BoxDecoration(
-        color: Colors.blue,
+
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: NetworkImage("${tabItem.bgImg}")
+        ),
         borderRadius: BorderRadius.circular(5)
       ),
       padding: EdgeInsets.only(top: 20,left: 10),
@@ -53,18 +66,18 @@ class _TravelCalendarWidgetState extends State<TravelCalendarWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _monthCarItemTitle(),
-          _monthCarItemSubTitle(),
-          _monthColumList()
+          _monthCarItemTitle(tabItem.title),
+          _monthCarItemSubTitle(tabItem.subTitle),
+          _monthColumList(tabItem.tabSubList)
         ],
       )
     );
   }
 
-  Widget _monthCarItemTitle(){
+  Widget _monthCarItemTitle(title){
    return  Row(
      children: <Widget>[
-       Text("海岛度假",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 16),),
+       Text("${title}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 16),),
        Container(
          margin: EdgeInsets.only(left: 10),
          alignment: Alignment.center,
@@ -80,21 +93,22 @@ class _TravelCalendarWidgetState extends State<TravelCalendarWidget> {
      ],
    );
   }
-  Widget _monthCarItemSubTitle(){
+  Widget _monthCarItemSubTitle(subTitle){
     return Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-    child: Text("避寒出行",style: TextStyle(fontSize: 11,color: Colors.white),));
+    child: Text("${subTitle}",style: TextStyle(fontSize: 11,color: Colors.white),));
   }
 
-  Widget _monthColumList(){
+  Widget _monthColumList(List<TabSubList> subList){
+    var list = subList.length > 2 ? subList.sublist(0,2) : subList;
     return Column(
-        children: <Widget>[
-          _monthColumItem(),
-          _monthColumItem()
-        ],
+      mainAxisAlignment: MainAxisAlignment.start,
+        children: list.map((item){
+          return  _monthColumItem(item);
+        }).toList()
     );
   }
 
-  Widget _monthColumItem(){
+  Widget _monthColumItem(TabSubList subItem){
     return Container(
      decoration: BoxDecoration(
        color: Colors.white,
@@ -110,7 +124,10 @@ class _TravelCalendarWidgetState extends State<TravelCalendarWidget> {
             children: <Widget>[
 
               Padding(padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
-              child:  Text("芽庄ㆍ6天",style: TextStyle(fontWeight: FontWeight.w600))),
+              child:  LimitedBox(
+                maxWidth: ScreenAdapter.setWidth(150),
+                child: Text("${subItem.title}",style: TextStyle(fontWeight: FontWeight.w600),maxLines: 1),
+              )),
 
               RichText(
                   text: TextSpan(
@@ -120,11 +137,11 @@ class _TravelCalendarWidgetState extends State<TravelCalendarWidget> {
                         style: TextStyle(color: Colors.red,fontSize: 10,fontWeight: FontWeight.w600)
                       ),
                       TextSpan(
-                        text: "1890",
+                        text: "${subItem.price}",
                         style: TextStyle(color: Colors.red,fontSize: 13,fontWeight: FontWeight.w600)
                       ),
                       TextSpan(
-                          text: "起",
+                          text: "${subItem.priceSuffix}",
                           style: TextStyle(color: Color.fromRGBO(160, 160, 160, 1.0),fontSize: 11)
                       )
                     ]
@@ -134,7 +151,7 @@ class _TravelCalendarWidgetState extends State<TravelCalendarWidget> {
             ],
           ),
           Padding(padding: EdgeInsets.only(bottom: 0),
-            child: Text("精选网红店",style: TextStyle(color: Color.fromRGBO(160, 160, 160, 1.0),fontSize: 12)),)
+            child: Text("${subItem.subTitle}",style: TextStyle(color: Color.fromRGBO(160, 160, 160, 1.0),fontSize: 12)),)
         ],
       ),
     );
@@ -152,26 +169,35 @@ class _TravelCalendarWidgetState extends State<TravelCalendarWidget> {
   }
 
   Widget _monthList(){
+    var index = 0;
     return Row(
-      children: <Widget>[
-        _monthItem(),
-        _monthItem(),
-        _monthItem()
-      ],
+      children: widget.columnData.columnList.map((item){
+        var widget = _monthItem(item.tabName,index);
+        index++;
+        return widget;
+
+      }).toList()
     );
   }
-  Widget _monthItem(){
-    return Padding(padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-          child: Column(
-            children: <Widget>[
-              Text("11月",style: TextStyle(fontWeight: FontWeight.w500),),
-              Container(
-                color: Colors.yellow,
-                width: ScreenAdapter.setWidth(40),
-                height: ScreenAdapter.setHeight(5),
-              )
-            ],
-          ),
+  Widget _monthItem(title,index){
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          _selectMonthIndex = index;
+        });
+      },
+      child: Padding(padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+        child: Column(
+          children: <Widget>[
+            Text("${title}",style: TextStyle(fontWeight: FontWeight.w500),),
+            Container(
+              color: index == _selectMonthIndex ? Colors.yellow : Colors.white,
+              width: ScreenAdapter.setWidth(40),
+              height: ScreenAdapter.setHeight(5),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

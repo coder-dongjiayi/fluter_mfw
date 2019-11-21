@@ -6,6 +6,7 @@ import 'package:flutter_mfw/pages/travel/widget/travel_everyday_widget.dart';
 
 
 import 'package:flutter_mfw/dao/travel_dao.dart';
+import 'package:flutter_mfw/pages/travel/widget/travel_destination_widget.dart';
 import 'package:flutter_mfw/model/travel_header_model.dart';
 import 'package:flutter_mfw/pages/travel/widget/travel_calendar_widget.dart';
 class TravelPage extends StatefulWidget {
@@ -24,6 +25,8 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
   //渠道
   ChannelData _channelData;
 
+  //旅行日历
+  ColumnData  _columnData;
 
   HotData _hotSaleData;
 
@@ -57,6 +60,9 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
           if(item.style == "hot_sale"){
             _hotSaleData = item.hotData;
           }
+          if(item.style == "column_section"){
+            _columnData = item.columnData;
+          }
         }
       });
 
@@ -86,7 +92,10 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
        TravelEverydayWidget(
          hotdata: _hotSaleData,
        ),
-       TravelCalendarWidget()
+       TravelCalendarWidget(
+         columnData: _columnData,
+       ),
+       TravelDestinationWidget()
      ],
    )
    );
