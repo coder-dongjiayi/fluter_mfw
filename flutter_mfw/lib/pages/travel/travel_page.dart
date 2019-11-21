@@ -7,6 +7,7 @@ import 'package:flutter_mfw/pages/travel/widget/travel_everyday_widget.dart';
 
 import 'package:flutter_mfw/dao/travel_dao.dart';
 import 'package:flutter_mfw/model/travel_header_model.dart';
+import 'package:flutter_mfw/pages/travel/widget/travel_calendar_widget.dart';
 class TravelPage extends StatefulWidget {
   @override
   _TravelPageState createState() => _TravelPageState();
@@ -84,7 +85,8 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
        TravelRecommendWidget(),
        TravelEverydayWidget(
          hotdata: _hotSaleData,
-       )
+       ),
+       TravelCalendarWidget()
      ],
    )
    );

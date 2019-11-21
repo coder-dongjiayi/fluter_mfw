@@ -20,7 +20,7 @@ class _TravelEverydayWidgetState extends State<TravelEverydayWidget> {
 
     ScreenAdapter.init(context);
     return Container(
-      height: ScreenAdapter.setHeight(530),
+      height: ScreenAdapter.setHeight(570),
       margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
       decoration: BoxDecoration(
         color: Colors.white
@@ -268,7 +268,7 @@ class _TravelEverydayWidgetState extends State<TravelEverydayWidget> {
   }
 
   Widget _topLeftTitle(){
-    return Padding(padding: EdgeInsets.fromLTRB(10,10, 0, 0),
+    return Padding(padding: EdgeInsets.fromLTRB(10,0, 0, 0),
     child: Row(
       children: <Widget>[
         Text("每日蜂抢",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
