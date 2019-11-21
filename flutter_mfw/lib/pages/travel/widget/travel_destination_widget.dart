@@ -25,7 +25,6 @@ class _TravelDestinationWidgetState extends State<TravelDestinationWidget> {
       ),
     );
   }
-
   Widget _travelGridList(){
 
     return Container(
