@@ -5,6 +5,7 @@ import 'package:flutter_mfw/pages/travel/widget/travel_recommend_widget.dart';
 import 'package:flutter_mfw/pages/travel/widget/travel_everyday_widget.dart';
 
 
+import 'package:flutter_mfw/model/travel_list_model.dart';
 import 'package:flutter_mfw/dao/travel_dao.dart';
 import 'package:flutter_mfw/pages/travel/widget/travel_destination_widget.dart';
 import 'package:flutter_mfw/model/travel_header_model.dart';
@@ -30,6 +31,9 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
   HotData _hotSaleData;
 
+
+  StyleData _styleData;
+
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -39,8 +43,27 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
     // TODO: implement initState
     super.initState();
     _getData();
+    _getRecommendData();
   }
 
+  void _getRecommendData(){
+    TravelListDao.fetch().then((result){
+      setState(() {
+
+        for(var item in result.data.dataList){
+          if(item.style == "recommend_mdd"){
+            _styleData = item.styleData;
+          }
+        }
+
+      });
+
+
+
+    }).catchError((error){
+      print(error);
+    });
+  }
   void _getData(){
 
     TravelHeaderDao.fetch().then((response){
@@ -95,7 +118,9 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
        TravelCalendarWidget(
          columnData: _columnData,
        ),
-       TravelDestinationWidget()
+       TravelDestinationWidget(
+         styleData: _styleData,
+       )
      ],
    )
    );

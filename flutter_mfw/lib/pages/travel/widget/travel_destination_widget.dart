@@ -1,13 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+
+import 'package:flutter_mfw/model/travel_list_model.dart';
+
 class TravelDestinationWidget extends StatefulWidget {
+
+  StyleData styleData;
+
+  TravelDestinationWidget({Key key,this.styleData}) : super(key:key);
+
+
   @override
   _TravelDestinationWidgetState createState() => _TravelDestinationWidgetState();
 }
 
 class _TravelDestinationWidgetState extends State<TravelDestinationWidget> {
+
+
+
   @override
   Widget build(BuildContext context) {
+    if(widget.styleData == null){
+      return Text("");
+    }
+    var _topThreeList = widget.styleData.mddList.sublist(0,3);
+    var _gridList = widget.styleData.mddList.sublist(3,widget.styleData.mddList.length);
+
     ScreenAdapter.init(context);
     return Container(
       margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -19,42 +37,42 @@ class _TravelDestinationWidgetState extends State<TravelDestinationWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _title(),
-            _travelCarList(),
-            _travelGridList()
+            _travelCarList(_topThreeList),
+            _travelGridList(_gridList)
           ],
       ),
     );
   }
-  Widget _travelGridList(){
+  Widget _travelGridList(List<MddList> list){
 
     return Container(
       margin: EdgeInsets.only(top: 5,bottom: 10),
-      height: ScreenAdapter.setHeight(220),
+      height: ScreenAdapter.setHeight(230),
       child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               crossAxisSpacing: 5,
               mainAxisSpacing: 5,
-              childAspectRatio: 2.5
+              childAspectRatio: 2.2
 
           ), itemBuilder: (BuildContext context,int index){
+            var item = list[index];
 
-
-        return _travelGridItem();
+        return _travelGridItem(item.title,item.subTitle);
       },
-          itemCount: 6
+          itemCount: list.length
       ),
     );
   }
 
-  Widget _travelGridItem(){
+  Widget _travelGridItem(title,subTitle){
 
     return Column(
       children: <Widget>[
         Padding(
           padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-          child: Text("丽江",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600)),
+          child: Text("${title}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600)),
         ),
         Container(
           padding: EdgeInsets.only(left: 5,right: 5),
@@ -62,27 +80,27 @@ class _TravelDestinationWidgetState extends State<TravelDestinationWidget> {
            color: Color.fromRGBO(245, 247, 249, 1.0),
            borderRadius: BorderRadius.circular(8)
          ),
-          child: Text("艳遇之都",style: TextStyle(color: Color.fromRGBO(112, 115, 117, 1.0),fontSize: 12)),
+          child: Text("${subTitle}",style: TextStyle(color: Color.fromRGBO(112, 115, 117, 1.0),fontSize: 12)),
         )
       ],
     );
   }
 
 
- Widget _travelCarList(){
+ Widget _travelCarList(List<MddList> list){
 
     return Padding(
       padding: EdgeInsets.only(left: 10),
       child: Row(
-        children: <Widget>[
-          _travelCarItem(),
-          _travelCarItem(),
-          _travelCarItem()
-        ],
+        children: list.map((item){
+
+          return _travelCarItem(item.title,item.subTitle,item.imgUrl);
+
+        }).toList()
       ),
     );
  }
- Widget _travelCarItem(){
+ Widget _travelCarItem(title,subTitle,imageUrl){
     return Expanded(
       flex: 1,
       child: Container(
@@ -91,19 +109,20 @@ class _TravelDestinationWidgetState extends State<TravelDestinationWidget> {
         padding: EdgeInsets.only(top: 60),
         margin: EdgeInsets.only(right: 10,bottom: 10),
           decoration: BoxDecoration(
-              color: Colors.red,
-                  borderRadius: BorderRadius.circular(5)
+
+              image: DecorationImage(image: NetworkImage("${imageUrl}")),
+                  borderRadius: BorderRadius.circular(8)
           ),
         child: Column(
           children: <Widget>[
            Padding(
              padding: EdgeInsets.only(bottom: 10),
-             child:  Text("吉普岛",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 18)),
+             child:  Text("${title}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 18)),
 
            ),
             Padding(
               padding: EdgeInsets.only(bottom: 10),
-              child: Text("斯米兰开岛",style: TextStyle(color: Colors.white),maxLines: 1,),
+              child: Text("${subTitle}",style: TextStyle(color: Colors.white),maxLines: 1,),
             )
           ],
         )
