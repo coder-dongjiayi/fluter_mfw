@@ -35,6 +35,8 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
   StyleData _styleData;
 
+  FeedData _feedData;
+
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -54,6 +56,9 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
         for(var item in result.data.dataList){
           if(item.style == "recommend_mdd"){
             _styleData = item.styleData;
+          }
+          if(item.style == "feed_tab"){
+            _feedData = item.feedData;
           }
         }
 
@@ -121,7 +126,9 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
        TravelDestinationWidget(
          styleData: _styleData,
        ),
-       TravelTabControlWidget()
+       TravelTabControlWidget(
+         feedData: _feedData,
+       )
      ],
    )
    );
