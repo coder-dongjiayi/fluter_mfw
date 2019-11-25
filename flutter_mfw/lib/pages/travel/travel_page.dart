@@ -58,8 +58,6 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
       });
 
-
-
     }).catchError((error){
       print(error);
     });
@@ -91,6 +89,7 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
       }
     ).catchError((error){
+
       print(error);
     });
 
@@ -106,7 +105,7 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
      children: <Widget>[
        TravelBannerWidget(
          bannerData: _bannerData,
-         dynamicData: _dynamicData,
+
        ),
        TravelGridWidget(
          channelData: _channelData,

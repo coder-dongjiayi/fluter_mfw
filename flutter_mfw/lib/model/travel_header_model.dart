@@ -35,7 +35,9 @@ class Data {
     if (json['list'] != null) {
       bannerList = new List<BannerList>();
       json['list'].forEach((v) {
-        bannerList.add(new BannerList.fromJson(v));
+        var model =  new BannerList.fromJson(v);
+
+        bannerList.add(model);
       });
     }
   }
@@ -149,6 +151,7 @@ class BannerList {
     hotData = json['data'] != null
         ? new HotData.fromJson(json['data'])
         : null;
+
     columnData = json['data'] != null
         ? new ColumnData.fromJson(json['data'])
         : null;
@@ -459,7 +462,7 @@ class Channels {
   String titleColor;
   String url;
   String icon;
-  String tag;
+  Object tag;
   Gradient gradient;
 
   Channels(
@@ -563,8 +566,12 @@ class HotData {
     specialHotel = json['special_hotel'] != null
         ? new SpecialHotel.fromJson(json['special_hotel'])
         : null;
+
+
     product =
     json['product'] != null ? new Product.fromJson(json['product']) : null;
+
+
     if (json['cheap_flights'] != null) {
       cheapFlights = new List<CheapFlights>();
       json['cheap_flights'].forEach((v) {
@@ -646,7 +653,7 @@ class Price {
 class Product {
   String title;
   String imgUrl;
-  String price;
+  int price;
   String priceSuffix;
   String url;
   String discount;

@@ -35,16 +35,16 @@ class _TravelBannerWidgetState extends State<TravelBannerWidget> {
     return Container(
      width: double.infinity,
       color:Color.fromRGBO(240, 240, 240, 1.0),
-      height: ScreenAdapter.setHeight(278+_imageHeight),
+      height: ScreenAdapter.setHeight(_imageHeight),
       child: Stack(
         children: <Widget>[
           _bannerImage(_imageURL,_screenWidth,_imageHeight),
-         Positioned(
-           left: 0,
-           right: 0,
-           bottom: 0,
-           child:  _carContainer(),
-         )
+//         Positioned(
+//           left: 0,
+//           right: 0,
+//           bottom: 0,
+//           child:  _carContainer(),
+//         )
         ],
       ),
     );
