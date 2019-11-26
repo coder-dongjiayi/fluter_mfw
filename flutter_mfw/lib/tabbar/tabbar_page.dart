@@ -21,7 +21,6 @@ class _TabbarPageState extends State<TabbarPage> {
   var _pages = [
     HomePage(),
     LocationPage(),
-    HotelPage(),
     TravelPage(),
     MyPage()
   ];
@@ -59,10 +58,9 @@ class _TabbarPageState extends State<TabbarPage> {
         selectedItemColor: Colors.red,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("首页")),
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("北京")),
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("定酒店")),
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("去旅行")),
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("我的"))
+          BottomNavigationBarItem(icon: Icon(Icons.local_activity), title: Text("北京")),
+          BottomNavigationBarItem(icon: Icon(Icons.card_travel), title: Text("去旅行")),
+          BottomNavigationBarItem(icon: Icon(Icons.my_location), title: Text("我的"))
         ],
       ),
     );
