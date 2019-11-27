@@ -148,9 +148,13 @@ class BannerList {
     channelData = json['data'] != null
         ? new ChannelData.fromJson(json['data'])
         : null;
-    hotData = json['data'] != null
-        ? new HotData.fromJson(json['data'])
-        : null;
+    if(style == "hot_sale"){
+      hotData = json['data'] != null
+          ? new HotData.fromJson(json['data'])
+          : null;
+
+    }
+
 
     columnData = json['data'] != null
         ? new ColumnData.fromJson(json['data'])
@@ -653,7 +657,7 @@ class Price {
 class Product {
   String title;
   String imgUrl;
-  int price;
+  Object price;
   String priceSuffix;
   String url;
   String discount;

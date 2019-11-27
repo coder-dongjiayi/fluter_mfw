@@ -4,7 +4,10 @@ import 'package:flutter_mfw/pages/travel/widget/travel_grid_widget.dart';
 import 'package:flutter_mfw/pages/travel/widget/travel_recommend_widget.dart';
 import 'package:flutter_mfw/pages/travel/widget/travel_everyday_widget.dart';
 
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+
+import 'package:flutter_mfw/pages/travel/widget/travel_waterfall_widget.dart';
 import 'package:flutter_mfw/pages/travel/widget/travel_tab_control_widget.dart';
 import 'package:flutter_mfw/model/travel_list_model.dart';
 import 'package:flutter_mfw/dao/travel_dao.dart';
@@ -106,31 +109,49 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
    return MediaQuery.removePadding(
       removeTop: true,
-       context: context, child: ListView(
+       context: context,
+       child: CustomScrollView(
+         slivers: <Widget>[
+           SliverToBoxAdapter(
+             child: TravelBannerWidget(
+               bannerData: _bannerData,
+             ),
+           ),
+           SliverToBoxAdapter(
+             child: TravelGridWidget(
+               channelData: _channelData,
+             ),
+           ),
+           SliverToBoxAdapter(
+             child:  TravelRecommendWidget(),
+           ),
+           SliverToBoxAdapter(
+             child: TravelEverydayWidget(
+               hotdata: _hotSaleData,
+             ),
+           ),
+           SliverToBoxAdapter(
+             child: TravelCalendarWidget(
+               columnData: _columnData,
+             ),
+           ),
+           SliverToBoxAdapter(
+             child: TravelDestinationWidget(
+               styleData: _styleData,
+             ),
 
-     children: <Widget>[
-       TravelBannerWidget(
-         bannerData: _bannerData,
-
-       ),
-       TravelGridWidget(
-         channelData: _channelData,
-       ),
-       TravelRecommendWidget(),
-       TravelEverydayWidget(
-         hotdata: _hotSaleData,
-       ),
-       TravelCalendarWidget(
-         columnData: _columnData,
-       ),
-       TravelDestinationWidget(
-         styleData: _styleData,
-       ),
-       TravelTabControlWidget(
-         feedData: _feedData,
+           ),
+           SliverToBoxAdapter(
+             child: TravelTabControlWidget(
+               feedData: _feedData,
+             ),
+           ),
+         SliverToBoxAdapter(
+            child: TravelWaterfallWidget(),
        )
-     ],
-   )
+
+         ],
+       )
    );
   }
 }
