@@ -116,6 +116,50 @@ flutter:
       - assets/images/2.0x/qianbi.png
       - assets/images/3.0x/qianbi.png
 
+      - assets/images/tab_default_mall.png
+      - assets/images/2.0x/tab_default_mall.png
+      - assets/images/3.0x/tab_default_mall.png
+
+      - assets/images/tab_destination_normal.png
+      - assets/images/2.0x/tab_destination_normal.png
+      - assets/images/3.0x/tab_destination_normal.png
+
+      - assets/images/tab_destination_selected.png
+      - assets/images/2.0x/tab_destination_selected.png
+      - assets/images/3.0x/tab_destination_selected.png
+
+      - assets/images/tab_focused_mall.png
+      - assets/images/2.0x/tab_focused_mall.png
+      - assets/images/3.0x/tab_focused_mall.png
+
+      - assets/images/tab_homepage_normal.png
+      - assets/images/2.0x/tab_homepage_normal.png
+      - assets/images/3.0x/tab_homepage_normal.png
+
+      - assets/images/tab_homepage_refresh.png
+      - assets/images/2.0x/tab_homepage_refresh.png
+      - assets/images/3.0x/tab_homepage_refresh.png
+
+      - assets/images/tab_homepage_selected.png
+      - assets/images/2.0x/tab_homepage_selected.png
+      - assets/images/3.0x/tab_homepage_selected.png
+
+      - assets/images/tab_hotel_normal.png
+      - assets/images/2.0x/tab_hotel_normal.png
+      - assets/images/3.0x/tab_hotel_normal.png
+
+      - assets/images/tab_hotel_selected.png
+      - assets/images/2.0x/tab_hotel_selected.png
+      - assets/images/3.0x/tab_hotel_selected.png
+
+      - assets/images/tab_mine_normal.png
+      - assets/images/2.0x/tab_mine_normal.png
+      - assets/images/3.0x/tab_mine_normal.png
+
+      - assets/images/tab_mine_selected.png
+      - assets/images/2.0x/tab_mine_selected.png
+      - assets/images/3.0x/tab_mine_selected.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

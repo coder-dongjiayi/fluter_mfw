@@ -57,7 +57,7 @@ class _TabbarPageState extends State<TabbarPage> {
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.red,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("首页")),
+          BottomNavigationBarItem(icon: Image.asset("assets/images/tab_homepage_normal.png"), title: Text("首页")),
           BottomNavigationBarItem(icon: Icon(Icons.local_activity), title: Text("北京")),
           BottomNavigationBarItem(icon: Icon(Icons.card_travel), title: Text("去旅行")),
           BottomNavigationBarItem(icon: Icon(Icons.my_location), title: Text("我的"))
