@@ -1,75 +1,113 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
+import 'package:flutter_mfw/dao/travel_dao.dart';
+import 'package:flutter_mfw/model/travel_list_model.dart';
 class TravelWaterfallWidget extends StatefulWidget {
+
+  var tableId;
+
+
+  TravelWaterfallWidget({Key key,this.tableId}) : super(key:key);
+
+
   @override
   _TravelWaterfallWidgetState createState() => _TravelWaterfallWidgetState();
 }
 
 class _TravelWaterfallWidgetState extends State<TravelWaterfallWidget> {
+
+
+  var _list = <DataList>[];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    getData(widget.tableId);
+
+  }
+  void getData(tableId){
+        TravelListDao.fetch().then((value){
+
+        setState(() {
+        for(var item in value.data.dataList){
+
+        if(item.style == "simple_product"){
+        _list.add(item);
+        }
+
+        }});
+
+        });
+  }
   @override
   Widget build(BuildContext context) {
+
+
+
     return StaggeredGridView.countBuilder(
       padding: EdgeInsets.only(top: 10),
       physics: ScrollPhysics(),
       crossAxisCount: 4,
       shrinkWrap: true,
       primary: true,
-      itemCount: 10,
-      itemBuilder: (context, index) => _articleWaterfallItem(),
+      itemCount: _list.length,
+      itemBuilder: (context, index) => _productWaterfallItem(_list[index].productData),
+
       staggeredTileBuilder: (index) => StaggeredTile.fit(2),
     );
   }
 
-  Widget _articleWaterfallItem(){
+  Widget _articleWaterfallItem(imageURL){
+
     return Card(
       clipBehavior: Clip.antiAlias,
       child: Column(
         children: <Widget>[
           Image.network(
-              "https://p1-q.mafengwo.net//s10//M00//4C//D0//wKgBZ1o3fGWAZVPUAAKl_7cO7r080.jpeg?imageMogr2/thumbnail/!350x250r/gravity/Center/crop/!350x250/quality/80"),
-
+              "${imageURL}"
+          ),
           Container(
             margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
             color: Colors.white,
-            child: _articleContainer(),
+            //child: _articleContainer(""),
           )
         ],
       ),
     );
   }
 
-  Widget _articleContainer(){
+  Widget _articleContainer( ProductData productData){
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        _themeTitle(),
-        _title()
+        _themeTitle("_themeTitle"),
+        _title("_title")
       ],
     );
 
   }
 
-  Widget _productWaterfallItem() {
+  Widget _productWaterfallItem(ProductData productData) {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Image.network(
-              "https://p1-q.mafengwo.net//s10//M00//4C//D0//wKgBZ1o3fGWAZVPUAAKl_7cO7r080.jpeg?imageMogr2/thumbnail/!350x250r/gravity/Center/crop/!350x250/quality/80"),
-
-
-          _themeTitle(),
-          _title(),
-          _bottomPrice()
+          "${productData.imgUrl}"
+      ),
+          _themeTitle(productData.theme),
+          _title(productData.title),
+          _bottomPrice(productData.price,productData.priceSuffix,productData.soldPrefix,productData.salesNum)
         ],
       ),
     );
   }
 
-  Widget _bottomPrice(){
+  Widget _bottomPrice(price,priceSuffix,soldPrefix,salesNum){
     return Padding(
       padding: EdgeInsets.only(left: 5,right: 5,top: 10,bottom: 10),
       child: Row(
@@ -87,7 +125,7 @@ class _TravelWaterfallWidgetState extends State<TravelWaterfallWidget> {
                       )
                   ),
                   TextSpan(
-                      text: "58880",
+                      text: "${price}",
                       style: TextStyle(
                           color: Color.fromRGBO(252, 85, 74, 1.0),
                         fontWeight: FontWeight.w700,
@@ -95,7 +133,7 @@ class _TravelWaterfallWidgetState extends State<TravelWaterfallWidget> {
                       )
                   ),
                   TextSpan(
-                      text: "起",
+                      text: "${priceSuffix}",
                       style: TextStyle(
                           color: Color.fromRGBO(160, 160, 160, 1.0),
                           fontSize: 12,
@@ -105,16 +143,16 @@ class _TravelWaterfallWidgetState extends State<TravelWaterfallWidget> {
                 ]
             ),
           ),
-          Text("已售12",style: TextStyle(color: Color.fromRGBO(160, 160, 160, 1.0),fontSize: 13),)
+          Text("${soldPrefix}${salesNum}",style: TextStyle(color: Color.fromRGBO(160, 160, 160, 1.0),fontSize: 13),)
         ],
       ),
     );
   }
-  Widget _title() {
+  Widget _title(title) {
     return Padding(
       padding: EdgeInsets.only(top: 10, left: 5),
       child: Text(
-        "满足对冬天一切的幻想，北京往返日本北海道6天自由行",
+        "${title}",
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
@@ -127,10 +165,10 @@ class _TravelWaterfallWidgetState extends State<TravelWaterfallWidget> {
     );
   }
 
-  Widget _themeTitle() {
+  Widget _themeTitle(theme) {
     return Padding(
       padding: EdgeInsets.only(top: 5, left: 5),
-      child: Text("北京出发自由行",
+      child: Text("${theme}",
           style: TextStyle(
               color: Color.fromRGBO(195, 151, 97, 1.0),
               fontWeight: FontWeight.w600,

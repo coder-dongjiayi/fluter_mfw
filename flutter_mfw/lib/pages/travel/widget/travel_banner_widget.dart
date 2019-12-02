@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
 
 import 'package:flutter_mfw/model/travel_header_model.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class TravelBannerWidget extends StatefulWidget {
 
@@ -22,33 +23,32 @@ class _TravelBannerWidgetState extends State<TravelBannerWidget> {
     }
 
     ScreenAdapter.init(context);
-    var _imageURL = widget.bannerData.imageList.first.src;
-    double _imageHeight = widget.bannerData.config.imgHeight.toDouble();
-    double _imageWidth = widget.bannerData.config.imgWidth.toDouble();
-
-    double radio = _imageHeight / _imageWidth;
-
-    double _screenWidth = ScreenAdapter.getScreenWidth();
-
-    _imageHeight = radio * _screenWidth;
 
     return Container(
      width: double.infinity,
       color:Color.fromRGBO(240, 240, 240, 1.0),
-      height: ScreenAdapter.setHeight(_imageHeight),
-      child: Stack(
-        children: <Widget>[
-          _bannerImage(_imageURL,_screenWidth,_imageHeight),
-//         Positioned(
-//           left: 0,
-//           right: 0,
-//           bottom: 0,
-//           child:  _carContainer(),
-//         )
-        ],
-      ),
+      height: ScreenAdapter.setHeight(468),
+      child: _bannerSwiper()
     );
   }
+
+  Widget _bannerSwiper() {
+    return Swiper(
+      itemBuilder: (BuildContext context,int index){
+        return  Image.network("${widget.bannerData.imageList[index].src}",fit: BoxFit.fill,);
+      },
+      autoplay:true,
+
+      itemCount: widget.bannerData.imageList.length,
+      pagination: new SwiperPagination(),
+      control: new SwiperControl(),
+    );
+  }
+
+
+
+
+
 
   Widget _carContainer(){
     return Container(
@@ -97,12 +97,11 @@ class _TravelBannerWidgetState extends State<TravelBannerWidget> {
 
 
 
-  Widget _bannerImage(imageURL,imageWidth,imageHeight){
+  Widget _bannerImage(imageURL){
 
     return Image.network("${imageURL}",
-      width: double.infinity,
-      height: ScreenAdapter.setHeight(imageHeight),
-      fit: BoxFit.cover,
+
+      fit: BoxFit.fitWidth,
     );
   }
 }

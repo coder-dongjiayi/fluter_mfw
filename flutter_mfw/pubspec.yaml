@@ -28,6 +28,8 @@ dependencies:
   flutter_staggered_grid_view: ^0.3.0
   dio: ^2.1.13
   quantize_dart: ^1.0.1
+  color_thief_flutter: ^1.0.0
+  flutter_swiper: ^1.1.6
 
 dev_dependencies:
   flutter_test:

@@ -40,6 +40,9 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
   FeedData _feedData;
 
+  String _tableId;
+
+
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -144,10 +147,18 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
            SliverToBoxAdapter(
              child: TravelTabControlWidget(
                feedData: _feedData,
+               onTap: (index){
+                 setState(() {
+                   _tableId = _feedData.tabList[index].tId;
+                 });
+               },
              ),
            ),
          SliverToBoxAdapter(
-            child: TravelWaterfallWidget(),
+
+            child: TravelWaterfallWidget(
+              tableId: _tableId,
+            ),
        )
 
          ],

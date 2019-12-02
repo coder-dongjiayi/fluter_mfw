@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
 
 import 'package:flutter_mfw/model/travel_list_model.dart';
+
+typedef GestureTapCallback<int> = void Function(int value);
+
 class TravelTabControlWidget extends StatefulWidget {
 
   FeedData feedData;
 
-  TravelTabControlWidget({Key key,this.feedData}) : super(key:key);
+ final GestureTapCallback onTap;
+
+  TravelTabControlWidget({Key key,this.feedData,this.onTap}) : super(key:key);
 
   @override
   _TravelTabControlWidgetState createState() => _TravelTabControlWidgetState();
@@ -45,16 +50,13 @@ class _TravelTabControlWidgetState extends State<TravelTabControlWidget> {
 
     return GestureDetector(
       onTap: (){
+        widget.onTap(index);
        setState(() {
          _selectedIndex = index;
        });
       },
-      child: Column(
-        children: <Widget>[
-          Text("${title}",style: TextStyle(fontWeight: _selectedIndex == index ? FontWeight.w600 : FontWeight.w400,fontSize: _selectedIndex == index ? 18 : 14),),
+      child:  Text("${title}",style: TextStyle(fontWeight: _selectedIndex == index ? FontWeight.w600 : FontWeight.w400,fontSize: _selectedIndex == index ? 18 : 14),),
 
-        ],
-      ),
     );
   }
 }

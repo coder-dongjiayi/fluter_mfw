@@ -31,7 +31,7 @@ class _TravelGridWidgetState extends State<TravelGridWidget> {
     
       color: Color.fromRGBO(240, 240, 240, 1.0),
       child: Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
         
         decoration: BoxDecoration(
           color: Colors.white,

@@ -31,6 +31,11 @@ class _TabbarPageState extends State<TabbarPage> {
       "selectImage":"assets/images/tab_destination_selected.png",
       "normalImage":"assets/images/tab_destination_normal.png",
     },
+    {
+      "title":"发布",
+      "selectImage":"assets/images/tab_destination_selected.png",
+      "normalImage":"assets/images/tab_destination_normal.png",
+    },
 
     {
       "title":"去旅行",
@@ -47,6 +52,7 @@ class _TabbarPageState extends State<TabbarPage> {
   var _pages = [
     HomePage(),
     LocationPage(),
+    Text(""),
     TravelPage(),
     MyPage()
   ];
@@ -80,20 +86,25 @@ class _TabbarPageState extends State<TabbarPage> {
   Widget _bottomNavigationBar(){
     var _index = 0;
     return SafeArea(
-        child: Container(
-            padding: EdgeInsets.only(top: 8),
-            width: double.infinity,
-            height:ScreenAdapter.setHeight(98) ,
-            color: Color.fromRGBO(246, 246, 246, 1.0),
-            child: Row(
-              children: _tabNavList.map((item){
+        child: Stack(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 8),
+              width: double.infinity,
+              height:ScreenAdapter.setHeight(98) ,
+              color: Color.fromRGBO(246, 246, 246, 1.0),
+              child: Row(
+                  children: _tabNavList.map((item){
 
-                var bar = _bottomItemBar(item["title"],item["selectImage"],item["normalImage"],_index);
-                _index ++;
-                return bar;
-              }).toList()
-            ),
-         )
+                    var bar = _bottomItemBar(item["title"],item["selectImage"],item["normalImage"],_index);
+                    _index ++;
+                    return bar;
+                  }).toList()
+              ),
+            )
+
+          ],
+        )
     );
   }
 
@@ -111,23 +122,26 @@ class _TabbarPageState extends State<TabbarPage> {
 
           _pageController.jumpToPage(_currentIndex);
         },
-        child: Column(
-          children: <Widget>[
-            Image.asset("${index == _currentIndex ? selectedImage : normalImage}",
-              width:ScreenAdapter.setWidth(40),
-              height: ScreenAdapter.setHeight(40),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 2),
-              child: Text("${title}",
-                style: TextStyle(
-                    fontSize: 11,
-                    color: _currentIndex == index ? Colors.black : Color.fromRGBO(118, 118, 118, 1.0)
-                ),
+        child: Container(
+
+          child: Column(
+            children: <Widget>[
+              Image.asset("${index == _currentIndex ? selectedImage : normalImage}",
+                width:ScreenAdapter.setWidth(40),
+                height: ScreenAdapter.setHeight(40),
               ),
-            )
-          ],
-        ),
+              Padding(
+                padding: EdgeInsets.only(top: 2),
+                child: Text("${title}",
+                  style: TextStyle(
+                      fontSize: 11,
+                      color: _currentIndex == index ? Colors.black : Color.fromRGBO(118, 118, 118, 1.0)
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
       )
     );
 

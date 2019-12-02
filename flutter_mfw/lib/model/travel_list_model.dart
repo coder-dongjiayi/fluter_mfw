@@ -75,6 +75,7 @@ class DataList {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['style'] = this.style;
+
     if (this.styleData != null) {
       data['data'] = this.styleData.toJson();
     }
