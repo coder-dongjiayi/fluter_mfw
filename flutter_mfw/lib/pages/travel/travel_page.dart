@@ -3,8 +3,7 @@ import 'package:flutter_mfw/pages/travel/widget/travel_banner_widget.dart';
 import 'package:flutter_mfw/pages/travel/widget/travel_grid_widget.dart';
 import 'package:flutter_mfw/pages/travel/widget/travel_recommend_widget.dart';
 import 'package:flutter_mfw/pages/travel/widget/travel_everyday_widget.dart';
-
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_mfw/pages/travel/widget/travel_navsearch_widget.dart';
 
 
 import 'package:flutter_mfw/pages/travel/widget/travel_waterfall_widget.dart';
@@ -42,6 +41,7 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
   String _tableId;
 
+  var _scrollViewController = ScrollController();
 
   @override
   // TODO: implement wantKeepAlive
@@ -51,6 +51,10 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
   void initState() {
     // TODO: implement initState
     super.initState();
+    _scrollViewController.addListener((){
+      
+    });
+
     _getData();
     _getRecommendData();
   }
@@ -111,58 +115,68 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
   Widget build(BuildContext context) {
 
    return MediaQuery.removePadding(
-      removeTop: true,
+       removeTop: true,
        context: context,
-       child: CustomScrollView(
-         slivers: <Widget>[
-           SliverToBoxAdapter(
-             child: TravelBannerWidget(
-               bannerData: _bannerData,
-             ),
-           ),
-           SliverToBoxAdapter(
-             child: TravelGridWidget(
-               channelData: _channelData,
-             ),
-           ),
-           SliverToBoxAdapter(
-             child:  TravelRecommendWidget(),
-           ),
-           SliverToBoxAdapter(
-             child: TravelEverydayWidget(
-               hotdata: _hotSaleData,
-             ),
-           ),
-           SliverToBoxAdapter(
-             child: TravelCalendarWidget(
-               columnData: _columnData,
-             ),
-           ),
-           SliverToBoxAdapter(
-             child: TravelDestinationWidget(
-               styleData: _styleData,
-             ),
+       child: Stack(
+         children: <Widget>[
 
-           ),
-           SliverToBoxAdapter(
-             child: TravelTabControlWidget(
-               feedData: _feedData,
-               onTap: (index){
-                 setState(() {
-                   _tableId = _feedData.tabList[index].tId;
-                 });
-               },
-             ),
-           ),
-         SliverToBoxAdapter(
-
-            child: TravelWaterfallWidget(
-              tableId: _tableId,
-            ),
-       )
-
+           _scrollView(),
+           TravelNavsearchWidget(),
          ],
        )
    );
+  }
+  Widget _scrollView(){
+    return CustomScrollView(
+      controller: _scrollViewController,
+      slivers: <Widget>[
+        SliverToBoxAdapter(
+          child: TravelBannerWidget(
+            bannerData: _bannerData,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: TravelGridWidget(
+            channelData: _channelData,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child:  TravelRecommendWidget(),
+        ),
+        SliverToBoxAdapter(
+          child: TravelEverydayWidget(
+            hotdata: _hotSaleData,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: TravelCalendarWidget(
+            columnData: _columnData,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: TravelDestinationWidget(
+            styleData: _styleData,
+          ),
+
+        ),
+        SliverToBoxAdapter(
+          child: TravelTabControlWidget(
+            feedData: _feedData,
+            onTap: (index){
+              setState(() {
+                _tableId = _feedData.tabList[index].tId;
+              });
+            },
+          ),
+        ),
+        SliverToBoxAdapter(
+
+          child: TravelWaterfallWidget(
+            tableId: _tableId,
+          ),
+        )
+
+      ],
+    );
   }
 }
