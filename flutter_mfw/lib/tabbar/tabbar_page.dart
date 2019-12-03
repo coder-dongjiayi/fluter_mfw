@@ -78,32 +78,28 @@ class _TabbarPageState extends State<TabbarPage> {
           });
         },
       ),
-      //Image.asset("assets/images/tab_homepage_normal.png")
-      bottomNavigationBar: _bottomNavigationBar()
+ 
+      bottomNavigationBar:  _bottomNavigationBar()
+
     );
   }
 
   Widget _bottomNavigationBar(){
     var _index = 0;
     return SafeArea(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top: 8),
-              width: double.infinity,
-              height:ScreenAdapter.setHeight(98) ,
-              color: Color.fromRGBO(246, 246, 246, 1.0),
-              child: Row(
-                  children: _tabNavList.map((item){
+        child: Container(
+          padding: EdgeInsets.only(top: 8),
+          width: double.infinity,
+          height:ScreenAdapter.setHeight(98) ,
+          color: Color.fromRGBO(246, 246, 246, 1.0),
+          child: Row(
+              children: _tabNavList.map((item){
 
-                    var bar = _bottomItemBar(item["title"],item["selectImage"],item["normalImage"],_index);
-                    _index ++;
-                    return bar;
-                  }).toList()
-              ),
-            )
-
-          ],
+                var bar = _bottomItemBar(item["title"],item["selectImage"],item["normalImage"],_index);
+                _index ++;
+                return bar;
+              }).toList()
+          ),
         )
     );
   }

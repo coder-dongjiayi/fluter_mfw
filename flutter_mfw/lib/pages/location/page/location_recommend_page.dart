@@ -45,7 +45,7 @@ class _LocationRecommendPageState extends State<LocationRecommendPage> with Auto
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
     return CustomScrollView(
-      //physics: ScrollPhysics(),
+      physics: ClampingScrollPhysics(),
       slivers: <Widget>[
         SliverToBoxAdapter(
           child:  widget.isShowSynthesize == true ? LocationSynthesizeWidget(
@@ -55,7 +55,7 @@ class _LocationRecommendPageState extends State<LocationRecommendPage> with Auto
         SliverToBoxAdapter(
           child:StaggeredGridView.countBuilder(
             padding: EdgeInsets.only(top: 1),
-            physics: ScrollPhysics(),
+            physics: ClampingScrollPhysics(),
             crossAxisCount: 4,
             shrinkWrap: true,
             primary:true,

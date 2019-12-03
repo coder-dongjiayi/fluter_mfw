@@ -54,6 +54,7 @@ class _LocationReservePageState extends State<LocationReservePage> with Automati
     ScreenAdapter.init(context);
 
     return  CustomScrollView(
+      physics: ClampingScrollPhysics(),
       slivers: <Widget>[
         SliverToBoxAdapter(
           child: LocationWhereLiveWidget(

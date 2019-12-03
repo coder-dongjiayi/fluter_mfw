@@ -33,6 +33,7 @@ class _TravelBannerWidgetState extends State<TravelBannerWidget> {
   }
 
   Widget _bannerSwiper() {
+
     return Swiper(
       itemBuilder: (BuildContext context,int index){
         return  Image.network("${widget.bannerData.imageList[index].src}",fit: BoxFit.fill,);
@@ -41,7 +42,7 @@ class _TravelBannerWidgetState extends State<TravelBannerWidget> {
 
       itemCount: widget.bannerData.imageList.length,
       pagination: new SwiperPagination(),
-      control: new SwiperControl(),
+      control: new SwiperControl(size: 0),
     );
   }
 

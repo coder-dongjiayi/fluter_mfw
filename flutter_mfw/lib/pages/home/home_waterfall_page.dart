@@ -57,7 +57,7 @@ class _HomeWaterfallPageState extends State<HomeWaterfallPage> with AutomaticKee
       children: <Widget>[
              StaggeredGridView.countBuilder(
                 padding: EdgeInsets.only(top: widget.id=="55" ?  ScreenAdapter.setHeight(148) : 0),
-                physics: ScrollPhysics(),
+                physics: ClampingScrollPhysics(),
                 crossAxisCount: 4,
                 shrinkWrap: true,
                 primary:true,
