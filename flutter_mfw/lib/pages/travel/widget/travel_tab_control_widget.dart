@@ -8,10 +8,10 @@ typedef GestureTapCallback<int> = void Function(int value);
 class TravelTabControlWidget extends StatefulWidget {
 
   FeedData feedData;
-
+  Color backGroundColor;
  final GestureTapCallback onTap;
 
-  TravelTabControlWidget({Key key,this.feedData,this.onTap}) : super(key:key);
+  TravelTabControlWidget({Key key,this.feedData,this.onTap,this.backGroundColor}) : super(key:key);
 
   @override
   _TravelTabControlWidgetState createState() => _TravelTabControlWidgetState();
@@ -33,8 +33,8 @@ class _TravelTabControlWidgetState extends State<TravelTabControlWidget> {
     return Container(
       width: double.infinity,
       height: ScreenAdapter.setHeight(80),
-
-      padding: EdgeInsets.only(left: 20,top: 10, right: 20),
+      color: widget.backGroundColor,
+      padding: EdgeInsets.only(left: 20,top: 0, right: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: widget.feedData.tabList.map((item){
