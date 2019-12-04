@@ -13,6 +13,8 @@ import 'package:flutter_mfw/dao/travel_dao.dart';
 import 'package:flutter_mfw/pages/travel/widget/travel_destination_widget.dart';
 import 'package:flutter_mfw/model/travel_header_model.dart';
 import 'package:flutter_mfw/pages/travel/widget/travel_calendar_widget.dart';
+
+import 'package:flutter_mfw/screen_adapter.dart';
 class TravelPage extends StatefulWidget {
   @override
   _TravelPageState createState() => _TravelPageState();
@@ -41,6 +43,8 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
   String _tableId;
 
+  var _scrollOffy = 0.0;
+
   var _scrollViewController = ScrollController();
 
   @override
@@ -52,6 +56,11 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
     // TODO: implement initState
     super.initState();
     _scrollViewController.addListener((){
+      var offy =  _scrollViewController.position.pixels;
+
+      setState(() {
+        _scrollOffy = offy;
+      });
 
     });
 
@@ -113,17 +122,24 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
+  ScreenAdapter.init(context);
+   return Stack(
+     children: <Widget>[
 
-   return MediaQuery.removePadding(
-       removeTop: true,
-       context: context,
-       child: Stack(
-         children: <Widget>[
+       _scrollView(),
+       TravelNavsearchWidget(
+        scrollOffy: _scrollOffy,
+       ),
 
-           _scrollView(),
-           TravelNavsearchWidget(),
-         ],
-       )
+      Positioned(
+        top: MediaQuery.of(context).padding.top + ScreenAdapter.setHeight(88),
+        left: 0,
+        right: 0,
+        height: ScreenAdapter.setHeight(80),
+        child:  _scrollOffy >= 1710.0 ? _travelTabbarControl(Colors.white) : Text(""),
+      )
+
+     ],
    );
   }
   Widget _scrollView(){
@@ -160,15 +176,9 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
         ),
         SliverToBoxAdapter(
-          child: TravelTabControlWidget(
-            feedData: _feedData,
-            onTap: (index){
-              setState(() {
-                _tableId = _feedData.tabList[index].tId;
-              });
-            },
-          ),
+          child: _travelTabbarControl(Color.fromRGBO(246, 246, 246, 1.0))
         ),
+
         SliverToBoxAdapter(
 
           child: TravelWaterfallWidget(
@@ -177,6 +187,18 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
         )
 
       ],
+    );
+  }
+
+  Widget _travelTabbarControl(color){
+    return TravelTabControlWidget(
+      feedData: _feedData,
+      backGroundColor: color,
+      onTap: (index){
+        setState(() {
+          _tableId = _feedData.tabList[index].tId;
+        });
+      },
     );
   }
 }
