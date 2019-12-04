@@ -52,7 +52,7 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
     // TODO: implement initState
     super.initState();
     _scrollViewController.addListener((){
-      
+
     });
 
     _getData();
