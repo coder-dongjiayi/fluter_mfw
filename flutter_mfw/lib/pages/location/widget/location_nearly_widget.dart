@@ -123,8 +123,9 @@ class _LocationNearlyWidgetState extends State<LocationNearlyWidget> {
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.only(right: 10),
-      width: ScreenAdapter.setWidth(140),
-        height: ScreenAdapter.setHeight(70),
+      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+     // width: ScreenAdapter.setWidth(140),
+        height: ScreenAdapter.setHeight(60),
         child: Text("去看看",style: TextStyle(color: Color.fromRGBO(81, 153, 251, 1.0))),
         decoration: BoxDecoration(
           color: Colors.white,

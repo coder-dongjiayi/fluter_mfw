@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/model/waterfall_model.dart';
 import 'dart:typed_data';
+
+import 'package:flutter_mfw/screen_adapter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 final Uint8List kTransparentImage = new Uint8List.fromList(<int>[
   0x89,
   0x50,
@@ -171,6 +174,8 @@ class _WaterfallItemWidgetState extends State<WaterfallItemWidget> {
 
   Widget _itemImageWidget (url){
 
+    var maxWidth = ((ScreenAdapter.getScreenWidth() / ScreenUtil.pixelRatio))/3.0;
+
     if (url == null){
       return Text("");
     }
@@ -187,6 +192,7 @@ class _WaterfallItemWidgetState extends State<WaterfallItemWidget> {
             left: 8,
             child: Container(
               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
+
               decoration: BoxDecoration(
                 color: Colors.black54,
                 borderRadius: BorderRadius.circular(15),
@@ -196,7 +202,7 @@ class _WaterfallItemWidgetState extends State<WaterfallItemWidget> {
                 children: <Widget>[
                   Padding(padding: EdgeInsets.only(right: 3),child: Icon(Icons.location_on,color: Colors.white,size: 12)),
                   LimitedBox(
-                      maxWidth: 140,
+                      maxWidth: maxWidth,
                       child: Text(
                         "${widget.item.data.location}",
                         style: TextStyle(color: Colors.white,fontSize: 10),

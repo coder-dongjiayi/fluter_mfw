@@ -52,11 +52,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
 
     _pageController.jumpToPage(index);
 
-
-
-//     _pageController.animateToPage(index,
-//                          duration: const Duration(milliseconds: 300), curve: Curves.ease);
-
   }
 
 
