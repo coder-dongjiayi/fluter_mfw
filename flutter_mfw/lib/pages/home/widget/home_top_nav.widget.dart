@@ -41,7 +41,7 @@ class _HomeTopNavWidgetState extends State<HomeTopNavWidget> {
               height: ScreenAdapter.setHeight(280),
               width: double.infinity,
               child: Padding(
-                     padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                     padding: EdgeInsets.fromLTRB(10, 30, 10, 0),
                      child: _navRowWidget(),
               ),
              decoration: BoxDecoration(
