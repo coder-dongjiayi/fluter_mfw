@@ -180,6 +180,7 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
   Widget _pageView(){
 
     return  NestedScrollView(
+      physics: BouncingScrollPhysics(),
         controller: _scrollController,
         headerSliverBuilder: (context,inner){
           return [
