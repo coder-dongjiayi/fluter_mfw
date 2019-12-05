@@ -192,6 +192,7 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
 
   Widget _travelTabbarControl(color){
     return TravelTabControlWidget(
+
       feedData: _feedData,
       backGroundColor: color,
       onTap: (index){

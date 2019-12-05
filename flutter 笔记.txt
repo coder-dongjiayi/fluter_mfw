@@ -1,0 +1,41 @@
+
+state 的生命周期
+
+   created 这个阶段initState 方法会被调动 此时的widget 还没有被创建
+
+   initialize initState 方法执行完毕 调用 didChangeDependencies 此时的widget 依然没有被创建完成
+
+ 
+   ready widget 已经被创建完成 
+
+   defunct dispose方法被调用 widget 被销毁
+
+element 的生命周期
+  initial,
+
+  active,
+
+  inactive,
+
+  defunct,
+
+
+BuildOwner 是什么
+
+1. 判断当前的状态的声明周期
+    如果当前state 已经销毁 则抛出异常
+
+    如果state 已经被创建 但是对应的element 不存在的话 抛出异常
+
+2. 判断
+setState(() {
+     
+    });  方法是否为异步  如果为异步 则直接抛出异常  
+3.调用  _element.markNeedsBuild();  
+    	_dirty = true;
+      将这个元素标记为dirty 并且添加到下一帧需要重建的全局的 widgets列表中 (全局列表在哪) 
+4.调用 scheduleBuildFor() 
+      把这个标记为dirty 的元素 添加到列表中 以便重新生成
+
+      _dirtyElements.add(element);
+      element._inDirtyList = true;
