@@ -18,58 +18,101 @@ class _TravelGridWidgetState extends State<TravelGridWidget> {
       return Text("");
     }
 
-    int row = (widget.channelData.channels.length / 5.0).ceil();
-
-    double gridHeight = ScreenAdapter.setHeight(row*140.0);
-
-    double spaceHeight = ScreenAdapter.setHeight((row - 1.0)*5);
-    double bottomHeight = ScreenAdapter.setHeight(90);
-
-
     return Container(
       width: double.infinity,
     
       color: Color.fromRGBO(240, 240, 240, 1.0),
       child: Container(
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        margin: EdgeInsets.fromLTRB(10, 15, 10, 10),
         
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5)
         ),
 
-        child: Column(
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-
-           Container(
-             padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-             height: gridHeight + bottomHeight + spaceHeight + 20.0,
-             child:  GridView.builder(
-               physics: NeverScrollableScrollPhysics(),
-                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                 crossAxisCount: 5,
-                 crossAxisSpacing: 5,
-                 mainAxisSpacing: 5,
-                 childAspectRatio: 0.9
-
-             ), itemBuilder: (BuildContext context,int index){
-               Channels channels = widget.channelData.channels[index];
-
-               return  _gridCarItem(channels,index);
-             },
-                 itemCount: widget.channelData.channels.length
-             ),
-           ),
+            _topCategory(),
+            _centerCategory(),
             _bottomCategory()
           ],
-        ),
+        )
 
       ),
 
     );
   }
 
+  Widget _topCategory(){
+    var topList = widget.channelData.channels.sublist(0,5);
+    return Container(
+      color: Color.fromRGBO(240, 240, 240, 1.0),
+      padding: EdgeInsets.only(bottom: 15),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: topList.map((item){
+            return Column(
+              children: <Widget>[
+                Image.network(
+                    item.icon,
+                    width: ScreenAdapter.setWidth(90),
+                    height: ScreenAdapter.setHeight(90)
+                ),
+                Text(
+                  item.title,
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: Color.fromRGBO(70, 70, 70, 1.0)
+                  ),
+                )
+              ],
+            );
+          }).toList()
+      ),
+    );
+  }
+
+  Widget _centerCategory(){
+
+//    var itemWidth = (ScreenAdapter.getScreenWidth()/2.0-ScreenAdapter.setWidth(20))/5.0;
+//
+//
+   var channeList = widget.channelData.channels.sublist(5);
+//
+//    var colum = (channeList.length % 5).ceil();
+
+    var containHeight = 470.0;
+
+    return Container(
+
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10)
+      ),
+
+      height: ScreenAdapter.setHeight(containHeight),
+      child:  GridView.builder(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 5,
+              crossAxisSpacing: 0,
+              mainAxisSpacing: 0,
+              childAspectRatio: 1.0
+
+          ), itemBuilder: (BuildContext context,int index){
+
+        Channels channels = channeList[index];
+
+        return  _gridCarItem(channels);
+      },
+          itemCount: channeList.length
+      ),
+    );
+  }
+
   Widget _bottomCategory(){
+
 
     var _index = 0;
     return Row(
@@ -125,19 +168,24 @@ class _TravelGridWidgetState extends State<TravelGridWidget> {
     );
   }
 
-  Widget _gridCarItem(Channels channel,int index){
+  Widget _gridCarItem(Channels channel){
     return Container(
-      padding: EdgeInsets.only(top: 5,bottom: 5),
+      //padding: EdgeInsets.only(top: 5,bottom: 5),
 
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Image.network("${channel.icon}",
           fit: BoxFit.cover,
-          width: ScreenAdapter.setWidth(index < 5 ? 90 : 70),
-          height: ScreenAdapter.setHeight(index < 5 ? 90 : 70)
+          width: ScreenAdapter.setWidth(70),
+          height: ScreenAdapter.setHeight(70)
           ),
-          Text("${channel.title}",style: TextStyle(color: Color.fromRGBO(70, 70, 70, 1.0),fontSize: 12),)
+          Text("${channel.title}",
+            maxLines: 1,
+            style: TextStyle(
+                color: Color.fromRGBO(70, 70, 70, 1.0),fontSize: 11),
+
+          )
         ],
       ),
     );

@@ -46,15 +46,17 @@ class _TravelDestinationWidgetState extends State<TravelDestinationWidget> {
   Widget _travelGridList(List<MddList> list){
 
     return Container(
-      margin: EdgeInsets.only(top: 5,bottom: 10),
-      height: ScreenAdapter.setHeight(230),
+
+     // margin: EdgeInsets.only(top: 5,bottom: 10),
+      height: ScreenAdapter.setHeight(250),
       child: GridView.builder(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              childAspectRatio: 2.2
+              crossAxisSpacing: 0,
+              mainAxisSpacing: 0,
+              childAspectRatio: 1.8
 
           ), itemBuilder: (BuildContext context,int index){
             var item = list[index];
@@ -69,6 +71,7 @@ class _TravelDestinationWidgetState extends State<TravelDestinationWidget> {
   Widget _travelGridItem(title,subTitle){
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -107,7 +110,7 @@ class _TravelDestinationWidgetState extends State<TravelDestinationWidget> {
         
         alignment: Alignment.center,
         padding: EdgeInsets.only(top: 60),
-        margin: EdgeInsets.only(right: 10,bottom: 10),
+        margin: EdgeInsets.only(right: 10,bottom: 0),
           decoration: BoxDecoration(
 
               image: DecorationImage(image: NetworkImage("${imageUrl}")),
@@ -132,7 +135,7 @@ class _TravelDestinationWidgetState extends State<TravelDestinationWidget> {
  }
 
  Widget _title(){
-    return Padding(padding: EdgeInsets.only(left: 10,top: 10,bottom: 10),
+    return Padding(padding: EdgeInsets.only(left: 10,top: 10),
       child: Text("推荐目的地",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18)),
     );
   }

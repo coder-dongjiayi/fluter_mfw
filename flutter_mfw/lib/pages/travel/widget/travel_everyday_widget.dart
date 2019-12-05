@@ -20,7 +20,7 @@ class _TravelEverydayWidgetState extends State<TravelEverydayWidget> {
 
     ScreenAdapter.init(context);
     return Container(
-      height: ScreenAdapter.setHeight(570),
+
       margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
       decoration: BoxDecoration(
         color: Colors.white
@@ -273,14 +273,19 @@ class _TravelEverydayWidgetState extends State<TravelEverydayWidget> {
       children: <Widget>[
         Text("每日蜂抢",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
 
-        Container(
-          margin: EdgeInsets.only(left: 10),
-          padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
-         decoration: BoxDecoration(
-           color: Colors.yellow,
-           borderRadius: BorderRadius.circular(5)
-         ),
-          child: Text("天天有蜂抢券",style: TextStyle(fontSize: 10)),
+        Expanded(
+          flex: 1,
+          child: Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(left: 10,right: 10),
+
+            padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+            decoration: BoxDecoration(
+                color: Colors.yellow,
+                borderRadius: BorderRadius.circular(5)
+            ),
+            child: Text("天天有蜂抢券",style: TextStyle(fontSize: 10),maxLines: 1,overflow: TextOverflow.ellipsis),
+          ),
         )
       ],
     ));
