@@ -1,0 +1,22 @@
+
+state 的声明周期
+
+   created 这个阶段initState 方法会被调动 此时的widget 还没有被创建
+
+   initialize initState 方法执行完毕 调用 didChangeDependencies 此时的widget 依然没有被创建完成
+
+ 
+   ready widget 已经被创建完成 
+
+   defunct dispose方法被调用 widget 被销毁
+
+1. 判断当前的状态的声明周期
+    如果当前state 已经销毁 则抛出异常
+
+    如果state 已经被创建 但是对应的element 不存在的话 抛出异常
+
+2. 判断
+setState(() {
+     
+    });  方法是否为异步  如果为异步 则直接抛出异常  
+3.调用  _element.markNeedsBuild(); 方法 
