@@ -89,33 +89,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
     return _pageNestedScrollViewWidget();
   }
 
-  Widget _stickyHeader(){
 
-    return HomeTabbarWidget(
-
-        onTap: (item){
-
-          var index = 0;
-          for(var i in _tabbarList){
-            index ++;
-            if(i.id == item.id){
-              _animateToPage(index);
-              break;
-            }
-          }
-          setState(() {
-            _currentId = item.id;
-          });
-        },
-        currentId: _currentId,
-        tabbarList: _tabbarList
-    );
-  }
 
   Widget _pageNestedScrollViewWidget(){
 
     if (_tabbarList.length == 0){
-      return Text("加载中...");
+      return Center(
+        child: Text("加载中...")
+      );
     }
     return NestedScrollView(
       headerSliverBuilder: (context,inner){
