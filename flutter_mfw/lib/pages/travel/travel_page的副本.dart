@@ -136,58 +136,56 @@ class _TravelPageState extends State<TravelPage> with AutomaticKeepAliveClientMi
   }
 
   Widget _tabbarController(){
-  if(_feedData == null){
-    return Center(
-      child: Text("加载中..."),
+
+    return  Text("");
+  }
+  Widget _scrollView(){
+    return CustomScrollView(
+      controller: _scrollViewController,
+      slivers: <Widget>[
+        SliverToBoxAdapter(
+          child: TravelBannerWidget(
+            bannerData: _bannerData,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: TravelGridWidget(
+            channelData: _channelData,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child:  TravelRecommendWidget(),
+        ),
+        SliverToBoxAdapter(
+          child: TravelEverydayWidget(
+            hotdata: _hotSaleData,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: TravelCalendarWidget(
+            columnData: _columnData,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: TravelDestinationWidget(
+            styleData: _styleData,
+          ),
+
+        ),
+        SliverToBoxAdapter(
+          child: _travelTabbarControl(Color.fromRGBO(246, 246, 246, 1.0))
+        ),
+
+        SliverToBoxAdapter(
+
+          child: TravelWaterfallWidget(
+            tableId: _tableId,
+          ),
+        )
+
+      ],
     );
   }
-    return   NestedScrollView(
-       controller: _scrollViewController,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-
-          return <Widget>[
-            SliverToBoxAdapter(
-              child: TravelBannerWidget(
-                bannerData: _bannerData,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: TravelGridWidget(
-                channelData: _channelData,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child:  TravelRecommendWidget(),
-            ),
-            SliverToBoxAdapter(
-              child: TravelEverydayWidget(
-                hotdata: _hotSaleData,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: TravelDestinationWidget(
-                styleData: _styleData,
-              ),
-
-            ),
-            SliverToBoxAdapter(
-                child: _travelTabbarControl(Color.fromRGBO(246, 246, 246, 1.0))
-            ),
-
-          ];
-        },
-        body: PageView(
-          children:  _feedData.tabList.map((item){
-
-            return  TravelWaterfallWidget(
-              tableId: _tableId,
-            );
-          }).toList()
-        )
-      );
-
-  }
-
 
   Widget _travelTabbarControl(color){
     return TravelTabControlWidget(

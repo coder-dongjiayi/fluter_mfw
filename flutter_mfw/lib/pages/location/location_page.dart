@@ -46,8 +46,6 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
 
   //控制是否显示 悬浮头像
 
-  var _isShowSticky = false;
-
   //是否显示综合 下面的那个水平滚动列表
   var _isShowSynthesize = true;
 
@@ -179,6 +177,11 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
 
   Widget _pageView(){
 
+    if (_tabbarTagList.length == 0){
+      return Center(
+        child: Text("加载中..."),
+      );
+    }
     return  NestedScrollView(
       physics: BouncingScrollPhysics(),
         controller: _scrollController,

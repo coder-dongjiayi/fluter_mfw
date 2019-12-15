@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_mfw/pages/home/home_page.dart';
-import 'package:flutter_mfw/pages/hotel/hotel_page.dart';
 import 'package:flutter_mfw/pages/location/location_page.dart';
 import 'package:flutter_mfw/pages/travel/travel_page.dart';
 import 'package:flutter_mfw/pages/my/my_page.dart';

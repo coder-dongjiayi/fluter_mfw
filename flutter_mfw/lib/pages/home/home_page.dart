@@ -114,6 +114,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
 
   Widget _pageNestedScrollViewWidget(){
 
+    if (_tabbarList.length == 0){
+      return Text("加载中...");
+    }
     return NestedScrollView(
       headerSliverBuilder: (context,inner){
         return [
@@ -156,7 +159,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
         ];
       },
 
-      body: _tabbarList.length == 0 ? Text("") : PageView(
+      body: PageView(
 
 
           controller: _pageController,

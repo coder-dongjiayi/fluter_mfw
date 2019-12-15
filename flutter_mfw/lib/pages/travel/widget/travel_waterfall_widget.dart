@@ -14,11 +14,14 @@ class TravelWaterfallWidget extends StatefulWidget {
   _TravelWaterfallWidgetState createState() => _TravelWaterfallWidgetState();
 }
 
-class _TravelWaterfallWidgetState extends State<TravelWaterfallWidget> {
+class _TravelWaterfallWidgetState extends State<TravelWaterfallWidget> with AutomaticKeepAliveClientMixin {
 
 
   var _list = <DataList>[];
 
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
   @override
   void initState() {
     // TODO: implement initState
@@ -47,8 +50,8 @@ class _TravelWaterfallWidgetState extends State<TravelWaterfallWidget> {
 
 
     return StaggeredGridView.countBuilder(
-      padding: EdgeInsets.only(top: 10),
-      physics: ScrollPhysics(),
+      padding: EdgeInsets.only(top: 10,bottom: 20),
+      physics: ClampingScrollPhysics(),
       crossAxisCount: 4,
       shrinkWrap: true,
       primary: true,
