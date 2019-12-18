@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/tabbar/tabbar_page.dart';
-
-final routers = {"/": (context) => TabbarPage()};
+import 'package:flutter_mfw/pages/detail/travel_detail_widget.dart';
+final routers = {
+  "/": (context) => TabbarPage(),
+  "/travel_detail_widget":(context) => TravelDetailWidget()
+};
 
 var onGenerateRoute = (RouteSettings settings) {
 

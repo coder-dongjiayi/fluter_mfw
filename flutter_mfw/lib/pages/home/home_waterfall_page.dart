@@ -8,6 +8,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:flutter_mfw/pages/home/widget/home_hote_topic_widget.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+
+import 'package:flutter_mfw/pages/detail/travel_detail_widget.dart';
 class HomeWaterfallPage extends StatefulWidget {
 
   var id;
@@ -62,12 +64,26 @@ class _HomeWaterfallPageState extends State<HomeWaterfallPage> with AutomaticKee
                 shrinkWrap: true,
                 primary:true,
                 itemCount: _waterfallList.length,
-                itemBuilder: (context,index) => WaterfallItemWidget(item: _waterfallList[index]),
+                itemBuilder: (context,index) => _waterfallItem(index),
                  staggeredTileBuilder:(index) =>  StaggeredTile.fit(2),
              ),
            widget.id == "55" ? HomeHoteTopicWidget(hoteList: widget.hoteList) : Text("")
 
       ],
+    );
+  }
+
+  Widget _waterfallItem(index){
+
+    return GestureDetector(
+      onTap: (){
+    
+        Navigator.pushNamed(context, '/travel_detail_widget');
+
+      },
+      child: WaterfallItemWidget(
+        item: _waterfallList[index],
+      ),
     );
   }
 }
