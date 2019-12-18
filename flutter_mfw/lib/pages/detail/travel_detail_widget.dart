@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 class TravelDetailWidget extends StatefulWidget {
+
+  var id;
+
+  TravelDetailWidget({Key key,this.id}) : super(key:key);
+
   @override
   _TravelDetailWidgetState createState() => _TravelDetailWidgetState();
 }
@@ -7,10 +12,13 @@ class TravelDetailWidget extends StatefulWidget {
 class _TravelDetailWidgetState extends State<TravelDetailWidget> {
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
      
      body: Center(
-       child:Text("详情页面"),
+       child:Text("${widget.id}"),
      ), 
     );
   }
