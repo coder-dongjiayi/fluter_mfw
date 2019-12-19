@@ -1,6 +1,7 @@
 # Flutter 项目实战(高仿马蜂窝)
 
 ## 持续更新中
+ 视频演示地址:https://www.bilibili.com/video/av79760801
 
 ## 效果图
 
