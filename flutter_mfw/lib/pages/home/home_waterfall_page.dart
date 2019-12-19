@@ -78,7 +78,7 @@ class _HomeWaterfallPageState extends State<HomeWaterfallPage> with AutomaticKee
     return GestureDetector(
       onTap: (){
 
-       Navigator.of(context).pushNamed("/travel_detail_widget",arguments: "34343");
+       Navigator.of(context).pushNamed("/travel_detail_widget");
 
       },
       child: WaterfallItemWidget(
