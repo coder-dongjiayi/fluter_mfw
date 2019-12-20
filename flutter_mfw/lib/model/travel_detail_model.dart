@@ -32,7 +32,7 @@ class MediaModel{
 class WengModel{
     String content_edit;
     String content;
-
+    String title_edit;
     OwnerModel owner;
     List<MediaModel> media;
 
@@ -40,12 +40,14 @@ class WengModel{
       this.content,
 
       this.owner,
-      this.media
+      this.media,
+      this.title_edit
     });
 
     WengModel.fromJson(Map<String, dynamic> json) {
       content_edit = json['content_edit'];
       content = json['content_edit'];
+      title_edit = json['title_edit'];
 
       owner = json['owner'] != null ? OwnerModel.fromJson(json['owner']) : null;
 

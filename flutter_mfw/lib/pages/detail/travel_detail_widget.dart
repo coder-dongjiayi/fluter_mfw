@@ -6,6 +6,7 @@ import 'package:flutter_mfw/pages/detail/detail_carousel_widget.dart';
 import 'package:flutter_mfw/dao/travel_detail_dao.dart';
 import 'package:flutter_mfw/model/travel_detail_model.dart';
 import 'package:flutter_mfw/pages/detail/detail_title_widget.dart';
+import 'package:flutter_mfw/pages/detail/detail_content_widget.dart';
 class TravelDetailWidget extends StatefulWidget {
 
 
@@ -48,6 +49,7 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
 
   ScreenAdapter.init(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         title:DetailAppbarWidget(
@@ -59,7 +61,9 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
           child: Icon(Icons.more_horiz))
         ],
       ),
-      body:_travelDetailModel == null ? Text("加载中") :
+      body:_travelDetailModel == null ? Center(
+        child: Text("加载中"),
+      ) :
       CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(
@@ -68,7 +72,14 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
             ),
           ),
           SliverToBoxAdapter(
-            child: DetailTitleWidget(),
+            child: DetailTitleWidget(
+              title: _travelDetailModel.weng.title_edit,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: DetailContentWidget(
+              content: _travelDetailModel.weng.content,
+            ),
           )
         ],
       )
