@@ -2,6 +2,7 @@ class TravelDetailModel{
 
   WengModel weng;
 
+  RelateStyleItems relateItems;
 
   TravelDetailModel({this.weng});
   TravelDetailModel.fromJson(Map<String, dynamic> json) {
@@ -12,6 +13,15 @@ class TravelDetailModel{
 
 }
 
+//related_style_items
+class RelateStyleItems{
+
+  String type;
+  String type_tag_background_color;
+  String name;
+
+
+}
 
 class MediaModel{
 

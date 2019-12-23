@@ -7,6 +7,7 @@ import 'package:flutter_mfw/dao/travel_detail_dao.dart';
 import 'package:flutter_mfw/model/travel_detail_model.dart';
 import 'package:flutter_mfw/pages/detail/detail_title_widget.dart';
 import 'package:flutter_mfw/pages/detail/detail_content_widget.dart';
+import 'package:flutter_mfw/pages/detail/detail_remind_widget.dart';
 class TravelDetailWidget extends StatefulWidget {
 
 
@@ -47,42 +48,46 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
   @override
   Widget build(BuildContext context) {
 
+
   ScreenAdapter.init(context);
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
         backgroundColor: Colors.white,
-        title:DetailAppbarWidget(
-         owner: _owner,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title:DetailAppbarWidget(
+            owner: _owner,
+          ),
+          elevation: 0,
+          actions: <Widget>[
+            Padding(padding: EdgeInsets.only(right: 10),
+                child: Icon(Icons.more_horiz))
+          ],
         ),
-        elevation: 0,
-        actions: <Widget>[
-          Padding(padding: EdgeInsets.only(right: 10),
-          child: Icon(Icons.more_horiz))
-        ],
-      ),
-      body:_travelDetailModel == null ? Center(
-        child: Text("加载中"),
-      ) :
-      CustomScrollView(
-        slivers: <Widget>[
-          SliverToBoxAdapter(
-            child: DetailCarouselWidget(
-              medias: _medias,
+        body:SafeArea(child: _travelDetailModel == null ? Center(
+          child: Text("加载中"),
+        ) :
+        CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: DetailCarouselWidget(
+                medias: _medias,
+              ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: DetailTitleWidget(
-              title: _travelDetailModel.weng.title_edit,
+            SliverToBoxAdapter(
+              child: DetailTitleWidget(
+                title: _travelDetailModel.weng.title_edit,
+              ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: DetailContentWidget(
-              content: _travelDetailModel.weng.content,
+            SliverToBoxAdapter(
+              child: DetailContentWidget(
+                content: _travelDetailModel.weng.content,
+              ),
             ),
-          )
-        ],
-      )
+            SliverToBoxAdapter(
+              child: DetailRemmindWidget(),
+            )
+          ],
+        ))
 
     );
   }
