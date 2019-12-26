@@ -98,6 +98,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
         child: Text("加载中...")
       );
     }
+
+
     return NestedScrollView(
       headerSliverBuilder: (context,inner){
         return [

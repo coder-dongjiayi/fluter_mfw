@@ -173,8 +173,6 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
 
 
 
-
-
   Widget _pageView(){
 
     if (_tabbarTagList.length == 0){
@@ -182,6 +180,9 @@ class _LocationPageState extends State<LocationPage> with AutomaticKeepAliveClie
         child: Text("加载中..."),
       );
     }
+
+
+
     return  NestedScrollView(
       physics: BouncingScrollPhysics(),
         controller: _scrollController,

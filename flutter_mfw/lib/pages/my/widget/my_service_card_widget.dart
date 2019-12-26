@@ -36,7 +36,9 @@ class _MyServiceCardWidgetState extends State<MyServiceCardWidget> {
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
     if(_list.length == 0){
-      return Text("正在加载");
+      return Center(
+        child:  Text("正在加载"),
+      );
     }
     return Container(
       height:  ScreenAdapter.setHeight(650),
