@@ -52,12 +52,6 @@ class _HomeWaterfallPageState extends State<HomeWaterfallPage> with AutomaticKee
   @override
   Widget build(BuildContext context) {
 
-    if(_waterfallList.length == 0){
-
-      return Center(
-        child: Text("加载中,请稍后..."),
-      );
-    }
 
 
     ScreenAdapter.init(context);
@@ -84,7 +78,7 @@ class _HomeWaterfallPageState extends State<HomeWaterfallPage> with AutomaticKee
     return GestureDetector(
       onTap: (){
 
-       Navigator.of(context).pushNamed("/travel_detail_widget",arguments: _waterfallList[index].data.id);
+       Navigator.of(context).pushNamed("/travel_detail_widget");
 
       },
       child: WaterfallItemWidget(
