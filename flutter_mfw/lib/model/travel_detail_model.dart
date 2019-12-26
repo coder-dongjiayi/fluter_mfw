@@ -1,16 +1,35 @@
 class TravelDetailModel{
 
   WengModel weng;
-
+  List<FavouriteItem>  favUsers;
   RelateStyleItems relateItems;
 
   TravelDetailModel({this.weng});
   TravelDetailModel.fromJson(Map<String, dynamic> json) {
 
+
     weng = json['weng'] != null ? WengModel.fromJson(json["weng"]) : null;
 
+    if(json["fav_users"] != null){
+      
+      favUsers = List<FavouriteItem>();
+      
+      json["fav_users"].forEach((v){
+        favUsers.add(FavouriteItem.fromJson(v));
+      });
+    }
+    
   }
 
+}
+
+class FavouriteItem{
+  String logo;
+
+  FavouriteItem(this.logo);
+  FavouriteItem.fromJson(Map<String, dynamic> json){
+    logo = json["logo"];
+  }
 }
 
 //related_style_items

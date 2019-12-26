@@ -20,7 +20,6 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
 
 
 
-
    TravelDetailModel _travelDetailModel;
 
    var _owner;

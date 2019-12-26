@@ -26,7 +26,8 @@ class _DetailRemmindWidgetState extends State<DetailRemmindWidget> {
             ),
           ),
           _remindItem(),
-          _timeShoot()
+          _timeShoot(),
+          _likeList()
 
         ],
       ),
@@ -116,5 +117,20 @@ class _DetailRemmindWidgetState extends State<DetailRemmindWidget> {
     return Padding(
       padding: EdgeInsets.only(top: 20),
       child:Text("拍摄于 2014-04-26",style:TextStyle(color: Color.fromRGBO(199, 201, 204, 1.0)) ,));
+  }
+
+  //喜欢人数
+  Widget _likeList(){
+
+    return Container(
+        child: Row(
+          children: <Widget>[
+            ListView(
+              scrollDirection: Axis.horizontal,
+
+            )
+          ],
+        ),
+    );
   }
 }
