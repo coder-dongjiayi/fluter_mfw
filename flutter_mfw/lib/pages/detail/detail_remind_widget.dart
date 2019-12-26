@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+import 'package:flutter_mfw/model/travel_detail_model.dart';
 
 class DetailRemmindWidget extends StatefulWidget {
+  
+  var  favouriteList = List<FavouriteItem>();
+
+  DetailRemmindWidget({Key key,this.favouriteList}) : super(key:key);
+  
   @override
   _DetailRemmindWidgetState createState() => _DetailRemmindWidgetState();
 }
@@ -123,14 +129,23 @@ class _DetailRemmindWidgetState extends State<DetailRemmindWidget> {
   Widget _likeList(){
 
     return Container(
-        child: Row(
-          children: <Widget>[
-            ListView(
-              scrollDirection: Axis.horizontal,
+      height: ScreenAdapter.setHeight(46),
+        color: Colors.yellow,
+        child:ListView(
+            scrollDirection: Axis.horizontal,
+            children: widget.favouriteList.map((value){
+              return Padding(padding: EdgeInsets.only(right: 10),
+                  child:ClipOval(
+                    child: Image.network(
+                      value.logo,
+                      width: ScreenAdapter.setWidth(46),
+                      height:ScreenAdapter.setHeight(46),
+                      fit: BoxFit.cover,
+                    ),
+                  ));
 
-            )
-          ],
-        ),
+            }).toList()
+        )
     );
   }
 }

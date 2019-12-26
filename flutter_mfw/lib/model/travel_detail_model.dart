@@ -1,7 +1,7 @@
 class TravelDetailModel{
 
   WengModel weng;
-  List<FavouriteItem>  favUsers;
+
   RelateStyleItems relateItems;
 
   TravelDetailModel({this.weng});
@@ -10,14 +10,6 @@ class TravelDetailModel{
 
     weng = json['weng'] != null ? WengModel.fromJson(json["weng"]) : null;
 
-    if(json["fav_users"] != null){
-      
-      favUsers = List<FavouriteItem>();
-      
-      json["fav_users"].forEach((v){
-        favUsers.add(FavouriteItem.fromJson(v));
-      });
-    }
     
   }
 
@@ -64,6 +56,7 @@ class WengModel{
     String title_edit;
     OwnerModel owner;
     List<MediaModel> media;
+    List<FavouriteItem>  favUsers;
 
     WengModel({this.content_edit,
       this.content,
@@ -87,6 +80,17 @@ class WengModel{
 
 
           media.add(MediaModel.fromJson(v["data"]));
+        });
+      }
+
+
+      if(json["fav_users"] != null){
+
+        favUsers = List<FavouriteItem>();
+
+        json["fav_users"].forEach((v){
+          favUsers.add(FavouriteItem.fromJson(v));
+
         });
       }
     }

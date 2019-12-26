@@ -8,8 +8,9 @@ import 'package:flutter_mfw/model/travel_detail_model.dart';
 import 'package:flutter_mfw/pages/detail/detail_title_widget.dart';
 import 'package:flutter_mfw/pages/detail/detail_content_widget.dart';
 import 'package:flutter_mfw/pages/detail/detail_remind_widget.dart';
-class TravelDetailWidget extends StatefulWidget {
 
+
+class TravelDetailWidget extends StatefulWidget {
 
 
   @override
@@ -83,7 +84,10 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
               ),
             ),
             SliverToBoxAdapter(
-              child: DetailRemmindWidget(),
+              child: DetailRemmindWidget(
+                favouriteList: _travelDetailModel.weng.favUsers,
+
+              ),
             )
           ],
         ))
