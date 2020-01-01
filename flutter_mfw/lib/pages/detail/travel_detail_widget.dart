@@ -8,6 +8,8 @@ import 'package:flutter_mfw/model/travel_detail_model.dart';
 import 'package:flutter_mfw/pages/detail/detail_title_widget.dart';
 import 'package:flutter_mfw/pages/detail/detail_content_widget.dart';
 import 'package:flutter_mfw/pages/detail/detail_remind_widget.dart';
+import 'package:flutter_mfw/pages/detail/detail_reply_widget.dart';
+import 'package:flutter_mfw/pages/detail/detail_recommend_title_widget.dart';
 
 
 class TravelDetailWidget extends StatefulWidget {
@@ -68,26 +70,40 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
         ) :
         CustomScrollView(
           slivers: <Widget>[
+            ///1、轮播图
             SliverToBoxAdapter(
               child: DetailCarouselWidget(
                 medias: _medias,
               ),
             ),
+            ///2、位置 坐标
             SliverToBoxAdapter(
               child: DetailTitleWidget(
                 title: _travelDetailModel.weng.title_edit,
               ),
             ),
+            ///3、 内容文字
             SliverToBoxAdapter(
               child: DetailContentWidget(
                 content: _travelDetailModel.weng.content,
               ),
             ),
+            ///4、文中提及
             SliverToBoxAdapter(
               child: DetailRemmindWidget(
                 favouriteList: _travelDetailModel.weng.favUsers,
-
+                replyNumber: _travelDetailModel.weng.num_reply,
               ),
+            ),
+            ///5、回复列表
+            SliverToBoxAdapter(
+              child: DetailReplyWidget(
+                replies: _travelDetailModel.weng.replies,
+              ),
+            ),
+            ///6、相关推荐
+            SliverToBoxAdapter(
+              child: DetailRecommendTitleWidget(),
             )
           ],
         ))

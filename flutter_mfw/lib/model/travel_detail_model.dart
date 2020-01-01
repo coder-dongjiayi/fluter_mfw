@@ -4,13 +4,35 @@ class TravelDetailModel{
 
   RelateStyleItems relateItems;
 
+
+
   TravelDetailModel({this.weng});
   TravelDetailModel.fromJson(Map<String, dynamic> json) {
 
 
     weng = json['weng'] != null ? WengModel.fromJson(json["weng"]) : null;
 
-    
+
+
+  }
+
+}
+
+//replies
+class RepliesItemModel{
+
+  String content;
+
+  OwnerModel owner;
+
+  int  num_like;
+  
+  RepliesItemModel.fromJson(Map<String, dynamic> json) {
+
+    content = json["content"];
+    num_like = json["num_like"];
+    owner = json["owner"]  !=null ? OwnerModel.fromJson(json["owner"]) : null;
+
   }
 
 }
@@ -54,11 +76,18 @@ class WengModel{
     String content_edit;
     String content;
     String title_edit;
+    int  num_like;
+    int num_reply;
+
+    List<RepliesItemModel> replies;
+
     OwnerModel owner;
     List<MediaModel> media;
     List<FavouriteItem>  favUsers;
 
-    WengModel({this.content_edit,
+    WengModel({
+
+      this.content_edit,
       this.content,
 
       this.owner,
@@ -70,6 +99,8 @@ class WengModel{
       content_edit = json['content_edit'];
       content = json['content_edit'];
       title_edit = json['title_edit'];
+      num_like = json['num_like'];
+      num_reply = json['num_reply'];
 
       owner = json['owner'] != null ? OwnerModel.fromJson(json['owner']) : null;
 
@@ -83,6 +114,13 @@ class WengModel{
         });
       }
 
+      if(json["replies"] != null){
+        replies = List<RepliesItemModel>();
+        json["replies"].forEach((v){
+          replies.add(RepliesItemModel.fromJson(v));
+
+        });
+      }
 
       if(json["fav_users"] != null){
 
@@ -102,6 +140,7 @@ class OwnerModel{
   String logo;
   String jump_url;
 
+
   FootprintAssetTag footprint_asset_tag;
 
   OwnerModel({this.name,this.logo,this.jump_url,this.footprint_asset_tag});
@@ -111,6 +150,7 @@ class OwnerModel{
     name = json["name"];
     logo = json["logo"];
     jump_url = json['jump_url'];
+
     footprint_asset_tag = json['footprint_asset_tag'] != null ?  FootprintAssetTag.fromJson(json["footprint_asset_tag"]) : null;
   }
 

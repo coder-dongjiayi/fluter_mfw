@@ -5,7 +5,10 @@ import 'package:flutter_mfw/model/travel_detail_model.dart';
 class DetailRemmindWidget extends StatefulWidget {
   var favouriteList = List<FavouriteItem>();
 
-  DetailRemmindWidget({Key key, this.favouriteList}) : super(key: key);
+
+  var replyNumber = 0;
+
+  DetailRemmindWidget({Key key, this.favouriteList,this.replyNumber}) : super(key: key);
 
   @override
   _DetailRemmindWidgetState createState() => _DetailRemmindWidgetState();
@@ -32,7 +35,12 @@ class _DetailRemmindWidgetState extends State<DetailRemmindWidget> {
           ),
           _remindItem(),
           _timeShoot(),
-          _likeList()
+          _likeList(),
+          Divider(
+            height: 1,
+            color: Color.fromRGBO(227, 238, 221, 1.0),
+          )
+
         ],
       ),
     );
@@ -132,13 +140,14 @@ class _DetailRemmindWidgetState extends State<DetailRemmindWidget> {
         ? widget.favouriteList.sublist(0, 6)
         : widget.favouriteList;
 
-    return  Container(
-        height: ScreenAdapter.setHeight(46),
-        margin: EdgeInsets.only(right: 90),
-        color: Colors.yellow,
-        child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: _favourite.map((value) {
+    return  Padding(
+      padding: EdgeInsets.only(top: 20,bottom: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            children: _favourite.map((value){
+
               return Padding(
                   padding: EdgeInsets.only(right: 10),
                   child: ClipOval(
@@ -149,7 +158,19 @@ class _DetailRemmindWidgetState extends State<DetailRemmindWidget> {
                       fit: BoxFit.cover,
                     ),
                   ));
-            }).toList())
+
+            }).toList(),
+          ),
+
+          Row(
+            children: <Widget>[
+              Icon(Icons.favorite_border),
+              Text("${widget.replyNumber}")
+            ],
+          )
+        ],
+
+      ),
     );
   }
 }

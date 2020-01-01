@@ -52,6 +52,11 @@ class _HomeWaterfallPageState extends State<HomeWaterfallPage> with AutomaticKee
   @override
   Widget build(BuildContext context) {
 
+  if(_waterfallList.length == 0){
+    return Center(
+      child: Text("加载中..."),
+    );
+  }
 
 
     ScreenAdapter.init(context);
