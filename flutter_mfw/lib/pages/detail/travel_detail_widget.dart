@@ -83,55 +83,83 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
                 child: Icon(Icons.more_horiz))
           ],
         ),
-        body:SafeArea(child: _travelDetailModel == null ? Center(
-          child: Text("加载中"),
-        ) :
-        CustomScrollView(
-          slivers: <Widget>[
-            ///1、轮播图
-            SliverToBoxAdapter(
-              child: DetailCarouselWidget(
-                medias: _medias,
-              ),
-            ),
-            ///2、位置 坐标
-            SliverToBoxAdapter(
-              child: DetailTitleWidget(
-                title: _travelDetailModel.weng.title_edit,
-              ),
-            ),
-            ///3、 内容文字
-            SliverToBoxAdapter(
-              child: DetailContentWidget(
-                content: _travelDetailModel.weng.content,
-              ),
-            ),
-            ///4、文中提及
-            SliverToBoxAdapter(
-              child: DetailRemmindWidget(
-                favouriteList: _travelDetailModel.weng.favUsers,
-                replyNumber: _travelDetailModel.weng.num_reply,
-              ),
-            ),
-            ///5、回复列表
-            SliverToBoxAdapter(
-              child: DetailReplyWidget(
-                replies: _travelDetailModel.weng.replies,
-              ),
-            ),
-            ///6、相关推荐标题
-           SliverToBoxAdapter(
-             child: DetailRecommendTitleWidget(),
-           ),
-           ///7. 瀑布流
-           SliverToBoxAdapter(
-             child: HomeWaterfallPage(
-               id: 23,
-             ),
-           )
+        body:SafeArea(
+            child: Stack(
+              children: <Widget>[
+                _travelDetailModel == null ? Center(
+                  child: Text("加载中"),
+                ) :
+                CustomScrollView(
+                  slivers: <Widget>[
+                    ///1、轮播图
+                    SliverToBoxAdapter(
+                      child: DetailCarouselWidget(
+                        medias: _medias,
+                      ),
+                    ),
+                    ///2、位置 坐标
+                    SliverToBoxAdapter(
+                      child: DetailTitleWidget(
+                        title: _travelDetailModel.weng.title_edit,
+                      ),
+                    ),
+                    ///3、 内容文字
+                    SliverToBoxAdapter(
+                      child: DetailContentWidget(
+                        content: _travelDetailModel.weng.content,
+                      ),
+                    ),
+                    ///4、文中提及
+                    SliverToBoxAdapter(
+                      child: DetailRemmindWidget(
+                        favouriteList: _travelDetailModel.weng.favUsers,
+                        replyNumber: _travelDetailModel.weng.num_reply,
+                      ),
+                    ),
+                    ///5、回复列表
+                    SliverToBoxAdapter(
+                      child: DetailReplyWidget(
+                        replies: _travelDetailModel.weng.replies,
+                      ),
+                    ),
+                    ///6、相关推荐标题
+                    SliverToBoxAdapter(
+                      child: DetailRecommendTitleWidget(),
+                    ),
+                    ///7. 瀑布流
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 90),
+                        child: HomeWaterfallPage(
+                          id: 23,
+                        ),
+                      ),
+                    )
 
-          ],
-        ))
+                  ],
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(249, 249, 249, 1.0),
+                            offset: Offset(0, -5), //阴影xy轴偏移量
+                            blurRadius: 1.0, //
+                          ),
+                        ]
+                    ),
+                    height: ScreenAdapter.setHeight(120),
+                  ),
+                )
+              ],
+            )
+        )
+
 
     );
   }
