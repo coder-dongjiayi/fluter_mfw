@@ -3,11 +3,10 @@ import 'package:flutter_mfw/screen_adapter.dart';
 import 'package:flutter_mfw/model/travel_detail_model.dart';
 
 class DetailRemmindWidget extends StatefulWidget {
-  
-  var  favouriteList = List<FavouriteItem>();
+  var favouriteList = List<FavouriteItem>();
 
-  DetailRemmindWidget({Key key,this.favouriteList}) : super(key:key);
-  
+  DetailRemmindWidget({Key key, this.favouriteList}) : super(key: key);
+
   @override
   _DetailRemmindWidgetState createState() => _DetailRemmindWidgetState();
 }
@@ -34,7 +33,6 @@ class _DetailRemmindWidgetState extends State<DetailRemmindWidget> {
           _remindItem(),
           _timeShoot(),
           _likeList()
-
         ],
       ),
     );
@@ -119,33 +117,39 @@ class _DetailRemmindWidgetState extends State<DetailRemmindWidget> {
   }
 
   //拍摄时间
-  Widget _timeShoot(){
+  Widget _timeShoot() {
     return Padding(
-      padding: EdgeInsets.only(top: 20),
-      child:Text("拍摄于 2014-04-26",style:TextStyle(color: Color.fromRGBO(199, 201, 204, 1.0)) ,));
+        padding: EdgeInsets.only(top: 20),
+        child: Text(
+          "拍摄于 2014-04-26",
+          style: TextStyle(color: Color.fromRGBO(199, 201, 204, 1.0)),
+        ));
   }
 
   //喜欢人数
-  Widget _likeList(){
+  Widget _likeList() {
+    var _favourite = widget.favouriteList.length > 6
+        ? widget.favouriteList.sublist(0, 6)
+        : widget.favouriteList;
 
-    return Container(
-      height: ScreenAdapter.setHeight(46),
+    return  Container(
+        height: ScreenAdapter.setHeight(46),
+        margin: EdgeInsets.only(right: 90),
         color: Colors.yellow,
-        child:ListView(
+        child: ListView(
             scrollDirection: Axis.horizontal,
-            children: widget.favouriteList.map((value){
-              return Padding(padding: EdgeInsets.only(right: 10),
-                  child:ClipOval(
+            children: _favourite.map((value) {
+              return Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: ClipOval(
                     child: Image.network(
                       value.logo,
                       width: ScreenAdapter.setWidth(46),
-                      height:ScreenAdapter.setHeight(46),
+                      height: ScreenAdapter.setHeight(46),
                       fit: BoxFit.cover,
                     ),
                   ));
-
-            }).toList()
-        )
+            }).toList())
     );
   }
 }
