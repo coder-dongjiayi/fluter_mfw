@@ -10,24 +10,27 @@ class _DetailRecommendTitleWidgetState extends State<DetailRecommendTitleWidget>
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
     
-    return Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: 10),
-          color: Color.fromRGBO(246, 246, 249, 1.0),
-          height: ScreenAdapter.setHeight(10),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 10,bottom: 10),
-          child: Text("相关推荐",style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w600))
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 15),
+            color: Color.fromRGBO(246, 246, 249, 1.0),
+            height: ScreenAdapter.setHeight(10),
+          ),
+          Padding(
+              padding: EdgeInsets.only(top: 10,bottom: 10),
+              child: Text("相关推荐",style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w600))
 
-        ),
-        Divider(
-          height: 1,
-          color: Color.fromRGBO(227, 238, 221, 1.0),
-        ),
+          ),
+          Divider(
+            height: 1,
+            color: Color.fromRGBO(227, 238, 221, 1.0),
+          )
 
-      ],
+        ],
+      ),
     );
   }
 }

@@ -10,7 +10,13 @@ import 'package:flutter_mfw/pages/detail/detail_content_widget.dart';
 import 'package:flutter_mfw/pages/detail/detail_remind_widget.dart';
 import 'package:flutter_mfw/pages/detail/detail_reply_widget.dart';
 import 'package:flutter_mfw/pages/detail/detail_recommend_title_widget.dart';
+import 'package:flutter_mfw/pages/home/home_waterfall_page.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_mfw/pages/home/waterfall_widget/water_fallItem_widget.dart';
 
+import 'package:flutter_mfw/dao/home_dao.dart';
+import 'package:flutter_mfw/model/hote_model.dart';
+import 'package:flutter_mfw/model/waterfall_model.dart';
 
 class TravelDetailWidget extends StatefulWidget {
 
@@ -28,12 +34,14 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
    var _owner;
    var _medias = <MediaModel>[];
 
+   var _waterfallList = <WaterFallItemModel>[];
 
    @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getData();
+    _getWaterFallData();
   }
 
    void _getData(){
@@ -43,6 +51,16 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
          _owner = _travelDetailModel.weng.owner;
 
          _medias = _travelDetailModel.weng.media;
+       });
+
+     });
+   }
+
+   void _getWaterFallData(){
+     WaterFallDao.fetch().then((result){
+       setState(() {
+
+         _waterfallList = result.list;
        });
 
      });
@@ -101,10 +119,17 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
                 replies: _travelDetailModel.weng.replies,
               ),
             ),
-            ///6、相关推荐
-            SliverToBoxAdapter(
-              child: DetailRecommendTitleWidget(),
-            )
+            ///6、相关推荐标题
+           SliverToBoxAdapter(
+             child: DetailRecommendTitleWidget(),
+           ),
+           ///7. 瀑布流
+           SliverToBoxAdapter(
+             child: HomeWaterfallPage(
+               id: 23,
+             ),
+           )
+
           ],
         ))
 
@@ -113,4 +138,5 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
 
 
 }
+
 

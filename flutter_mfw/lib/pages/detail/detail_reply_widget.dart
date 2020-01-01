@@ -75,7 +75,7 @@ class _DetailReplyWidgetState extends State<DetailReplyWidget> {
                     child: Text("${itemModel.owner.name}",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w600),)
                     ,
                   ),
-                  _icon(),
+                  _icon(itemModel.owner.footprint_asset_tag.icon,itemModel.owner.footprint_asset_tag.text),
 
                   Padding(
                     padding: EdgeInsets.only(left: 10),
@@ -157,7 +157,7 @@ class _DetailReplyWidgetState extends State<DetailReplyWidget> {
         children: <Widget>[
           Divider(height: 1, color: Color.fromRGBO(227, 238, 221, 1.0)),
           Padding(
-            padding: EdgeInsets.only(top: 10, bottom: 0),
+            padding: EdgeInsets.only(top: 15, bottom: 0),
             child: Text(
               "查看全部72条回复 >",
               style: TextStyle(color: Color.fromRGBO(125, 127, 129, 1.0)),
@@ -169,7 +169,7 @@ class _DetailReplyWidgetState extends State<DetailReplyWidget> {
   }
 }
 
-Widget _icon(){
+Widget _icon(icon,text){
   return Container(
     margin: EdgeInsets.only(left: 10),
     padding: EdgeInsets.only(right: 5),
@@ -179,11 +179,11 @@ Widget _icon(){
     child: Row(
       children: <Widget>[
         Image.network(
-          "https://n3-q.mafengwo.net/s15/M00/C6/5B/CoUBGV2xO9OASwhGAAAUaNyGt9k644.png",
+          "${icon}",
           width: ScreenAdapter.setWidth(40),
           height: ScreenAdapter.setHeight(40),
         ),
-        Text("9国16城",
+        Text("${text}",
             style: TextStyle(
                 fontSize: 12, color: Color.fromRGBO(99, 100, 159, 1.0)))
       ],
