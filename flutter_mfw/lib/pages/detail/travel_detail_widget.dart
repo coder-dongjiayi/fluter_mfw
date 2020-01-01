@@ -11,12 +11,12 @@ import 'package:flutter_mfw/pages/detail/detail_remind_widget.dart';
 import 'package:flutter_mfw/pages/detail/detail_reply_widget.dart';
 import 'package:flutter_mfw/pages/detail/detail_recommend_title_widget.dart';
 import 'package:flutter_mfw/pages/home/home_waterfall_page.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_mfw/pages/home/waterfall_widget/water_fallItem_widget.dart';
 
 import 'package:flutter_mfw/dao/home_dao.dart';
-import 'package:flutter_mfw/model/hote_model.dart';
+
 import 'package:flutter_mfw/model/waterfall_model.dart';
+
+import 'package:flutter_mfw/pages/detail/detail_bottom_bar_widget.dart';
 
 class TravelDetailWidget extends StatefulWidget {
 
@@ -142,19 +142,7 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromRGBO(249, 249, 249, 1.0),
-                            offset: Offset(0, -5), //阴影xy轴偏移量
-                            blurRadius: 1.0, //
-                          ),
-                        ]
-                    ),
-                    height: ScreenAdapter.setHeight(120),
-                  ),
+                  child: DetailBottomBarWidget(),
                 )
               ],
             )
@@ -163,6 +151,8 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
 
     );
   }
+
+
 
 
 }
