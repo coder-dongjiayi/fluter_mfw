@@ -13,7 +13,9 @@ class _DetailCarouselWidgetState extends State<DetailCarouselWidget> {
 
  var _index = 0;
 
- var _controller = PageController();
+ var _controller =PageController(initialPage: 1, viewportFraction: 1.0);
+
+
 
  @override
   void initState() {
@@ -56,13 +58,16 @@ class _DetailCarouselWidgetState extends State<DetailCarouselWidget> {
     double image_height = widget.medias[_index].height.toDouble();
 
     double rate = image_width / image_height;
-    double real_height = ScreenAdapter.getScreenWidth() / rate;
+    // MediaQuery.of(context).size.width
+    double real_height = MediaQuery.of(context).size.height / rate;
 
    return Container(
 
      height:ScreenAdapter.setHeight(real_height),
-     width: double.infinity,
+     width:ScreenAdapter.getScreenWidth(),
+     color: Colors.yellow,
      child: PageView(
+
        controller: _controller,
        onPageChanged: (index){
          setState(() {
@@ -71,7 +76,7 @@ class _DetailCarouselWidgetState extends State<DetailCarouselWidget> {
          });
        },
        children: widget.medias.map((value){
-         return Image.network(value.bimg);
+         return Image.network(value.bimg,fit: BoxFit.fill,);
        }).toList(),
      ),
    );

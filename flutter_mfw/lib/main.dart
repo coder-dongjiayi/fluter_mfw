@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mfw/routers/router.dart';
-import 'package:flutter_mfw/routers/router.dart' as prefix0;
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {

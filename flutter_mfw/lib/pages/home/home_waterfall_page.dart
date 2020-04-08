@@ -8,6 +8,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:flutter_mfw/pages/home/widget/home_hote_topic_widget.dart';
 import 'package:flutter_mfw/screen_adapter.dart';
+import 'package:flutter_mfw/pages/detail/travel_detail_widget.dart';
+
 
 class HomeWaterfallPage extends StatefulWidget {
 
@@ -15,9 +17,9 @@ class HomeWaterfallPage extends StatefulWidget {
 
   var hoteList = <HoteItemModel>[];
 
+  var animation = false;
 
-
-  HomeWaterfallPage({Key key,this.id,this.hoteList}) : super(key:key);
+  HomeWaterfallPage({Key key,this.id,this.hoteList,this.animation}) : super(key:key);
 
   @override
   _HomeWaterfallPageState createState() => _HomeWaterfallPageState();
@@ -79,15 +81,47 @@ class _HomeWaterfallPageState extends State<HomeWaterfallPage> with AutomaticKee
 
   Widget _waterfallItem(index){
 
+
     return GestureDetector(
       onTap: (){
 
-       Navigator.of(context).pushNamed("/travel_detail_widget");
+
+        if(widget.animation == false){
+          Navigator.of(context).pushNamed("/travel_detail_widget");
+          return;
+        }
+
+        Navigator.of(context).push(MaterialPageRoute<void>(
+
+          builder: (BuildContext context){
+
+            return TravelDetailWidget();
+          }
+
+        ));
+
 
       },
+
+      child: _heroAnimation(index)
+    );
+  }
+
+  Widget _heroAnimation(index){
+
+
+    if(widget.animation == false){
+      return WaterfallItemWidget(
+        item: _waterfallList[index],
+      );
+    }
+    return Hero(
+      tag: "waterfall",
       child: WaterfallItemWidget(
         item: _waterfallList[index],
       ),
     );
   }
+
+
 }

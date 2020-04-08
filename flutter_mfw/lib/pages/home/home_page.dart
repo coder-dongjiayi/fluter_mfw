@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
             });
           },
           children: _tabbarList.map((item){
-            return HomeWaterfallPage(id: _currentId,hoteList: _hoteList);
+            return HomeWaterfallPage(id: _currentId,hoteList: _hoteList,animation: false);
 
           }).toList()
       ),

@@ -20,6 +20,8 @@ import 'package:flutter_mfw/pages/detail/detail_bottom_bar_widget.dart';
 
 class TravelDetailWidget extends StatefulWidget {
 
+  var animation = false;
+  TravelDetailWidget({Key key,this.animation}) : super(key :key);
 
   @override
   _TravelDetailWidgetState createState() => _TravelDetailWidgetState();
@@ -91,10 +93,13 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
                 ) :
                 CustomScrollView(
                   slivers: <Widget>[
-                    ///1、轮播图
+                    ///1、轮播图 waterfall
                     SliverToBoxAdapter(
-                      child: DetailCarouselWidget(
-                        medias: _medias,
+                      child: Hero(
+                        tag: "waterfall",
+                        child: DetailCarouselWidget(
+                          medias: _medias,
+                        ),
                       ),
                     ),
                     ///2、位置 坐标
@@ -132,6 +137,7 @@ class _TravelDetailWidgetState extends State<TravelDetailWidget> {
                         padding: EdgeInsets.only(bottom: 90),
                         child: HomeWaterfallPage(
                           id: 23,
+                          animation: true,
                         ),
                       ),
                     )
