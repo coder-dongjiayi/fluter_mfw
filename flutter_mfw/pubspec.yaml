@@ -27,7 +27,7 @@ dependencies:
   flutter_screenutil: ^0.5.3
   flutter_staggered_grid_view: ^0.3.0
   provider: ^4.0.1
-  dio: ^2.1.13
+  dio: ">=2.1.13 <6.0.0"
   quantize_dart: ^1.0.1
   color_thief_flutter: ^1.0.0
   flutter_swiper: ^1.1.6
